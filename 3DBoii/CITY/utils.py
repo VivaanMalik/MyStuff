@@ -7,16 +7,17 @@ def addobj(verts1:str, faces2:str):
     split=faces2.replace('\n', ' \n')
     split=split.replace('f ', '')
     split=split.split(' ')
-    for i in split:
+    for i in range(len(split)):
+        item=split[i]
         try:
-            if i=='\\':
+            if item=='\n':
                 new_faces+='\n'
-                new_faces+='f'
-            elif i=='n':
-                pass
+                if i!=len(split)-1:
+                    new_faces+='f'
             else:
                 new_faces+=' '
-                new_faces+=str(int(i)+line_count)
+                new_faces+=str(int(item)+line_count)
         except:
             print('ohno')
+    print(new_faces)
     return new_faces
