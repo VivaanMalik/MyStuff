@@ -19,5 +19,4 @@ def addobj(verts1:str, faces2:str):
                 new_faces+=str(int(item)+line_count)
         except:
             print('ohno')
-    print(new_faces)
     return new_faces

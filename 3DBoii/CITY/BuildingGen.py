@@ -30,21 +30,23 @@ def genwall(faces:list, verts:str, debug):
             find_3d_point(oldverts[1], oldverts[0], oldverts[2], .25), 
             find_3d_point(oldverts[3], oldverts[2], oldverts[0], .25),
             find_3d_point(oldverts[2], oldverts[3], oldverts[1], .25)]
-    face=utils.addobj(verts, 'f 1 2 4 3\n')
+    glassface=utils.addobj(verts, 'f 1 2 4 3\n')
     vert=''
     for i in newverts:
         vert+='v {0} {1} {2}\n'.format(i[0], i[1], i[2])
-    return vert, face
+    face=''
+    return vert, face, glassface
 def gen(shape:list, h, theme, detail):
     # shape haz da marked pozitions
     # h menz da height 
     # theme repreezent da... well theme (bricks, stone... bleh bleh bleh)
     floor=1
-    objfaces='usemtl {0}\n'.format(theme)
+    objfaces='usemtl {0}\n'.format(theme[0])
     objvertices=''
     for i in range(round(h/floor)+1):
         for j in shape:
             objvertices+= 'v {0} {1} {2}\n'.format(str(j[0]), str((i*floor)), str(j[1]))
+    glassfaces=''
     floorno=0    
     for i in range(len(shape)):
         for j in range(round(h/floor)):
@@ -52,23 +54,26 @@ def gen(shape:list, h, theme, detail):
             groundfloor= 0#Change to 0
             if item_no%len(shape)!=0:
                 if floorno!=groundfloor:
-                    vert, face=genwall([item_no, item_no+1, item_no+len(shape)+1, item_no+len(shape)], objvertices, 1)
+                    vert, face, glassface=genwall([item_no, item_no+1, item_no+len(shape)+1, item_no+len(shape)], objvertices, 1)
                     objfaces+=face
                     objvertices+=vert
+                    glassfaces+=glassface
                 else:
                     objfaces+='f {0} {1} {2} {3}\n'.format(item_no, item_no+1, item_no+len(shape)+1, item_no+len(shape))
             else:
                 if floorno!=groundfloor:
-                    vert, face=genwall([item_no, item_no-len(shape)+1, item_no+1, item_no+len(shape)], objvertices, 0)
+                    vert, face, glassface=genwall([item_no, item_no-len(shape)+1, item_no+1, item_no+len(shape)], objvertices, 0)
                     objvertices+=vert
                     objfaces+=face
+                    glassfaces+=glassface
                 else:
                     objfaces+='f {0} {1} {2} {3}\n'.format(item_no, item_no-len(shape)+1, item_no+1, item_no+len(shape))
                 floorno+=1
     objfaces+='f '
     for i in range(len(shape)):
         objfaces+=str((len(shape)*h)+1+i)+' '
-    objfaces+='\n'
+    objfaces+='\nusemtl {0}\n'.format(theme[1])
+    objfaces+=glassfaces
     with open('tmp.obj', 'w+') as f:
         f.write('mtllib mtl.mtl\no tst\n')
         f.write(objvertices)
@@ -76,4 +81,4 @@ def gen(shape:list, h, theme, detail):
     os.system('start .\\tmp.obj')
     return objvertices, objfaces
 
-gen([(1, 1), (1, 3), (2, 5), (4, 4), (4, 1)], 6, 'brick', 0.5)
+gen([(10, 10), (10, 20), (15, 25), (20, 20), (20, 10)], 100, ['brick', 'glass'], 0.5)
