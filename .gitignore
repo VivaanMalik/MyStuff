@@ -1,5 +1,6 @@
 MLBoii
 BotBoii/Program/VTGBot
+*.env
 *.json
 TIMEPASS
 REFERENCES
