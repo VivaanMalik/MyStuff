@@ -31,10 +31,16 @@ def genwall(faces:list, verts:str, debug):
             find_3d_point(oldverts[3], oldverts[2], oldverts[0], .25),
             find_3d_point(oldverts[2], oldverts[3], oldverts[1], .25)]
     glassface=utils.addobj(verts, 'f 1 2 4 3\n')
+    tmpglassface_seperated=glassface.replace('f ', '').replace('\n', '').split(' ')
     vert=''
     for i in newverts:
         vert+='v {0} {1} {2}\n'.format(i[0], i[1], i[2])
-    face=''
+    face='f {0} {1} {2} {3}\nf {4} {5} {6} {7}\nf {8} {9} {10} {11}\nf {12} {13} {14} {15}\n'.format(
+        faces[0], faces[1], tmpglassface_seperated[1], tmpglassface_seperated[0],
+        faces[2], faces[3], tmpglassface_seperated[3], tmpglassface_seperated[2],
+        faces[0], faces[3], tmpglassface_seperated[3], tmpglassface_seperated[0],
+        faces[2], faces[1], tmpglassface_seperated[1], tmpglassface_seperated[2]
+    )
     return vert, face, glassface
 def gen(shape:list, h, theme, detail):
     # shape haz da marked pozitions
@@ -81,4 +87,4 @@ def gen(shape:list, h, theme, detail):
     os.system('start .\\tmp.obj')
     return objvertices, objfaces
 
-gen([(10, 10), (10, 20), (15, 25), (20, 20), (20, 10)], 100, ['brick', 'glass'], 0.5)
+gen([(10, 10), (10, 20), (15, 25), (20, 20), (20, 10)], 50, ['brick', 'glass'], 0.5)
