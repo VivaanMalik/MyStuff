@@ -87,4 +87,4 @@ def gen(shape:list, h, theme, detail):
     os.system('start .\\tmp.obj')
     return objvertices, objfaces
 
-gen([(10, 10), (10, 20), (15, 25), (20, 20), (20, 10)], 50, ['brick', 'glass'], 0.5)
+#   gen([(10, 10), (10, 20), (15, 25), (20, 20), (20, 10)], 1000, ['brick', 'glass'], 0.5)
