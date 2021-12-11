@@ -1,5 +1,6 @@
 import utils
 import os
+import math
 def findpoint(xy1:tuple, xy2:tuple, k:float):
     # Formula for point in line iz =   (x, y) = (x1 + k(x2 - x1), y1 + k(y2 - y1)
     return (xy1[0] + (k*(xy2[0] - xy1[0])), xy1[1] + (k*(xy2[1] - xy1[1])))
@@ -78,7 +79,7 @@ def gen(shape:list, h, theme, detail):
     tmpfacez='f '
     for i in range(len(shape)):
         tmpfacez+=str((len(shape)*h)+1+i)+' '
-    objfaces+=utils.formatface(tmpfacez, 16)
+    objfaces+=utils.formatface(tmpfacez, len(shape))
     objfaces+='usemtl {0}\n'.format(theme[1])
     objfaces+=glassfaces
     with open('Model\\tmp.obj', 'w+') as f:
@@ -88,4 +89,4 @@ def gen(shape:list, h, theme, detail):
     os.system('start .\\Model\\tmp.obj')
     return objvertices, objfaces
 
-gen([(-15, 15),(-5, 15), (5, 5), (5, 15), (15, 15), (15, 5), (5, -5), (15, -5), (15, -15), (5, -15), (-5, -5), (-5, -15), (-15, -15), (-15, -5), (-5, 5), (-15, 5)], 100, ['brick', 'glass'], 0.5)
+#gen([(-15, 15),(-5, 15), (5, 5), (5, 15), (15, 15), (15, 5), (5, -5), (15, -5), (15, -15), (5, -15), (-5, -5), (-5, -15), (-15, -15), (-15, -5), (-5, 5), (-15, 5)], 100, ['brick', 'glass'], 0.5)

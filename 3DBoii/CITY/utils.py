@@ -43,9 +43,9 @@ def formatface(face:str, facesnum):
     x=len(face)-(facesnum-2)
     for i in range(repeatnum):
         finafaces+='f'
-        if x+j+i>=len(face):
-            x-=len(face)
         for j in range(facesnum):
+            while (x+j+i)>=len(face):
+                x-=len(face)
             finafaces+=' {0}'.format(face[x+j+i])
         finafaces+='\n'
     return finafaces
