@@ -1,7 +1,11 @@
 # My Stuff
+
 ## About Me
+
 My name is Vivaan Malik from Pune, India. I am 14 years old. I started programming (driven by my own interest) when I was 13. This is a repo with a compilation of my ongoing/finished projects that include projects that work and ones that dont.
+
 ## Keys
+
 <p>
 <h3>Folders</h3>
 - [N] where N is the number of projects inside <br>
@@ -10,7 +14,9 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 - [F] means 'Failed' <br>
 - [C] means 'Completed' <br>
 - [H] means 'On Hold' <br>
+- [I] means 'I have no idea, might check it later' <br>
 </p>
+
 ## Contents
 
 
@@ -44,3 +50,15 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 </li>
 </ul>
 </details>
+
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii'>- [2] CryptoBoii</a>
+</summary>
+<ul style="list-style-type:none;">
+    <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Mine'>- [I] Mine</a><br></li>
+    <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Mining'>- [I] Mining</a><br></li>
+</ul>
+</details>
+
