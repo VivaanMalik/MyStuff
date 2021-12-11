@@ -1,13 +1,5 @@
 # My Stuff<a name="title"></a>   
 
-<head>
-<style>
-#image {
-            display: none;
-        }
-</style>
-</head>
-
 ## About Me
 
 My name is Vivaan Malik from Pune, India. I am 14 years old. I started programming (driven by my own interest) when I was 13. This is a repo with a compilation of my ongoing/finished projects that include projects that work and ones that dont.
@@ -179,23 +171,12 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 </ul>
 </details>
 
-
-<div>
-<h1>GeeksforGeeks</h1>
-<h3>Click on the button to see image</h3>
-
-<!-- Add id to image -->
-<img id="image" src="https://variety.com/wp-content/uploads/2021/07/Rick-Astley-Never-Gonna-Give-You-Up.png?w=1024" alt="huh?" />
-</div>
- 
-<button type="button", onclick="show()", id="btnID">TOP SECRET DONT CLICK!</button>
-
-<script>
-        function show() {
-            document.getElementById('image')
-                    .style.display = "block";
- 
-            document.getElementById('btnID')
-                    .style.display = "none";
-        }
-</script>
+<br>
+<hr>
+<blockquote><a href='#title'>Go back to Top</a></blockquote>
+<br>
+<details>
+<summary>
+TOP SECRET DON'T CLICK!</summary>
+<blockquote><img src='https://variety.com/wp-content/uploads/2021/07/Rick-Astley-Never-Gonna-Give-You-Up.png?w=1024'></blockquote>
+</details>
