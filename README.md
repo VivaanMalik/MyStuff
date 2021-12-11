@@ -9,10 +9,8 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 <details>
 <summary>
 - 3DBoii
-<p>
-    - [ ] CITY <br>
-    - [F] Island <br>
-    - [x] Terrain <br>
-</p>
 </summary>
+    - [ ] CITY
+    - [F] Island
+    - [x] Terrain
 </details>
