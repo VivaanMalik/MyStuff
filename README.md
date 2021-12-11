@@ -84,7 +84,7 @@ My name is Vivaan Malik and I am from Pune, India. I am 14 years old. I started 
     <li>
     <details>
     <summary>
-    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode'>- [2] Cryptocurrency</a>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode'>- [2] Encode</a>
     </summary>
     <ul style="list-style-type:none;">
         <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode/OLD%20(failed)'>- [F] encrypt and decrypt</a><br></li>
