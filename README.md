@@ -67,11 +67,31 @@ My name is Vivaan Malik and I am from Pune, India. I am 14 years old. I started 
 
 <details>
 <summary>
-<a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii'>- [2] CryptoBoii</a>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii'>- [4] CryptoBoii</a>
 </summary>
 <ul style="list-style-type:none;">
-    <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Mine'>- [I/C] Mine</a><br></li>
-    <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Mining'>- [I/C] Mining</a><br></li>
+    <li>
+    <details>
+    <summary>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Cryptocurrency'>- [2] Cryptocurrency</a>
+    </summary>
+    <ul style="list-style-type:none;">
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Cryptocurrency/Mine'>- [I/C] Mine</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Cryptocurrency/Mining'>- [I/C] Mining</a><br></li>
+    </ul>
+    </details>
+    </li>
+    <li>
+    <details>
+    <summary>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode'>- [2] Cryptocurrency</a>
+    </summary>
+    <ul style="list-style-type:none;">
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode/OLD%20(failed)'>- [F] encrypt and decrypt</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode/RSA%20-%20remake'>- [O] RSA keys gen</a><br></li>
+    </ul>
+    </details>
+    </li>
 </ul>
 </details>
 
