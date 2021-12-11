@@ -99,3 +99,37 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
     <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/Multiboii/towerthing(ss)'>- (SSM) [H] towerthing</a><br></li>
 </ul>
 </details>
+
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi'>- [4] PatternBoii</a>
+</summary>
+<ul style="list-style-type:none;">
+    <details>
+    <summary>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata'>- [4] Cellular Automata</a>
+    </summary>
+    <ul style="list-style-type:none;">
+        <details>
+        <summary>
+        <a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata/1D'>- [2] 1 Dimensional</a>
+        </summary>
+        <ul style="list-style-type:none;">
+            <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata/1D/3_TERM'>- [L/C] 3 Term</a><br></li>
+            <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata/1D/5_TERM'>- [L/C] 5 Term</a><br></li>
+        </ul>
+        </details>
+        <details>
+        <summary>
+        <a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata/2D'>- [2] 2 Dimensional</a>
+        </summary>
+        <ul style="list-style-type:none;">
+            <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata/2D/5_TERM_UNIQUE'>- [L/C] 5 Term Unique Pattern</a><br></li>
+            <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata/2D/9_TERM_SUM(GOL)'>- [L/C] 9 Term Added Pattern</a><br></li>
+        </ul>
+        </details>
+    </ul>
+    </details>
+</ul>
+</details>
