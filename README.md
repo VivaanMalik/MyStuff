@@ -6,7 +6,7 @@
 
 <hr>
 
-My name is Vivaan Malik from Pune, India. I am 14 years old. I started programming (driven by my own interest) when I was 13. This is a repo with a compilation of my ongoing/finished projects that include projects that work and ones that dont.
+My name is Vivaan Malik and I am from Pune, India. I am 14 years old. I started programming (driven by my own interest) when I was 13. This is a repo with a compilation of my ongoing/finished projects that include projects that work and ones that dont.
 
 ## Keys
 
@@ -23,7 +23,7 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 - [H] means 'On hold' <br>
 - [I] means 'I have no idea, might check it later' <br>
 - [T] means 'To do' <br>
-- [L] means 'Learning concept'
+- [L] means 'Learning concept'<br>
 - (SS) means the project was also made with <a href='https://github.com/IRONMAN-1963-39'>my friend</a> <br>
 - (SSM) means the project link here contains only my part of the whole project with <a href='https://github.com/IRONMAN-1963-39'>my friend</a> <br>
 </p>
