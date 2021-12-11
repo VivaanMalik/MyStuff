@@ -8,13 +8,17 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 
 <p>
 <h3>Folders</h3>
-- [N] where N is the number of projects inside <br>
-<h3>Files</h3>
+- [N] means N is the number of projects inside <br>
+
+<h3>Projects</h3>
 - [O] means 'Ongoing' <br>
 - [F] means 'Failed' <br>
 - [C] means 'Completed' <br>
 - [H] means 'On Hold' <br>
 - [I] means 'I have no idea, might check it later' <br>
+- [T] means 'To do' <br>
+- (SS) means the project was also made with <a href='https://github.com/IRONMAN-1963-39'>my friend</a> <br>
+
 </p>
 
 ## Contents
@@ -62,3 +66,23 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 </ul>
 </details>
 
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk'>- [3] Hackkkkkkkkkk (10 'K's)</a>
+</summary>
+<ul style="list-style-type:none;">
+    <li>
+    <details>
+    <summary>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk/Evil_progs'>- [1] Evil progs</a>
+    </summary>
+    <ul style="list-style-type:none;">
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk/Evil_progs/TYPE1-Windows'>- [C] TYPE1 - Windows</a><br></li>
+    </ul>
+    </details>
+    </li>
+    <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk/Keyloggy(ss)'>- (SS) [I] Kyloggy</a><br></li>
+    <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/Mining'>- [I] Mining</a><br></li>
+</ul>
+</details>
