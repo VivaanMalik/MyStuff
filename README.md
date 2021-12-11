@@ -11,6 +11,8 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 - [C] means 'Completed <br>
 </p>
 ## Contents
+
+
 <details>
 <summary>
 <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii'>- [3] 3DBoii</a>
@@ -20,4 +22,21 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
     <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Island(failed)'>- [F] Island</a><br></li>
     <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain'>- [C] Terrain</a><br></li>
 </ul>
+</details>
+
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii'>- [2] BotBoii</a>
+</summary>
+    <details>
+    <summary>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program'>- [2] Program</a>
+    </summary>
+    <ul style="list-style-type:none;">
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/CITY'>- [O] CITY</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Island(failed)'>- [F] Island</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain'>- [C] Terrain</a><br></li>
+    </ul>
+    </details>
 </details>
