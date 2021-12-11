@@ -161,16 +161,6 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 </ul>
 </details>
 
-
-<details>
-<summary>
-<a href='https://github.com/VivaanMalik/MyStuff/tree/master/StagnographBoiii'>- [C] Steganogrpahy</a>
-</summary>
-<ul style="list-style-type:none;">
-    <li>Nope... It's just that...</li>
-</ul>
-</details>
-
 <br>
 <hr>
 <blockquote><a href='#MyStuff'>Go back to Top</a></blockquote>
