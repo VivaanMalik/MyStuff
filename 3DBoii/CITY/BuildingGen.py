@@ -75,10 +75,11 @@ def gen(shape:list, h, theme, detail):
                 else:
                     objfaces+='f {0} {1} {2} {3}\n'.format(item_no, item_no-len(shape)+1, item_no+1, item_no+len(shape))
                 floorno+=1
-    objfaces+='f '
+    tmpfacez='f '
     for i in range(len(shape)):
-        objfaces+=str((len(shape)*h)+1+i)+' '
-    objfaces+='\nusemtl {0}\n'.format(theme[1])
+        tmpfacez+=str((len(shape)*h)+1+i)+' '
+    objfaces+=utils.formatface(tmpfacez, 16)
+    objfaces+='usemtl {0}\n'.format(theme[1])
     objfaces+=glassfaces
     with open('tmp.obj', 'w+') as f:
         f.write('mtllib mtl.mtl\no tst\n')
@@ -87,4 +88,4 @@ def gen(shape:list, h, theme, detail):
     os.system('start .\\tmp.obj')
     return objvertices, objfaces
 
-#   gen([(10, 10), (10, 20), (15, 25), (20, 20), (20, 10)], 1000, ['brick', 'glass'], 0.5)
+gen([(-15, 15),(-5, 15), (5, 5), (5, 15), (15, 15), (15, 5), (5, -5), (15, -5), (15, -15), (5, -15), (-5, -5), (-5, -15), (-15, -15), (-15, -5), (-5, 5), (-15, 5)], 100, ['brick', 'glass'], 0.5)
