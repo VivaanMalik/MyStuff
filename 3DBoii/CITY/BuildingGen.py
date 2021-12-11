@@ -81,11 +81,11 @@ def gen(shape:list, h, theme, detail):
     objfaces+=utils.formatface(tmpfacez, 16)
     objfaces+='usemtl {0}\n'.format(theme[1])
     objfaces+=glassfaces
-    with open('tmp.obj', 'w+') as f:
+    with open('Model\\tmp.obj', 'w+') as f:
         f.write('mtllib mtl.mtl\no tst\n')
         f.write(objvertices)
         f.write(objfaces)
-    os.system('start .\\tmp.obj')
+    os.system('start .\\Model\\tmp.obj')
     return objvertices, objfaces
 
 gen([(-15, 15),(-5, 15), (5, 5), (5, 15), (15, 15), (15, 5), (5, -5), (15, -5), (15, -15), (5, -15), (-5, -5), (-5, -15), (-15, -15), (-15, -5), (-5, 5), (-15, 5)], 100, ['brick', 'glass'], 0.5)
