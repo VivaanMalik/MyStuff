@@ -11,15 +11,11 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 - [C] means 'Completed <br>
 </p>
 ## Contents
-<ul>
 <details>
 <summary>
-<li>3DBoii</li>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii'>- [3] 3DBoii</a>
 </summary>
-<ul>
-    <li>[O] CITY</li>
-    <li>[F] Island</li>
-    <li>[C] Terrain</li>
-</ul>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/CITY'>- [O] CITY</a><br>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Island(failed)'>- [F] Island</a><br>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain'>- [C] Terrain</a><br>
 </details>
-<ul>
