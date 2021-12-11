@@ -15,7 +15,7 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 <summary>
 <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii'>- [3] 3DBoii</a>
 </summary>
-    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/CITY'>- [O] CITY</a><br>
-    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Island(failed)'>- [F] Island</a><br>
-    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain'>- [C] Terrain</a><br>
+<p>    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/CITY'>- [O] CITY</a></p>
+<p>    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Island(failed)'>- [F] Island</a></p>
+<p>    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain'>- [C] Terrain</a></p>
 </details>
