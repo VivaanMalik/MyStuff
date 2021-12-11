@@ -1,4 +1,12 @@
-# My Stuff
+# My Stuff<a name="title"></a>   
+
+<head>
+<style>
+#image {
+            display: none;
+        }
+</style>
+</head>
 
 ## About Me
 
@@ -133,3 +141,61 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
     </details>
 </ul>
 </details>
+
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/StagnographBoiii'>- [C] Steganogrpahy</a>
+</summary>
+<ul style="list-style-type:none;">
+    <li>Nope... It's just that...</li>
+</ul>
+</details>
+
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/TIMEPASS'>- [1] TIMEPASS</a>
+</summary>
+<ul style="list-style-type:none;">
+    <details>
+    <summary>
+    <a href='https://github.com/VivaanMalik/MyStuff/tree/master/TIMEPASS/keyboard'>- [1] keyboard</a>
+    </summary>
+    <ul style="list-style-type:none;">
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/TIMEPASS/keyboard/distorter'>- [C] distorter</a><br></li>
+    </ul>
+    </details>
+</ul>
+</details>
+
+
+<details>
+<summary>
+<a href='https://github.com/VivaanMalik/MyStuff/tree/master/StagnographBoiii'>- [C] Steganogrpahy</a>
+</summary>
+<ul style="list-style-type:none;">
+    <li>Nope... It's just that...</li>
+</ul>
+</details>
+
+
+<div>
+<h1>GeeksforGeeks</h1>
+<h3>Click on the button to see image</h3>
+
+<!-- Add id to image -->
+<img id="image" src="https://variety.com/wp-content/uploads/2021/07/Rick-Astley-Never-Gonna-Give-You-Up.png?w=1024" alt="huh?" />
+</div>
+ 
+<button type="button", onclick="show()", id="btnID">TOP SECRET DONT CLICK!</button>
+
+<script>
+        function show() {
+            document.getElementById('image')
+                    .style.display = "block";
+ 
+            document.getElementById('btnID')
+                    .style.display = "none";
+        }
+</script>
