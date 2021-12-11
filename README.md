@@ -1,4 +1,4 @@
-# My Stuff<a name="title"></a>   
+# My Stuff<a name="MyStuff"></a>   
 
 ## About Me
 
@@ -173,7 +173,7 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 
 <br>
 <hr>
-<blockquote><a href='#title'>Go back to Top</a></blockquote>
+<blockquote><a href='#MyStuff'>Go back to Top</a></blockquote>
 <br>
 <details>
 <summary>
