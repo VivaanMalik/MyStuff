@@ -8,7 +8,8 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 <h3>Files</h3>
 - [O] means 'Ongoing' <br>
 - [F] means 'Failed' <br>
-- [C] means 'Completed <br>
+- [C] means 'Completed' <br>
+- [H] means 'On Hold' <br>
 </p>
 ## Contents
 
@@ -34,9 +35,8 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
     <a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program'>- [2] Program</a>
     </summary>
     <ul style="list-style-type:none;">
-        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/CITY'>- [O] CITY</a><br></li>
-        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Island(failed)'>- [F] Island</a><br></li>
-        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain'>- [C] Terrain</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program/Botify(failed)'>- [F] Botify</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program/VTG'>- [H] VTG</a><br></li>
     </ul>
     </details>
 </details>
