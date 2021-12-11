@@ -30,6 +30,8 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
 <summary>
 <a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii'>- [2] BotBoii</a>
 </summary>
+<ul style="list-style-type:none;">
+<li>
     <details>
     <summary>
     <a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program'>- [2] Program</a>
@@ -39,4 +41,6 @@ My name is Vivaan Malik from Pune, India. I am 14 years old. I started programmi
         <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program/VTG'>- [H] VTG</a><br></li>
     </ul>
     </details>
+</li>
+</ul>
 </details>
