@@ -88,7 +88,7 @@ My name is Vivaan Malik and I am from Pune, India. I am 14 years old. I started 
     </summary>
     <ul style="list-style-type:none;">
         <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode/OLD%20(failed)'>- [F] encrypt and decrypt</a><br></li>
-        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode/RSA%20-%20remake'>- [H] RSA keys gen</a><br></li>
+        <li><a href='https://github.com/VivaanMalik/MyStuff/tree/master/CryptoBoii/encode/RSA%20-%20remake'>- [F] RSA keys gen</a><br></li>
     </ul>
     </details>
     </li>

@@ -14,18 +14,19 @@ def JenKeyz(len): #GenKeys
     return Publikee(1, [n, e]), Praivetkee(1, d)
 def deekript(text:str, publikee, praivetkee): #decrypt
     text=int(text)
-    text=text**praivetkee.value[0]
-    text=text%publikee.value[0]
+    text=text**int(praivetkee.value)
+    text=text%int(publikee.value[0])
     msg=''
+    text=str(text)
     for i in range(round(len(str(text))/2)):
         if text[i]=='0':
             eendecks=text[i+1]
         else:
             eendecks=text[i]+text[i+1]
+        print(eendecks)
         eendecks=int(eendecks)
         msg+=kriptoe[eendecks]
-    return msg[1:]
-
+    return msg
 def Nkript(text, publikee): # encrypt
     kriptedtext='93'
     for i in text:
@@ -47,10 +48,9 @@ class Praivetkee: # Private Key
         self.value=value
         self.sect=sections
 text=input('Enter text to encrypt:\n')
-pub, priv = JenKeyz(128)
+pub, priv = JenKeyz(4)
 print('1')
 nkript=Nkript(text, pub)
 print('2')
-print(nkript)
 print('3')
 print(deekript(nkript, pub, priv))
