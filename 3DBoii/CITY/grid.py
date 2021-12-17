@@ -20,13 +20,12 @@ def HouseGrid(Grid, detail, size, dia):
         index=0
         for distance in range(2, round(size/20)):
             dist=distance*20
-            # if (ang_count)%2==1:
-            #     coord=(dist*math.cos(math.radians(angle)), dist*math.sin(math.radians(angle)))
-            # else:
-            #     coord=(dist*math.cos(math.radians(angle)), dist*math.sin(math.radians(angle)))
             coord=(dist*math.cos(math.radians(angle)), dist*math.sin(math.radians(angle)))
             #coord=(coord[0]+(offsetdist*math.cos(math.radians(angle+off))), coord[1]+(offsetdist*math.sin(math.radians(angle+off))))
             Grid[2][index].append(coord)
+            dist-=distance
+            coord=(dist*math.cos(math.radians(angle)), dist*math.sin(math.radians(angle)))
+            Grid[2][index].append(coord) # other 2 coordsz
             index+=1
         ang_count+=1
     grid=Grid
