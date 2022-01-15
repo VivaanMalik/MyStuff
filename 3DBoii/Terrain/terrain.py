@@ -72,3 +72,4 @@ with open('Model/Terrain_'+Suffix+'_'+str(size)+'.obj', 'w+') as f:
     print('\n')
     f.write('o water\nusemtl water\ns 3\n')
     f.write('f -1 -2 -4 -3')
+    print("DONE")
