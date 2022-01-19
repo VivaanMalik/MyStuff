@@ -6,6 +6,7 @@ REFERENCES
 ZoomBoii
 3DBoii/Terrain/Model
 3DBoii/Terrain/Blender
+target
 *.blend
 *.obj
 *.blend1
