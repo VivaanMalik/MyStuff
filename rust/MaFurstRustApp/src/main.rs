@@ -27,9 +27,19 @@ fn main()
 
     use std::io;        // import std.io
     use firebase_rs::Firebase;
+    use serde::{Serialize, Deserialize};
+
+    #[derive(Debug, Serialize, Deserialize)]
     
-    let room = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap(); // setup firebase
+    enum General
+    {
+        Number(usize),
+        None
+    }
+
+    let origroom = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap(); // setup firebase
     let roomData = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap(); // setup firebase
+    let room = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap();
 
 
     println!("Enter name of room: ");
@@ -45,34 +55,57 @@ fn main()
         .read_line(&mut name)
         .expect("unaybal 2 reed laiyne");
 
-
-    let room=room.at(&roomname).unwrap();
+    let room=room.at(&roomname).unwrap().at("players").unwrap();
+    let origroom=origroom.at(&roomname).unwrap();
     let roomData=roomData.at(&roomname).unwrap().at("data").unwrap();
-
-    let usernum: usize = room.get().unwrap().body.matches(",").count();
-
-    let data = format!("{{\"{}\":\"{}\"}}", usernum, name.trim());
-    let res=roomData.update("{\"PlayerTurn\":\"0\"}");
+    let res=roomData.update("{\"PlayerTurn\":\"0\", \"TotalMoney\":\"69420\"}");
     println!("Room Data Response: {:?}", res);
+    println!("{:?}", room.get().unwrap().body);
+    let usernum: usize = if room.get().unwrap().body!="null"
+    {
+        room.get_generic::<Vec<String>>().unwrap().data.len()
+    }
+    else
+    {
+        0
+    };
+    
+    let data = format!("{{\"{}\":\"{}\"}}", usernum, name.trim());
     let res=room.update(&data).unwrap();
     println!("Room Players Response: {:?}", res);
 
     print!("joined {}", roomname);
 
 
+    GameLoop();
 
-    leevRoom(room, usernum, name)
+    // tmp
+    let mut leavecondition= String::new();
+    io::stdin()
+        .read_line(&mut leavecondition)
+        .expect("breh");
+    let leavecondition: bool=leavecondition.trim().parse().unwrap();
+    if leavecondition
+    {
+        leevRoom(room, origroom, usernum, name);
+    }
 }
 
-fn leevRoom(room: firebase_rs::Firebase, usernum: usize, name:String)
+fn GameLoop()
+{
+    println!("GameLoop");
+}
+
+fn leevRoom(room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernum: usize, name:String)
 {
     let data = format!("{{\"{}\":\"{}\"}}", usernum, name.trim());
     let res = room.delete(&data);
     println!("{:?}", res);
+    println!("{}",usernum);
     if usernum==0
     {
         let data = "{\"data\"}";
-        let res = room.delete(&data);
+        let res = origroom.delete(&data);
         println!("{:?}", res);
     }
 
