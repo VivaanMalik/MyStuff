@@ -80,20 +80,27 @@ fn main()
     GameLoop();
 
     // tmp
-    let mut leavecondition= String::new();
-    io::stdin()
-        .read_line(&mut leavecondition)
-        .expect("breh");
-    let leavecondition: bool=leavecondition.trim().parse().unwrap();
-    if leavecondition
-    {
-        leevRoom(room, origroom, usernum, name);
-    }
+    leevRoom(room, origroom, usernum, name);
 }
 
 fn GameLoop()
 {
+    use std::io;
+
     println!("GameLoop");
+    
+    loop
+    {
+        let mut leavecondition= String::new();
+        io::stdin()
+            .read_line(&mut leavecondition)
+            .expect("breh");
+        let leavecondition: bool=leavecondition.trim().parse().unwrap();
+        if leavecondition
+        {
+            break;
+        }
+    }
 }
 
 fn leevRoom(room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernum: usize, name:String)
