@@ -104,7 +104,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, usernum
                 .expect("unaybal 2 reed laiyne");
             if add.to_owned().trim()=="+"
             {
-                let usernum=if usernum+1==roomData.get_generic::<HashMap<String, String>>().unwrap().data.len()
+                let usernum=if usernum+1==room.get_generic::<Vec<String>>().unwrap().data.len()
                 {
                     0
                 }
@@ -118,7 +118,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, usernum
             }
             else if add.to_owned().trim()=="leev"
             {
-                let usernum=if usernum+1==roomData.get_generic::<HashMap<String, String>>().unwrap().data.len()
+                let usernum=if usernum+1==room.get_generic::<Vec<String>>().unwrap().data.len()
                 {
                     0
                 }
