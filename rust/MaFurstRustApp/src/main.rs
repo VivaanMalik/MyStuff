@@ -58,7 +58,7 @@ fn main()
     let room=room.at(&roomname).unwrap().at("players").unwrap();
     let origroom=origroom.at(&roomname).unwrap();
     let roomData=roomData.at(&roomname).unwrap().at("data").unwrap();
-    let res=roomData.update("{\"PlayerTurn\":\"0\", \"TotalMoney\":\"69420\"}");
+    let res=roomData.update("{\"PlayerTurn\":\"0\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"0\"}");
     println!("Room Data Response: {:?}", res);
     println!("{:?}", room.get().unwrap().body);
     let usernum: usize = if room.get().unwrap().body!="null"
@@ -76,29 +76,60 @@ fn main()
 
     print!("joined {}", roomname);
 
-
-    GameLoop();
+    let roomcopy=room.clone();
+    GameLoop(roomData, room, usernum);
 
     // tmp
-    leevRoom(room, origroom, usernum, name);
+    leevRoom(roomcopy, origroom, usernum, name);
 }
 
-fn GameLoop()
+fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, usernum:usize)
 {
     use std::io;
+    use std::collections::HashMap;
 
     println!("GameLoop");
-    
     loop
-    {
-        let mut leavecondition= String::new();
-        io::stdin()
-            .read_line(&mut leavecondition)
-            .expect("breh");
-        let leavecondition: bool=leavecondition.trim().parse().unwrap();
-        if leavecondition
+    {   
+        let hashmapdata=roomData.get_generic::<HashMap<String, String>>().unwrap().data;
+        let offset = hashmapdata.get("UsernameOffset").unwrap().trim().parse::<usize>().unwrap();
+        let new_turn=hashmapdata.get("PlayerTurn").unwrap().trim().parse::<usize>().unwrap();
+        if new_turn==usernum
         {
-            break;
+            println!("It's your turn to play!\n");
+            println!("Type '+' to pass your chance");
+            let mut add= String::new();
+            io::stdin()                 // Get name
+                .read_line(&mut add)
+                .expect("unaybal 2 reed laiyne");
+            if add.to_owned().trim()=="+"
+            {
+                let usernum=if usernum+1==roomData.get_generic::<HashMap<String, String>>().unwrap().data.len()
+                {
+                    0
+                }
+                else
+                {
+                    usernum+1
+                };
+                let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", usernum, offset));
+                println!("Room Data Response: {:?}\n", res);
+                println!("It's {}'s turn to play!\n", room.get_generic::<Vec<String>>().unwrap().data[usernum]);
+            }
+            else if add.to_owned().trim()=="leev"
+            {
+                let usernum=if usernum+1==roomData.get_generic::<HashMap<String, String>>().unwrap().data.len()
+                {
+                    0
+                }
+                else
+                {
+                    usernum+1
+                };
+                let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", usernum, offset-1));
+                println!("Room Data Response: {:?}\n", res);
+                return;
+            }
         }
     }
 }
@@ -106,14 +137,12 @@ fn GameLoop()
 fn leevRoom(room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernum: usize, name:String)
 {
     let data = format!("{{\"{}\":\"{}\"}}", usernum, name.trim());
-    let res = room.delete(&data);
+    let res = room.at(&format!("{}",usernum)).unwrap().delete(&data);
     println!("{:?}", res);
-    println!("{}",usernum);
-    if usernum==0
+    if room.get().unwrap().body=="null"
     {
         let data = "{\"data\"}";
         let res = origroom.delete(&data);
         println!("{:?}", res);
     }
-
 }
