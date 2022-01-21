@@ -40,6 +40,8 @@ fn main()
     let origroom = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap(); // setup firebase
     let roomData = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap(); // setup firebase
     let room = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap();
+    let playerdata = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap();
+
 
 
     println!("Enter name of room: ");
@@ -58,8 +60,11 @@ fn main()
     let room=room.at(&roomname).unwrap().at("players").unwrap();
     let origroom=origroom.at(&roomname).unwrap();
     let roomData=roomData.at(&roomname).unwrap().at("data").unwrap();
+    let playerdata=playerdata.at(&roomname).unwrap().at("PlayerData").unwrap();
     let res=roomData.update("{\"PlayerTurn\":\"0\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"0\"}");
     println!("Room Data Response: {:?}", res);
+    let res=playerdata.at(&name).unwrap().update("{\"Money\":\"0\", \"Eco\":\"0\", \"IGNORE\":\"0\", \"LEAVE\":\"0\"}");
+    println!("{:?}", res);
     println!("{:?}", room.get().unwrap().body);
     let usernum: usize = if room.get().unwrap().body!="null"
     {
@@ -77,13 +82,13 @@ fn main()
     print!("joined {}", roomname);
 
     let roomcopy=room.clone();
-    GameLoop(roomData, room, usernum);
+    GameLoop(roomData, room, playerdata, usernum, name.clone());
 
     // tmp
     leevRoom(roomcopy, origroom, usernum, name);
 }
 
-fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, usernum:usize)
+fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerdata:firebase_rs::Firebase, usernum:usize, name:String)
 {
     use std::io;
     use std::collections::HashMap;
@@ -91,9 +96,22 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, usernum
     println!("GameLoop");
     loop
     {   
+        let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+        let mut tot_ignorz=0;
+        for (_key, val) in hashmapdata.iter()
+        {
+            if val.get("LEAVE").unwrap().trim()=="1"
+            {
+                tot_ignorz=tot_ignorz+1;
+            }
+        }
+        if tot_ignorz==room.get_generic::<Vec<String>>().unwrap().data.len()
+        {
+            return;
+        }
         let hashmapdata=roomData.get_generic::<HashMap<String, String>>().unwrap().data;
         let offset = hashmapdata.get("UsernameOffset").unwrap().trim().parse::<usize>().unwrap();
-        let new_turn=hashmapdata.get("PlayerTurn").unwrap().trim().parse::<usize>().unwrap();
+        let mut new_turn=hashmapdata.get("PlayerTurn").unwrap().trim().parse::<usize>().unwrap();
         if new_turn==usernum
         {
             println!("It's your turn to play!\n");
@@ -104,45 +122,71 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, usernum
                 .expect("unaybal 2 reed laiyne");
             if add.to_owned().trim()=="+"
             {
-                let usernum=if usernum+1==room.get_generic::<Vec<String>>().unwrap().data.len()
-                {
-                    0
-                }
-                else
-                {
-                    usernum+1
-                };
-                let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", usernum, offset));
-                println!("Room Data Response: {:?}\n", res);
-                println!("It's {}'s turn to play!\n", room.get_generic::<Vec<String>>().unwrap().data[usernum]);
+                println!("{:?}", &name);
+                println!("{:?}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap());
+                let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+50));
+                println!("{:?}", res);
             }
-            else if add.to_owned().trim()=="leev"
+            
+            
+            // Data
+            let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+            if hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim()=="100"
             {
-                let usernum=if usernum+1==room.get_generic::<Vec<String>>().unwrap().data.len()
+                println!("You win the game!");
+                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"0\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim()));
+                println!("{:?}", res);
+            }
+
+            
+            let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;         
+
+            tot_ignorz=0;
+            for (_key, val) in hashmapdata.iter()
+            {
+                if val.get("IGNORE").unwrap().trim()=="1"
                 {
-                    0
+                    tot_ignorz=tot_ignorz+1;
                 }
+            }
+            if tot_ignorz<room.get_generic::<Vec<String>>().unwrap().data.len()
+            {
+                println!("{} < {}", tot_ignorz, room.get_generic::<Vec<String>>().unwrap().data.len());
+
+                new_turn=if new_turn+1==room.get_generic::<Vec<String>>().unwrap().data.len()
+                {0}
                 else
+                {new_turn+1};
+                let new_turn_player_name=&room.get_generic::<Vec<String>>().unwrap().data[new_turn];
+                while playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(new_turn_player_name).unwrap().get("IGNORE").unwrap().trim()=="1"
                 {
-                    usernum+1
-                };
-                let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", usernum, offset-1));
-                println!("Room Data Response: {:?}\n", res);
-                return;
+                    new_turn=if new_turn+1==room.get_generic::<Vec<String>>().unwrap().data.len()
+                    {0}
+                    else
+                    {new_turn+1};
+                }
+            }
+
+            let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", new_turn, offset));
+            println!("Room Data Response: {:?}\n", res);
+            println!("It's {}'s turn to play!\n", room.get_generic::<Vec<String>>().unwrap().data[new_turn]);
+
+            println!("{}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim());
+            if playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim()=="1"
+            {
+                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"1\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim()));
+                println!("{:?}", res);
             }
         }
     }
 }
 
-fn leevRoom(room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernum: usize, name:String)
+fn leevRoom(_room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernum: usize, _name:String)
 {
-    let data = format!("{{\"{}\":\"{}\"}}", usernum, name.trim());
-    let res = room.at(&format!("{}",usernum)).unwrap().delete(&data);
-    println!("{:?}", res);
-    if room.get().unwrap().body=="null"
+    if usernum==0
     {
-        let data = "{\"data\"}";
-        let res = origroom.delete(&data);
+        let res=origroom.delete("*");
         println!("{:?}", res);
     }
+
 }
