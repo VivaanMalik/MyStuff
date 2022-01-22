@@ -94,6 +94,8 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
     use std::collections::HashMap;
 
     println!("GameLoop");
+    let mut new_turn_stored:isize=-1; // for the player turn msg
+    let mut new_turn_eco:isize=-1; // for eco
     loop
     {   
         let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
@@ -112,33 +114,69 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
         let hashmapdata=roomData.get_generic::<HashMap<String, String>>().unwrap().data;
         let offset = hashmapdata.get("UsernameOffset").unwrap().trim().parse::<usize>().unwrap();
         let mut new_turn=hashmapdata.get("PlayerTurn").unwrap().trim().parse::<usize>().unwrap();
+
+
+        // eco
+        
+        if new_turn==0 && new_turn_eco!=new_turn as isize
+        {
+            let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()));
+            println!("{:?}", res);
+        }
+        new_turn_eco=new_turn as isize;
+
         if new_turn==usernum
         {
             println!("It's your turn to play!\n");
-            println!("Type '+' to pass your chance");
-            let mut add= String::new();
-            io::stdin()                 // Get name
-                .read_line(&mut add)
-                .expect("unaybal 2 reed laiyne");
-            if add.to_owned().trim()=="+"
+            println!("'+' - increases your money by 50\n'eco' - increases your eco; costs 50 money");
+
+
+            // command
+            let mut valid="U no type :(";
+            while valid!="Ogae"
             {
-                println!("{:?}", &name);
-                println!("{:?}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap());
-                let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+50));
-                println!("{:?}", res);
+                println!("Whatchu wanna do?");
+                let mut add= String::new();
+                io::stdin()                 // Get name
+                    .read_line(&mut add)
+                    .expect("unaybal 2 reed laiyne");
+
+                if add.to_owned().trim()=="+"
+                {
+                    let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+50));
+                    println!("{:?}", res);
+                    valid="Ogae";
+                }
+                else if add.to_owned().trim()=="eco"
+                {
+                    if playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()>=50
+                    {
+                        let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Eco\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()+100));
+                        println!("{:?}", res);
+                        valid="Ogae";
+                    }
+                    else
+                    {
+                        valid="U broke! lmfao";
+                    }
+                }
+                println!("{}", valid);
             }
             
             
-            // Data
+
+
+            // winning
             let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
-            if hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim()=="100"
+            if hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()>=100
             {
                 println!("You win the game!");
                 let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"0\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim()));
                 println!("{:?}", res);
             }
 
-            
+
+            //data
             let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;         
 
             tot_ignorz=0;
@@ -169,13 +207,20 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
             let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", new_turn, offset));
             println!("Room Data Response: {:?}\n", res);
-            println!("It's {}'s turn to play!\n", room.get_generic::<Vec<String>>().unwrap().data[new_turn]);
 
             println!("{}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim());
             if playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim()=="1"
             {
                 let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"1\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim()));
                 println!("{:?}", res);
+            }
+        }
+        else
+        {
+            if new_turn as isize!=new_turn_stored
+            {
+                println!("It's {}'s turn to play!\n", room.get_generic::<Vec<String>>().unwrap().data[new_turn]);
+                new_turn_stored=new_turn as isize;
             }
         }
     }
