@@ -63,7 +63,7 @@ fn main()
     let playerdata=playerdata.at(&roomname).unwrap().at("PlayerData").unwrap();
     let res=roomData.update("{\"PlayerTurn\":\"0\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"0\"}");
     println!("Room Data Response: {:?}", res);
-    let res=playerdata.at(&name).unwrap().update("{\"Money\":\"0\", \"Eco\":\"0\", \"IGNORE\":\"0\", \"LEAVE\":\"0\"}");
+    let res=playerdata.at(&name).unwrap().update("{\"Money\":\"0\", \"Eco\":\"0\", \"IGNORE\":\"0\", \"LEAVE\":\"0\", \"Itemz\":\"Basic_Sword\"}");
     println!("{:?}", res);
     println!("{:?}", room.get().unwrap().body);
     let usernum: usize = if room.get().unwrap().body!="null"
@@ -95,10 +95,11 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
     println!("GameLoop");
     let mut new_turn_stored:isize=-1; // for the player turn msg
-    let mut new_turn_eco:isize=-1; // for eco
     loop
     {   
         let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+        let itemz = hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim().split_whitespace().map(|word| word.parse::<String>().unwrap().replace("_", " ")).collect::<Vec<_>>();
+        println!("ITEMZ: {:?}", itemz);
         let mut tot_ignorz=0;
         for (_key, val) in hashmapdata.iter()
         {
@@ -117,25 +118,22 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
 
         // eco
-        
-        if new_turn==0 && new_turn_eco!=new_turn as isize
-        {
-            let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()));
-            println!("{:?}", res);
-        }
-        new_turn_eco=new_turn as isize;
 
         if new_turn==usernum
         {
+            let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()));
+            println!("eco: {:?}", res);
+
             println!("It's your turn to play!\n");
-            println!("'+' - increases your money by 50\n'eco' - increases your eco; costs 50 money");
+            println!("Type 'info' to see all commands...");
 
 
             // command
             let mut valid="U no type :(";
             while valid!="Ogae"
             {
-                println!("Whatchu wanna do?");
+                valid="U no type :(";
+                println!("Whatchu wanna do? You haz {} money, {} eco...", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim(), playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim());
                 let mut add= String::new();
                 io::stdin()                 // Get name
                     .read_line(&mut add)
@@ -160,6 +158,11 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                         valid="U broke! lmfao";
                     }
                 }
+                else if add.to_owned().trim()=="info"
+                {
+                    println!("\nINFO\n+        Increase your money by 50; Buy powerups/items with money\neco      Increase your eco by 100; Eco gives you money every time its your turn\ninfo     Get this list\n");
+                    valid="Learn, kid ↑";
+                }
                 println!("{}", valid);
             }
             
@@ -171,7 +174,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
             if hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()>=100
             {
                 println!("You win the game!");
-                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"0\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim()));
+                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"0\", \"Itemz\":\"{}\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim()));
                 println!("{:?}", res);
             }
 
@@ -211,7 +214,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
             println!("{}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim());
             if playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim()=="1"
             {
-                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"1\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim()));
+                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"1\", \"Itemz\":\"{}\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim()));
                 println!("{:?}", res);
             }
         }
