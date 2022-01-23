@@ -91,10 +91,13 @@ fn main()
 fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerdata:firebase_rs::Firebase, usernum:usize, name:String)
 {
     use std::io;
-    use std::collections::HashMap;
 
     println!("GameLoop");
     let mut new_turn_stored:isize=-1; // for the player turn msg
+
+    let itemdata=giveitemdata();
+    println!("{:?}", itemdata);
+
     loop
     {   
         let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
@@ -158,9 +161,22 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                         valid="U broke! lmfao";
                     }
                 }
+                else if add.to_owned().trim()=="weapons"
+                {
+                    println!("\nSHOP\n
+                    Basic Sword       1    Damage    10   Endurance    50  Cost    The Start to your journey to become the devil...\n
+                    Blazefury         1K   Damage    15K  Endurance    1K  Cost    FFFIIIRREE!!!\n
+                    Nirvana           20K  Damage    1M   Endurance    50K Cost    Champion Of Chaos\n
+                    Unholy Might      350K Damage    1B   Endurance    2M  Cost    Buthcer of the serpent\n");
+                    valid="Learn, kid ↑";
+                }
                 else if add.to_owned().trim()=="info"
                 {
-                    println!("\nINFO\n+        Increase your money by 50; Buy powerups/items with money\neco      Increase your eco by 100; Eco gives you money every time its your turn\ninfo     Get this list\n");
+                    println!("\nINFO\n
+                    +        - Increase your money by 50; Buy powerups/items with money\n
+                    eco      - Increase your eco by 100; Eco gives you money every time its your turn\n
+                    info     - Get this list\n
+                    weapons  - Get list of weapons along with its info\n");
                     valid="Learn, kid ↑";
                 }
                 println!("{}", valid);
@@ -237,4 +253,30 @@ fn leevRoom(_room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernu
         println!("{:?}", res);
     }
 
+}
+
+use std::collections::HashMap;
+fn giveitemdata() -> HashMap<String, HashMap<String, usize>>
+{
+    let info = vec![String::from("Damage"), String::from("Endurance"), String::from("Cost")];
+    let infovalz = vec![1, 10, 50];
+    let basicsword: HashMap<_, _> = info.into_iter().zip(infovalz.into_iter()).collect();
+
+    let info = vec![String::from("Damage"), String::from("Endurance"), String::from("Cost")];
+    let infovalz = vec![1000, 15000, 1000];
+    let blazefury: HashMap<_, _> = info.into_iter().zip(infovalz.into_iter()).collect();
+
+    let info = vec![String::from("Damage"), String::from("Endurance"), String::from("Cost")];
+    let infovalz = vec![20000, 1000000, 50000];
+    let nirvana: HashMap<_, _> = info.into_iter().zip(infovalz.into_iter()).collect();
+
+    let info = vec![String::from("Damage"), String::from("Endurance"), String::from("Cost")];
+    let infovalz = vec![350000, 1000000000, 2000000];
+    let unholymight: HashMap<_, _> = info.into_iter().zip(infovalz.into_iter()).collect();
+
+    let info= vec![String::from("Basic Sword"), String::from("Blazefury"), String::from("Nirvana"), String::from("Unholy Might")];
+    let infovalz = vec![basicsword, blazefury, nirvana, unholymight];
+    let itemdata: HashMap<String, HashMap<String, usize>> = info.into_iter().zip(infovalz.into_iter()).collect();
+
+    return itemdata;
 }
