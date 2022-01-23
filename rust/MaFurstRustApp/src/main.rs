@@ -50,7 +50,11 @@ fn main()
     let room = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap();
     let playerdata = Firebase::new("https://maifurztruztprojekt-default-rtdb.firebaseio.com/roomz.json").unwrap();
 
+    // USE THIS ARE 4 TESTINGG
 
+
+
+    // AHHHHH
 
     println!("Enter name of room: ");
     let mut roomname= String::new();
@@ -110,8 +114,8 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
     loop
     {   
         let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
-        let itemz = hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim().split_whitespace().map(|word| word.parse::<String>().unwrap().replace("_", " ")).collect::<Vec<_>>();
-        println!("ITEMZ: {:?}", itemz);
+
+        // println!("ITEMZ: {:?}", itemz);
         let mut tot_ignorz=0;
         for (_key, val) in hashmapdata.iter()
         {
@@ -133,7 +137,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
         if new_turn==usernum && !adventure
         {
-            let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()));
+            let res=playerdata.at(&name.to_owned().trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()));
             println!("eco: {:?}", res);
 
             println!("It's your turn to play!\n");
@@ -177,20 +181,26 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                 }
                 else if add.to_owned().trim()=="weapons"
                 {
-                    println!("\nSHOP\n
-                    Basic Sword       1    Damage    10   Endurance    50  Cost    The Start to your journey to become the devil...\n
-                    Blazefury         1K   Damage    15K  Endurance    1K  Cost    FFFIIIRREE!!!\n
-                    Nirvana           20K  Damage    1M   Endurance    50K Cost    Champion Of Chaos\n
-                    Unholy Might      350K Damage    1B   Endurance    2M  Cost    Buthcer of the serpent\n");
+                    println!
+(
+"\nWEAPONS\n
+Basic Sword       1    Damage    10   Endurance    50  Cost    The Start to your journey to become the devil...
+Blazefury         1K   Damage    15K  Endurance    1K  Cost    FFFIIIRREE!!!
+Nirvana           20K  Damage    1M   Endurance    50K Cost    Champion Of Chaos
+Unholy Might      350K Damage    1B   Endurance    2M  Cost    Buthcer of the serpent\n"
+);
                     valid="Learn, kid ↑";
                 }
                 else if add.to_owned().trim()=="info"
                 {
-                    println!("\nINFO\n
-                    +        - Increase your money by 50; Buy powerups/items with money\n
-                    eco      - Increase your eco by 100; Eco gives you money every time its your turn\n
-                    info     - Get this list\n
-                    weapons  - Get list of weapons along with its info\n");
+                    println!
+(
+"\nINFO\n
++        - Increase your money by 50; Buy powerups/items with money
+eco      - Increase your eco by 100; Eco gives you money every time its your turn
+info     - Get this list
+weapons  - Get list of weapons along with its info\n"
+);
                     valid="Learn, kid ↑";
                 }
                 println!("{}", valid);
@@ -240,7 +250,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
             if adventure
             {
-                let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"1\"}");
+                let _res=playerdata.at(&name.trim()).unwrap().update("{\"IGNORE\":\"1\"}");
             }
 
             let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", new_turn, offset));
@@ -269,13 +279,71 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
         if adventure
         {
-            // Smash deemunz
-            println!("Searching for souls to toture...");
-            thread::sleep(time::Duration::from_secs(randrange(3, 6)));
-            let soul=GenerateSoul();
-            println!("AHA! You found a{} {}\n", AorAn(soul.get("name").unwrap().to_string()), soul.get("name").unwrap().to_string());
-        }
+            // while adventure
+            // {
+                // Smash deemunz
+                println!("Searching for monsters to hunt...");
+                thread::sleep(time::Duration::from_secs(randrange(3, 6)));
+                let soul=GenerateSoul();
+                let mut valid="U no type valid :(";
 
+                while valid!="Ogae"
+                {
+                    let mut response=String::new();
+                    valid="U no type valid :(";
+                    println!("AHA! You found a{} named {}\n", AorAn(soul.get("type").unwrap().to_string().to_ascii_lowercase()), soul.get("name").unwrap().to_string());
+                    io::stdin()
+                        .read_line(&mut response)
+                        .expect("unaybal 2 reed laiyne");
+                    if response.to_owned().trim()=="end hunt"
+                    {
+                        adventure=false;
+                        valid="Ogae";
+                    }
+                    else if response.to_owned().trim()=="items"
+                    {
+                        let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+                        let items=getplayeritems(hashmapdata, name.clone());
+                        println!("\nYOUR ITEMS\n");
+                        let mut biggestnum:usize=0;
+                        for i in &items
+                        {
+                            if i.len()>biggestnum
+                            {
+                                biggestnum=i.len();
+                            }
+                        }
+                        for mut i in items
+                        {
+                            let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
+                            while i.len()<biggestnum
+                            {
+                                i=format!("{} ", i);
+                            }
+                            println!("{}          {} Damage          {} Endurance        {} Cost", i, pretty_print_nums(*itemsinfo.get("Damage").unwrap(), true), pretty_print_nums(*itemsinfo.get("Endurance").unwrap(), true), pretty_print_nums(*itemsinfo.get("Cost").unwrap(), true));
+                        }
+                        valid="Learn, kid ↑";
+                    }
+                    else if response.to_owned().trim()=="info"
+                    {
+                        println!
+(
+"\nINFO\n
+end hunt - Go back to main game
+items    - Get info on all your items
+info     - Get this list\n"
+);
+                        valid="Learn, kid ↑";
+                    }
+                    println!("{}", valid);
+                }
+
+                if !adventure
+                {
+                    let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"0\"}");
+                }
+            // }
+        }
     }
 }
 
@@ -316,11 +384,15 @@ fn giveitemdata() -> HashMap<String, HashMap<String, usize>>
 
 fn GenerateSoul() -> HashMap<String, String>
 {
+    let randnum=randrange(0, 9);
     use rnglib::{RNG, Language};
     let rng = RNG::new(&Language::Fantasy).unwrap();
     let name = rng.generate_name_by_count(3);
     let mut soul: HashMap<String, _>=HashMap::new();
     soul.insert("name".to_string(), name);
+    let types=["Goblin", "Zombie", "Orc", "Ghoul", "Troll", "Elf", "Ogre", "Giant", "Oni", "Kraken"];
+    soul.insert("power".to_string(), format!("{}", randnum*randrange(5, 10)));
+    soul.insert("type".to_string(), types[randnum as usize].to_string());
     return soul;
 }
 
@@ -332,9 +404,47 @@ fn randrange(a:u64, b:u64) -> u64
 fn AorAn(string:String) -> String
 {
     let vowels: [char; 5] = ['a', 'e', 'i', 'o', 'u'];
-    if vowels.contains(&string.chars().next().unwrap())
+    if vowels.contains(&string.trim().to_ascii_lowercase().chars().next().unwrap())
     {
-        return "n".to_string();
+        return format!("n {}", &string.trim()).to_string();
     }
-    return "".to_string();
+    else
+    {
+        println!("{}", &string.trim().chars().next().unwrap());
+        return format!(" {}", &string.trim()).to_string();
+    }
+}
+
+fn getplayeritems(hashmapdata:HashMap<String, HashMap<String, String>>, name:String) -> Vec<String>
+{
+    return hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim().split_whitespace().map(|word| word.parse::<String>().unwrap().replace("_", " ")).collect::<Vec<_>>();
+}
+
+fn get_item_info_from_item_name(hashmap:HashMap<String, HashMap<String, usize>>, itemname:String) -> HashMap<String, usize>
+{
+    return hashmap.get(&itemname).unwrap().to_owned();
+}
+
+fn pretty_print_nums(num:usize, addspaces:bool) -> String
+{
+    let mut num:String=format!("{}", num);
+    let amntof000s=num.matches("000").count();
+    let mut zeros=String::new();
+    for _ in 0..amntof000s
+    {
+        zeros=format!("{}000", zeros);
+    }
+    let suffix=["", "K", "M", "B", "T", "Qua", "Qui", "Si", "Se", "Oct", "N", "Dec"];
+    let pos:usize=num.rfind(&zeros).unwrap();
+    let endpos:usize = pos+zeros.len();
+    let replacestring=suffix[amntof000s];
+    num.replace_range(pos..endpos, replacestring);
+    if addspaces
+    {
+        while num.len()!=6
+        {
+            num=format!("{} ", num);
+        }
+    }
+    return num;
 }
