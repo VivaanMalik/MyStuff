@@ -1,5 +1,13 @@
 #![allow(non_snake_case)] // fixin some shit error abt snake stuff
 
+extern crate rand;
+
+use rand::distributions::Distribution;
+use rand::distributions::Uniform;
+use std::{thread, time};
+use std::collections::HashMap;
+
+
 fn main() 
 {
     // Notez
@@ -97,6 +105,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
     let itemdata=giveitemdata();
     println!("{:?}", itemdata);
+    let mut adventure=false;
 
     loop
     {   
@@ -122,7 +131,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
 
         // eco
 
-        if new_turn==usernum
+        if new_turn==usernum && !adventure
         {
             let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()+playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()));
             println!("eco: {:?}", res);
@@ -160,6 +169,11 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                     {
                         valid="U broke! lmfao";
                     }
+                }
+                else if add.to_owned().trim()=="hunt"
+                {
+                    adventure=true;
+                    valid="Ogae";
                 }
                 else if add.to_owned().trim()=="weapons"
                 {
@@ -206,7 +220,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                     tot_ignorz=tot_ignorz+1;
                 }
             }
-            if tot_ignorz<room.get_generic::<Vec<String>>().unwrap().data.len()
+            if tot_ignorz<room.get_generic::<Vec<String>>().unwrap().data.len()-1
             {
                 println!("{} < {}", tot_ignorz, room.get_generic::<Vec<String>>().unwrap().data.len());
 
@@ -224,14 +238,22 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                 }
             }
 
+            if adventure
+            {
+                let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"1\"}");
+            }
+
             let res=roomData.update(&format!("{{\"PlayerTurn\":\"{}\", \"TotalMoney\":\"69420\", \"UsernameOffset\":\"{}\"}}", new_turn, offset));
             println!("Room Data Response: {:?}\n", res);
 
             println!("{}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim());
             if playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("IGNORE").unwrap().trim()=="1"
             {
-                let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"1\", \"Itemz\":\"{}\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim()));
-                println!("{:?}", res);
+                if !adventure
+                {
+                    let res=playerdata.update(&format!("{{\"{}\":{{\"Money\":\"{}\", \"Eco\":\"{}\", \"IGNORE\":\"1\", \"LEAVE\":\"1\", \"Itemz\":\"{}\"}}}}", name.trim(), hashmapdata.get(name.trim()).unwrap().get("Money").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Eco").unwrap().trim(), hashmapdata.get(name.trim()).unwrap().get("Itemz").unwrap().trim()));
+                    println!("{:?}", res);
+                }
             }
         }
         else
@@ -242,6 +264,18 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                 new_turn_stored=new_turn as isize;
             }
         }
+
+
+
+        if adventure
+        {
+            // Smash deemunz
+            println!("Searching for souls to toture...");
+            thread::sleep(time::Duration::from_secs(randrange(3, 6)));
+            let soul=GenerateSoul();
+            println!("AHA! You found a{} {}\n", AorAn(soul.get("name").unwrap().to_string()), soul.get("name").unwrap().to_string());
+        }
+
     }
 }
 
@@ -255,7 +289,6 @@ fn leevRoom(_room: firebase_rs::Firebase, origroom:firebase_rs::Firebase, usernu
 
 }
 
-use std::collections::HashMap;
 fn giveitemdata() -> HashMap<String, HashMap<String, usize>>
 {
     let info = vec![String::from("Damage"), String::from("Endurance"), String::from("Cost")];
@@ -279,4 +312,29 @@ fn giveitemdata() -> HashMap<String, HashMap<String, usize>>
     let itemdata: HashMap<String, HashMap<String, usize>> = info.into_iter().zip(infovalz.into_iter()).collect();
 
     return itemdata;
+}
+
+fn GenerateSoul() -> HashMap<String, String>
+{
+    use rnglib::{RNG, Language};
+    let rng = RNG::new(&Language::Fantasy).unwrap();
+    let name = rng.generate_name_by_count(3);
+    let mut soul: HashMap<String, _>=HashMap::new();
+    soul.insert("name".to_string(), name);
+    return soul;
+}
+
+fn randrange(a:u64, b:u64) -> u64
+{
+    return Uniform::new_inclusive(a, b).sample(&mut rand::thread_rng())
+}
+
+fn AorAn(string:String) -> String
+{
+    let vowels: [char; 5] = ['a', 'e', 'i', 'o', 'u'];
+    if vowels.contains(&string.chars().next().unwrap())
+    {
+        return "n".to_string();
+    }
+    return "".to_string();
 }

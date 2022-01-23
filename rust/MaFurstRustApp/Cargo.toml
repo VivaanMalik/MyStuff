@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 firebase-rs = "1.0.3"
 serde="*"
+rand="*"
+random_name_generator = "0.1.2"
