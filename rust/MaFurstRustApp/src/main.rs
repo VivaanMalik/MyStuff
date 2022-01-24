@@ -165,7 +165,7 @@ fn GameLoop(roomData: firebase_rs::Firebase, room:firebase_rs::Firebase, playerd
                 {
                     if playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()>=50
                     {
-                        let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Eco\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()+100));
+                        let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Eco\":\"{}\", \"Money\":\"{}\"}}", playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Eco").unwrap().trim().parse::<usize>().unwrap()+100, playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data.get(name.trim()).unwrap().get("Money").unwrap().trim().parse::<usize>().unwrap()-50));
                         println!("{:?}", res);
                         valid="Ogae";
                     }
@@ -199,6 +199,7 @@ Unholy Might      350K Damage    1B   Endurance    2M  Cost    Buthcer of the se
 +        - Increase your money by 50; Buy powerups/items with money
 eco      - Increase your eco by 100; Eco gives you money every time its your turn
 info     - Get this list
+hunt     - Go on a hunt to collect loot
 weapons  - Get list of weapons along with its info\n"
 );
                     valid="Learn, kid ↑";
@@ -279,70 +280,81 @@ weapons  - Get list of weapons along with its info\n"
 
         if adventure
         {
-            // while adventure
-            // {
-                // Smash deemunz
-                println!("Searching for monsters to hunt...");
-                thread::sleep(time::Duration::from_secs(randrange(3, 6)));
-                let soul=GenerateSoul();
-                let mut valid="U no type valid :(";
+            println!("Searching for monsters to hunt...");
+            thread::sleep(time::Duration::from_secs(randrange(3, 6)));
+            let soul=GenerateSoul();
+            let mut valid="U no type valid :(";
 
-                while valid!="Ogae"
+            while valid!="Ogae"
+            {
+                let mut response=String::new();
+                valid="U no type valid :(";
+                println!("AHA! You found a{} named {}\nType 'info' to get all commands to hunt\n", AorAn(soul.get("type").unwrap().to_string().to_ascii_lowercase()), soul.get("name").unwrap().to_string());
+                io::stdin()
+                    .read_line(&mut response)
+                    .expect("unaybal 2 reed laiyne");
+                if response.to_owned().trim()=="end hunt"
                 {
-                    let mut response=String::new();
-                    valid="U no type valid :(";
-                    println!("AHA! You found a{} named {}\n", AorAn(soul.get("type").unwrap().to_string().to_ascii_lowercase()), soul.get("name").unwrap().to_string());
-                    io::stdin()
-                        .read_line(&mut response)
-                        .expect("unaybal 2 reed laiyne");
-                    if response.to_owned().trim()=="end hunt"
+                    adventure=false;
+                    valid="Ogae";
+                }
+                else if response.to_owned().trim()=="items"
+                {
+                    let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+                    let items=getplayeritems(hashmapdata, name.clone());
+                    println!("\nYOUR ITEMS\n");
+                    let mut biggestnum:usize=0;
+                    for i in &items
                     {
-                        adventure=false;
+                        if i.len()>biggestnum
+                        {
+                            biggestnum=i.len();
+                        }
+                    }
+                    for mut i in items
+                    {
+                        let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
+                        while i.len()<biggestnum
+                        {
+                            i=format!("{} ", i);
+                        }
+                        println!("{}          Damage {}          Endurance {}          Cost {}", i, pretty_print_nums(*itemsinfo.get("Damage").unwrap(), 1), pretty_print_nums(*itemsinfo.get("Endurance").unwrap(), 1), pretty_print_nums(*itemsinfo.get("Cost").unwrap(), 1));
+                    }
+                    valid="Learn, kid ↑\n";
+                }
+                else if response.to_owned().trim().starts_with("use")
+                {
+                    let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+                    let split=response.trim().split("use ").collect::<Vec<&str>>();
+                    if getplayeritems(hashmapdata, name.clone()).contains(&split[split.clone().len()-1].to_string())
+                    {
+                        // damage
                         valid="Ogae";
                     }
-                    else if response.to_owned().trim()=="items"
+                    else
                     {
-                        let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
-                        let items=getplayeritems(hashmapdata, name.clone());
-                        println!("\nYOUR ITEMS\n");
-                        let mut biggestnum:usize=0;
-                        for i in &items
-                        {
-                            if i.len()>biggestnum
-                            {
-                                biggestnum=i.len();
-                            }
-                        }
-                        for mut i in items
-                        {
-                            let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
-                            while i.len()<biggestnum
-                            {
-                                i=format!("{} ", i);
-                            }
-                            println!("{}          {} Damage          {} Endurance        {} Cost", i, pretty_print_nums(*itemsinfo.get("Damage").unwrap(), true), pretty_print_nums(*itemsinfo.get("Endurance").unwrap(), true), pretty_print_nums(*itemsinfo.get("Cost").unwrap(), true));
-                        }
-                        valid="Learn, kid ↑";
+                        valid="Breh, u need to have that item ┑(￣Д ￣)┍\n";
                     }
-                    else if response.to_owned().trim()=="info"
-                    {
-                        println!
+                }
+                else if response.to_owned().trim()=="info"
+                {
+                    println!
 (
 "\nINFO\n
-end hunt - Go back to main game
-items    - Get info on all your items
-info     - Get this list\n"
+end hunt   - Go back to main game
+items      - Get info on all your items and their name
+use [Item] - Use an item to your advantage or the enemies disadvantage
+info       - Get this list\n"
 );
-                        valid="Learn, kid ↑";
-                    }
-                    println!("{}", valid);
+                    valid="Learn, kid ↑\n";
                 }
+                println!("{}", valid);
+            }
 
-                if !adventure
-                {
-                    let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"0\"}");
-                }
-            // }
+            if !adventure
+            {
+                let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"0\"}");
+            }
         }
     }
 }
@@ -425,7 +437,7 @@ fn get_item_info_from_item_name(hashmap:HashMap<String, HashMap<String, usize>>,
     return hashmap.get(&itemname).unwrap().to_owned();
 }
 
-fn pretty_print_nums(num:usize, addspaces:bool) -> String
+fn pretty_print_nums(num:usize, addspaces:usize) -> String
 {
     let mut num:String=format!("{}", num);
     let amntof000s=num.matches("000").count();
@@ -439,11 +451,18 @@ fn pretty_print_nums(num:usize, addspaces:bool) -> String
     let endpos:usize = pos+zeros.len();
     let replacestring=suffix[amntof000s];
     num.replace_range(pos..endpos, replacestring);
-    if addspaces
+    if addspaces!=0
     {
         while num.len()!=6
         {
-            num=format!("{} ", num);
+            if addspaces==1
+            {
+                num=format!("{} ", num);
+            }
+            else
+            {
+                num=format!(" {}", num);
+            }
         }
     }
     return num;
