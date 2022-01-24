@@ -282,78 +282,93 @@ weapons  - Get list of weapons along with its info\n"
         {
             println!("Searching for monsters to hunt...");
             thread::sleep(time::Duration::from_secs(randrange(3, 6)));
-            let soul=GenerateSoul();
-            let mut valid="U no type valid :(";
+            let mut soul=GenerateSoul();
+            println!("AHA! You found a{} named {}\nType 'info' to get all commands to hunt\n", AorAn(soul.get("type").unwrap().to_string().to_ascii_lowercase()), soul.get("name").unwrap().to_string());
 
-            while valid!="Ogae"
+            while soul.get("HP").unwrap().parse::<usize>().unwrap()>0
             {
-                let mut response=String::new();
-                valid="U no type valid :(";
-                println!("AHA! You found a{} named {}\nType 'info' to get all commands to hunt\n", AorAn(soul.get("type").unwrap().to_string().to_ascii_lowercase()), soul.get("name").unwrap().to_string());
-                io::stdin()
-                    .read_line(&mut response)
-                    .expect("unaybal 2 reed laiyne");
-                if response.to_owned().trim()=="end hunt"
+                let mut valid="U no type valid :(";
+                while valid!="Ogae"
                 {
-                    adventure=false;
-                    valid="Ogae";
-                }
-                else if response.to_owned().trim()=="items"
-                {
-                    let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
-                    let items=getplayeritems(hashmapdata, name.clone());
-                    println!("\nYOUR ITEMS\n");
-                    let mut biggestnum:usize=0;
-                    for i in &items
+                    let mut response=String::new();
+                    valid="U no type valid :(";
+                    println!("The {}, {} now has {} HP\nType 'info' to get all commands to hunt\n", soul.get("type").unwrap().to_string().to_ascii_lowercase(), soul.get("name").unwrap().to_string(), soul.get("HP").unwrap().to_string());
+                    io::stdin()
+                        .read_line(&mut response)
+                        .expect("unaybal 2 reed laiyne");
+                    if response.to_owned().trim()=="end hunt"
                     {
-                        if i.len()>biggestnum
-                        {
-                            biggestnum=i.len();
-                        }
-                    }
-                    for mut i in items
-                    {
-                        let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
-                        while i.len()<biggestnum
-                        {
-                            i=format!("{} ", i);
-                        }
-                        println!("{}          Damage {}          Endurance {}          Cost {}", i, pretty_print_nums(*itemsinfo.get("Damage").unwrap(), 1), pretty_print_nums(*itemsinfo.get("Endurance").unwrap(), 1), pretty_print_nums(*itemsinfo.get("Cost").unwrap(), 1));
-                    }
-                    valid="Learn, kid ↑\n";
-                }
-                else if response.to_owned().trim().starts_with("use")
-                {
-                    let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
-                    let split=response.trim().split("use ").collect::<Vec<&str>>();
-                    if getplayeritems(hashmapdata, name.clone()).contains(&split[split.clone().len()-1].to_string())
-                    {
-                        // damage
+                        adventure=false;
                         valid="Ogae";
                     }
-                    else
+                    else if response.to_owned().trim()=="items"
                     {
-                        valid="Breh, u need to have that item ┑(￣Д ￣)┍\n";
+                        let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+                        let items=getplayeritems(hashmapdata, name.clone());
+                        println!("\nYOUR ITEMS\n");
+                        let mut biggestnum:usize=0;
+                        for i in &items
+                        {
+                            if i.len()>biggestnum
+                            {
+                                biggestnum=i.len();
+                            }
+                        }
+                        for mut i in items
+                        {
+                            let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
+                            while i.len()<biggestnum
+                            {
+                                i=format!("{} ", i);
+                            }
+                            println!("{}          Damage {}          Endurance {}          Cost {}", i, pretty_print_nums(*itemsinfo.get("Damage").unwrap(), 1), pretty_print_nums(*itemsinfo.get("Endurance").unwrap(), 1), pretty_print_nums(*itemsinfo.get("Cost").unwrap(), 1));
+                        }
+                        valid="Learn, kid ↑\n";
                     }
+                    else if response.to_owned().trim().starts_with("use")
+                    {
+                        let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+                        let split=response.trim().split("use ").collect::<Vec<&str>>();
+                        let item = &split[split.clone().len()-1].to_string();
+                        if getplayeritems(hashmapdata, name.clone()).contains(item)
+                        {
+                            // damage
+                            valid="Ogae";
+                            let itemsinfo=get_item_info_from_item_name(giveitemdata(), item.clone());
+                            let hp_in_usize=soul.get("HP").unwrap().parse::<usize>().unwrap();
+                            let itemdamage=itemsinfo.get("Damage").unwrap();
+                            soul.remove("HP");
+                            soul.insert("HP".to_string(), (hp_in_usize-itemdamage).to_string());
+                                                    
+                        }
+                        else
+                        {
+                            valid="Breh, u need to have that item ┑(￣Д ￣)┍\n";
+                        }
+                    }
+                    else if response.to_owned().trim()=="info"
+                    {
+                        println!
+    (
+    "\nINFO\n
+    end hunt   - Go back to main game
+    items      - Get info on all your items and their name
+    use [Item] - Use an item to your advantage or the enemies disadvantage
+    info       - Get this list\n"
+    );
+                        valid="Learn, kid ↑\n";
+                    }
+                    println!("{}", valid);
                 }
-                else if response.to_owned().trim()=="info"
-                {
-                    println!
-(
-"\nINFO\n
-end hunt   - Go back to main game
-items      - Get info on all your items and their name
-use [Item] - Use an item to your advantage or the enemies disadvantage
-info       - Get this list\n"
-);
-                    valid="Learn, kid ↑\n";
-                }
-                println!("{}", valid);
-            }
 
-            if !adventure
-            {
-                let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"0\"}");
+
+                
+                if !adventure
+                {
+                    let _res=playerdata.at(name.trim()).unwrap().update("{\"IGNORE\":\"0\"}");
+                    soul.remove("HP");
+                    soul.insert("HP".to_string(), "0".to_string());
+                }
             }
         }
     }
@@ -401,10 +416,13 @@ fn GenerateSoul() -> HashMap<String, String>
     let rng = RNG::new(&Language::Fantasy).unwrap();
     let name = rng.generate_name_by_count(3);
     let mut soul: HashMap<String, _>=HashMap::new();
-    soul.insert("name".to_string(), name);
     let types=["Goblin", "Zombie", "Orc", "Ghoul", "Troll", "Elf", "Ogre", "Giant", "Oni", "Kraken"];
-    soul.insert("power".to_string(), format!("{}", randnum*randrange(5, 10)));
+    let powers=[2, 6, 10, 10, 14, 17, 23, 29, 40, 50];
+    let hps=[1, 6, 14, 10, 19, 7, 24, 30, 36, 169];
+    soul.insert("name".to_string(), name);
+    soul.insert("power".to_string(), (powers[randnum as usize]*(randrange(75, 100) as usize)).to_string());
     soul.insert("type".to_string(), types[randnum as usize].to_string());
+    soul.insert("HP".to_string(), (hps[randnum as usize]*(randrange(4, 5) as usize)).to_string());
     return soul;
 }
 
