@@ -282,7 +282,19 @@ weapons  - Get list of weapons along with its info\n"
         {
             println!("Searching for monsters to hunt...");
             thread::sleep(time::Duration::from_secs(randrange(3, 6)));
-            let mut soul=GenerateSoul();
+            let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+            let items=getplayeritems(hashmapdata.clone(), name.clone());
+            let mut lvl:usize=0;
+            for i in items
+            {
+                let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
+                if *itemsinfo.get("Damage").unwrap()>lvl
+                {
+                    lvl=*itemsinfo.get("Damage").unwrap();
+                }
+            }
+            lvl=randrange((lvl as f64-(lvl as f64/6.0) as f64).ceil() as u64, lvl as u64) as usize;
+            let mut soul=GenerateSoul(lvl);
             println!("AHA! You found a{} named {}\nType 'info' to get all commands to hunt\n", AorAn(soul.get("type").unwrap().to_string().to_ascii_lowercase()), soul.get("name").unwrap().to_string());
 
             while soul.get("HP").unwrap().parse::<usize>().unwrap()>0
@@ -292,7 +304,7 @@ weapons  - Get list of weapons along with its info\n"
                 {
                     let mut response=String::new();
                     valid="U no type valid :(";
-                    println!("The {}, {} now has {} HP\nType 'info' to get all commands to hunt\n", soul.get("type").unwrap().to_string().to_ascii_lowercase(), soul.get("name").unwrap().to_string(), soul.get("HP").unwrap().to_string());
+                    println!("The {}, {} has {} HP\n", soul.get("type").unwrap().to_string().to_ascii_lowercase(), soul.get("name").unwrap().to_string(), soul.get("HP").unwrap().to_string());
                     io::stdin()
                         .read_line(&mut response)
                         .expect("unaybal 2 reed laiyne");
@@ -336,7 +348,11 @@ weapons  - Get list of weapons along with its info\n"
                             valid="Ogae";
                             let itemsinfo=get_item_info_from_item_name(giveitemdata(), item.clone());
                             let hp_in_usize=soul.get("HP").unwrap().parse::<usize>().unwrap();
-                            let itemdamage=itemsinfo.get("Damage").unwrap();
+                            let mut itemdamage=itemsinfo.get("Damage").unwrap();
+                            if soul.get("HP").unwrap().parse::<usize>().unwrap()<*itemdamage
+                            {
+                                itemdamage=&hp_in_usize;
+                            }
                             soul.remove("HP");
                             soul.insert("HP".to_string(), (hp_in_usize-itemdamage).to_string());
                                                     
@@ -409,20 +425,32 @@ fn giveitemdata() -> HashMap<String, HashMap<String, usize>>
     return itemdata;
 }
 
-fn GenerateSoul() -> HashMap<String, String>
+fn GenerateSoul(lvl:usize) -> HashMap<String, String>
 {
-    let randnum=randrange(0, 9);
+    let types=["Goblin", "Zombie", "Orc", "Ghoul", "Troll", "Elf", "Ogre", "Giant", "Oni", "Kraken"];
+    let powers=[2, 6, 10, 10, 14, 17, 23, 29, 40, 50];
+    let hps=[1, 6, 14, 10, 19, 7, 24, 30, 36, 169];
+    let rarity=[1, 3501, 6001, 7501, 8501, 9001, 9401, 9751, 9900, 9990];
+
+    let mut randnum=randrange(1, 10) as usize;
+    let outta10000rand=(randnum+1)*(randrange(1, 1000) as usize);
+    for i in rarity.iter()
+    {
+        if outta10000rand>*i
+        {
+            randnum=rarity.iter().position(|&x| x==*i).unwrap();
+        };
+    }
     use rnglib::{RNG, Language};
     let rng = RNG::new(&Language::Fantasy).unwrap();
     let name = rng.generate_name_by_count(3);
     let mut soul: HashMap<String, _>=HashMap::new();
-    let types=["Goblin", "Zombie", "Orc", "Ghoul", "Troll", "Elf", "Ogre", "Giant", "Oni", "Kraken"];
-    let powers=[2, 6, 10, 10, 14, 17, 23, 29, 40, 50];
-    let hps=[1, 6, 14, 10, 19, 7, 24, 30, 36, 169];
+    
+    
     soul.insert("name".to_string(), name);
     soul.insert("power".to_string(), (powers[randnum as usize]*(randrange(75, 100) as usize)).to_string());
     soul.insert("type".to_string(), types[randnum as usize].to_string());
-    soul.insert("HP".to_string(), (hps[randnum as usize]*(randrange(4, 5) as usize)).to_string());
+    soul.insert("HP".to_string(), (hps[randnum as usize]*lvl).to_string());
     return soul;
 }
 
