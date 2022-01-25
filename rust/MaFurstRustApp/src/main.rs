@@ -377,7 +377,24 @@ weapons  - Get list of weapons along with its info\n"
                     println!("{}", valid);
                 }
 
-
+                
+                if soul.get("HP").unwrap()=="0"
+                {
+                    let hashmapdata=playerdata.get_generic::<HashMap<String, HashMap<String, String>>>().unwrap().data;
+                    let items=getplayeritems(hashmapdata.clone(), name.clone());
+                    let mut lvl:usize=0;
+                    for i in items
+                    {
+                        let itemsinfo=get_item_info_from_item_name(giveitemdata(), i.clone());
+                        if *itemsinfo.get("Damage").unwrap()>lvl
+                        {
+                            lvl=*itemsinfo.get("Damage").unwrap();
+                        }
+                    }
+                    lvl=randrange((lvl as f64-(lvl as f64/6.0) as f64).ceil() as u64, lvl as u64) as usize;
+                    let res=playerdata.at(&name.trim()).unwrap().update(&format!("{{\"Money\":\"{}\"}}", playerdata.at(&name.trim()).unwrap().get_generic::<HashMap<String, String>>().unwrap().data.get("Money").unwrap().trim().parse::<usize>().unwrap()+((lvl as u64)*randrange(75, 100)) as usize));
+                    println!("{:?}", res);
+                }
                 
                 if !adventure
                 {
