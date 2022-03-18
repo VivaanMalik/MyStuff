@@ -8,7 +8,16 @@ finaltext=""
 pagetext=""
 output="Books/"
 output+=input("File name: ")
-copytext=bool(input("Copy Text: "))
+copytext=input("Copy Text: ")
+if 'y' in copytext:
+    copytext=True
+else:
+    copytext=False
+printcan=input("Print Text: ")
+if 'y' in printcan:
+    printcan=True
+else:
+    printcan=False
 output+=".txt"
 emptypage_count=0
 
@@ -45,10 +54,11 @@ def request(url, ch, no):
                  print("Part " +str(no))
                  print("\n")
                  print("\n")
-            print(i.text)                
+            if printcan:
+                print(i.text)                
             pagetext+=i.text+"\n"
             finaltext+=i.text+"\n"
-            with open(output, "a") as f:
+            with open(output, "a", encoding='utf-8') as f:
                 if ch==True:
                      f.write("\n")
                      f.write("\n")
