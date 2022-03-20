@@ -1,3 +1,4 @@
+from pickletools import pybytes
 from classes import *
 import math
 import pygame
@@ -95,7 +96,6 @@ def Dotz(verts):
     screen.fill(BG)
     xylist=[]
     for index, i in enumerate(verts):
-        # print(i[0].tolist()[0], i[1].tolist()[0])
         x=round(i[0].tolist()[0][0])
         y=round(i[1].tolist()[0][0])    
         x+=round(w/2)
@@ -117,37 +117,51 @@ def Linez(data, edges):
         point2=(data[point2][0], data[point2][1])
         pygame.draw.line(screen, gren, point1, point2, 2)
 
+def rotatey(coords, rot):
+    rot=math.radians(rot)
+    RotateY=np.array(
+            [[math.cos(rot), 0, math.sin(rot), 0],
+            [0, 1, 0, 0],
+            [-math.sin(rot), 0, math.cos(rot), 0],
+            [0, 0, 0, 1]]
+        )
+    return np.dot(coords, RotateY)
+
 def Ngonz(data, faces, lightsource):
     global screen
     facestorender=[]
+    meanpoints=[]
+    pointsformean=[]
+    dists=[]
+    xys=[]
+    
     for i in faces:
+        for j in i:
+            pointsformean.append(data[j[0]-1])
+        meanpoint=MeanPoint(pointsformean)
+        meanpoints.append(meanpoint)
+        dists.append(distance(lightsource.pos, meanpoint))
+        # xy=rotatey([meanpoint.x, meanpoint.y, meanpoint.z, 1], 90)
+        xy=Vector2(meanpoint.x, meanpoint.z)
+        xys.append(xy)
+
+    multipliers=lightsource.calculatemultiplier(dists, xys, 0.1)
+
+    for indexi, i in enumerate(faces):
         points=[]
         pointsformean=[]
         for j in i:
             points.append(data[j[0]-1][:2])
             pointsformean.append(data[j[0]-1])
         color=Cubecolor
+
         meanpoint=MeanPoint(pointsformean)
-        dist=distance(lightsource.pos, meanpoint)
-        multiplier=(lightsource.power*dist)/100000
-        if multiplier>1:
-            multiplier=1
+        multiplier=multipliers[indexi]
 
         r=round(color.r*multiplier)
         g=round(color.g*multiplier)
         b=round(color.b*multiplier)
         color=pygame.Color(r, g, b)
-
-        area=0
-        for index, v in enumerate(points):
-            if (index+1<len(points)):
-                area+=((v[0]*points[index+1][1])-(v[1]*points[index+1][0]))
-            else:
-                area+=((v[0]*points[0][1])-(v[1]*points[0][0]))
-        area/=2
-
-        meanpoint.z+=0
-
         # for index in
 
         facestorender.append([meanpoint.z, color, points, (meanpoint.x, meanpoint.y)])
@@ -156,7 +170,8 @@ def Ngonz(data, faces, lightsource):
     for i in facestorender:
         pygame.draw.polygon(screen, i[1], i[2], 0)
         #pygame.draw.circle(screen, (0, 0, 255), i[3], 10)
-        #type(i[3][0], i[3][1], str(i[0]), offset=15, size=20, color=pygame.Color(255, 0, 0))
+        #type(i[3][0], i[3][1], str(round(i[0]*100)/100), offset=15, size=20, color=pygame.Color(255, 0, 0))
     for i in data:
         #type(i[0], i[1], str(i[3]), offset=10)
         pass
+    pygame.draw.circle(screen, pygame.Color(255, 0, 100), (lightsource.pos.x, lightsource.pos.y), 10)
