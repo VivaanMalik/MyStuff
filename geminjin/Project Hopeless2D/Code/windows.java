@@ -1,6 +1,8 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -118,11 +120,12 @@ public class windows
     {
         // UIManager.put("Button.hoverBackgroundColor", utils.DarkColor(0.25f));
         menuwindow=new JFrame();
+        menuwindow.setResizable(false);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         menuwidth = (int)screenSize.getWidth();
         menuheight = (int)screenSize.getHeight();
-        menuwidth=Math.round(menuwidth/2);
-        menuheight=Math.round(menuheight/1.5f);
+        menuwidth=Math.round(menuwidth/1.5f);
+        menuheight=Math.round(menuheight/1.1f);
         menuwindow.setSize(new Dimension(menuwidth, menuheight));
         menuwindow.setLayout(null);
         menuwindow.getContentPane().setBackground(utils.DarkColor(0.15f));
@@ -130,6 +133,29 @@ public class windows
         menuwindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // menuwindow.pack();
         menuwindow.setLocationRelativeTo(null);
+
+        try 
+        {
+            BufferedImage Logo = ImageIO.read(new File("..\\UI\\Menu\\LogoSymbolMenu.png"));
+            JLabel logo= new JLabel();
+            logo.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.05f, menuheight), utils.Percentage2Number(0.9f, menuwidth), utils.Percentage2Number(0.1721f, utils.Percentage2Number(0.9f, menuwidth)));
+            Image logoimg = Logo.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_SMOOTH);
+            logo.setIcon(new ImageIcon(logoimg));
+
+            JLabel tagline=new JLabel("The GameEngine with a future shorter than yours...");
+            tagline.setFont(new Font("Serif", Font.ITALIC, 30));
+            Dimension tmpsize=tagline.getPreferredSize();
+            tagline.setBounds(logo.getX()+logo.getWidth()-utils.Percentage2Number(0.65f, menuwidth), logo.getY()+logo.getHeight()-30, logo.getWidth(), (int)tmpsize.getHeight());
+            tagline.setForeground(utils.highlight_color);
+            tagline.setBackground(utils.highlight_color);
+
+            menuwindow.getContentPane().add(tagline);
+            menuwindow.getContentPane().add(logo);
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
 
         // Image img=new ImageIcon("..\\UI\\Menu\\Button.png").getImage();
         int bw=utils.Percentage2Number(0.3f, menuwidth);
@@ -198,7 +224,8 @@ public class windows
             menunewfilenamefield.setForeground(utils.DarkColor(0.1f));
             menunewfilenamefield.setBorder(null);
             
-            menunewfilesubmitbutton=new OPButton("Submit");
+            menunewfilesubmitbutton=new OPButton("Create");
+            menunewfilesubmitbutton.setFont(utils.Verdana(16));
             menunewfilesubmitbutton.setBorderPainted(false);
             menunewfilesubmitbutton.setFocusPainted(false);
             menunewfilesubmitbutton.setBackground(utils.highlight_color);
@@ -207,6 +234,7 @@ public class windows
             menunewfilesubmitbutton.setBounds(utils.Percentage2Number(0.15f, menuwidth)+utils.Percentage2Number(0.515f, bw), utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.478f, bw), Math.round(bh/1.5f));
 
             menunewfilecancelbutton=new OPButton("Cancel");
+            menunewfilecancelbutton.setFont(utils.Verdana(16));
             menunewfilecancelbutton.setBorderPainted(false);
             menunewfilecancelbutton.setFocusPainted(false);
             menunewfilecancelbutton.setBackground(utils.highlight_color);
