@@ -2,6 +2,10 @@ import java.lang.Math;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,6 +15,11 @@ public class utils
     public static Color highlight_color = new Color(255, 0, 94);
     public static Color highlight_highlight_color=new Color(190, 0, 54);
     public static Color disabled_highlight_color=new Color(173, 0, 64);
+
+    static Border rounded = new LineBorder(new Color(0, 0, 0, 0), 10, true);
+    static Border empty = new EmptyBorder(0, 10, 0, 10);
+
+    public static CompoundBorder RoundedBorder = new CompoundBorder(rounded, empty);
 
     public static void Repaint(JFrame frame)
     {

@@ -1,5 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -9,58 +11,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class windows
+public class windows extends classes
 {
     private enum ActionList
     {
         FILENAMEINPUT,
         SUBMITFORNEWFILE,
         CANCELFORNEWFILE
-    }
-    // This boi does the better button shit :)
-    static class OPButton extends JButton 
-    {
-
-        private Color hoverBackgroundColor;
-        private Color pressedBackgroundColor;
-
-        public OPButton() {
-            this(null);
-        }
-
-        public OPButton(String text) {
-            super(text);
-            super.setContentAreaFilled(false);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            if (getModel().isPressed()) {
-                g.setColor(pressedBackgroundColor);
-            } else if (getModel().isRollover()) {
-                g.setColor(hoverBackgroundColor);
-            } else {
-                g.setColor(getBackground());
-            }
-            g.fillRect(0, 0, getWidth(), getHeight());
-            super.paintComponent(g);
-        }
-
-        public Color getHoverBackgroundColor() {
-            return hoverBackgroundColor;
-        }
-
-        public void setHoverBackgroundColor(Color hoverBackgroundColor) {
-            this.hoverBackgroundColor = hoverBackgroundColor;
-        }
-
-        public Color getPressedBackgroundColor() {
-            return pressedBackgroundColor;
-        }
-
-        public void setPressedBackgroundColor(Color pressedBackgroundColor) {
-            this.pressedBackgroundColor = pressedBackgroundColor;
-        }
     }
 
     // Listener
@@ -94,7 +51,7 @@ public class windows
     }
     
 
-
+    public static String version="0.0.0";
 
     //menu
     static JFrame menuwindow;
@@ -104,7 +61,7 @@ public class windows
     static OPButton MenuNewFile;
     static OPButton menunewfilesubmitbutton;
     static OPButton menunewfilecancelbutton;
-    static JTextField menunewfilenamefield;
+    static OPTextField menunewfilenamefield;
 
 
     // main window
@@ -129,7 +86,7 @@ public class windows
         menuwindow.setSize(new Dimension(menuwidth, menuheight));
         menuwindow.setLayout(null);
         menuwindow.getContentPane().setBackground(utils.DarkColor(0.15f));
-        menuwindow.setTitle("OpenFile");
+        menuwindow.setTitle("Hopeless Game Engine "+version);
         menuwindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // menuwindow.pack();
         menuwindow.setLocationRelativeTo(null);
@@ -158,18 +115,18 @@ public class windows
         }
 
         // Image img=new ImageIcon("..\\UI\\Menu\\Button.png").getImage();
-        int bw=utils.Percentage2Number(0.3f, menuwidth);
+        int bw=utils.Percentage2Number(0.4f, menuwidth);
         int bh=utils.Percentage2Number(0.1f, menuheight);
         // img=img.getScaledInstance(bw, bh, java.awt.Image.SCALE_FAST);
         MenuNewFile= new OPButton("New File...");
+        MenuNewFile.setArcSize(15);
         MenuNewFile.setBackground(utils.highlight_color);
         MenuNewFile.setFont(utils.Verdana(24));
         MenuNewFile.setFocusPainted(false);
         MenuNewFile.setBorderPainted(false);
         MenuNewFile.setHoverBackgroundColor(utils.highlight_color.brighter());
         MenuNewFile.setPressedBackgroundColor(utils.highlight_highlight_color);
-        
-        MenuNewFile.setBounds(utils.Percentage2Number(0.15f, menuwidth), utils.Percentage2Number(0.4f, menuheight), bw, bh);
+        MenuNewFile.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight), bw, bh);
         MenuNewFile.setActionCommand(ActionList.FILENAMEINPUT.name());
         MenuNewFile.addActionListener(new Listener());
         
@@ -215,16 +172,23 @@ public class windows
                 e.printStackTrace();
             }
 
-            menunewfilenamefield= new JTextField(defaultprojectname);
+            menunewfilenamefield= new OPTextField(defaultprojectname);
             int bw=utils.Percentage2Number(0.3f, menuwidth);
             int bh=utils.Percentage2Number(0.1f, menuheight);
             menunewfilenamefield.setFont(utils.Verdana(18));
             menunewfilenamefield.setBounds(utils.Percentage2Number(0.15f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
             menunewfilenamefield.setBackground(utils.highlight_color);
             menunewfilenamefield.setForeground(utils.DarkColor(0.1f));
-            menunewfilenamefield.setBorder(null);
+            menunewfilenamefield.setBorder(new EmptyBorder(0, 10, 0, 10));
+            menunewfilenamefield.setArcSize(15);
+            JLabel Name=new JLabel("Name:");
+            Name.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
+            Name.setForeground(utils.highlight_color);
+            Name.setFont(utils.Verdana(18));
+            menuwindow.add(Name);
             
             menunewfilesubmitbutton=new OPButton("Create");
+            menunewfilesubmitbutton.setArcSize(15);
             menunewfilesubmitbutton.setFont(utils.Verdana(16));
             menunewfilesubmitbutton.setBorderPainted(false);
             menunewfilesubmitbutton.setFocusPainted(false);
@@ -234,6 +198,7 @@ public class windows
             menunewfilesubmitbutton.setBounds(utils.Percentage2Number(0.15f, menuwidth)+utils.Percentage2Number(0.515f, bw), utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.478f, bw), Math.round(bh/1.5f));
 
             menunewfilecancelbutton=new OPButton("Cancel");
+            menunewfilecancelbutton.setArcSize(15);
             menunewfilecancelbutton.setFont(utils.Verdana(16));
             menunewfilecancelbutton.setBorderPainted(false);
             menunewfilecancelbutton.setFocusPainted(false);
