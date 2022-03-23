@@ -107,7 +107,9 @@ public class windows extends classes
             BufferedImage Logo = ImageIO.read(new File("..\\UI\\Menu\\LogoSymbolMenu.png"));
             JLabel logo= new JLabel();
             logo.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.05f, menuheight), utils.Percentage2Number(0.9f, menuwidth), utils.Percentage2Number(0.1721f, utils.Percentage2Number(0.9f, menuwidth)));
-            Image logoimg = Logo.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_SMOOTH);
+            Image logoimg = Logo.getScaledInstance(Math.round(logo.getWidth()*2.3f), Math.round(logo.getHeight()*2.3f), Image.SCALE_SMOOTH);
+            logoimg = logoimg.getScaledInstance(Math.round(logo.getWidth()*1.5f), Math.round(logo.getHeight()*1.5f), Image.SCALE_SMOOTH);
+            logoimg = logoimg.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_SMOOTH);
             logo.setIcon(new ImageIcon(logoimg));
 
             JLabel tagline=new JLabel("The GameEngine with a future shorter than yours...");
@@ -299,6 +301,8 @@ public class windows extends classes
         String name=menunewfilenamefield.getText();
         String[] projectnems;
         boolean isExisting=false;
+        boolean isValid=true;
+        boolean isNUllOrEmpty=false;
 
         try (BufferedReader bf = new BufferedReader(new FileReader(Data_Fille_path))) 
         {
@@ -330,8 +334,18 @@ public class windows extends classes
             e.printStackTrace();
         }
 
+        String text=menunewfilenamefield.getText();
+        if (text.contains("/")||text.contains("<")||text.contains(">")||text.contains(":")||text.contains("\"")||text.contains("\\")||text.contains("|")||text.contains("?")||text.contains("*"))
+        {
+            isValid=false;
+        }
 
-        if (!isExisting)
+        if (text.isBlank())
+        {
+            isNUllOrEmpty=true;
+        }
+
+        if (!isExisting&&isValid&&!isNUllOrEmpty)
         {
             menuwindow.dispose();
             OpenWindow(name);
@@ -386,12 +400,44 @@ public class windows extends classes
                 e.printStackTrace();
             }
         }
-        else
+        else if (isExisting)
         {
             UIManager.put("OptionPane.background", utils.DarkColor(0.1f));
             UIManager.put("Panel.background", utils.DarkColor(0.1f));
             UIManager.put("OptionPane.messageForeground", utils.highlight_color);
             JOptionPane err= new JOptionPane("Project name already Exists", JOptionPane.OK_OPTION);
+            err.setMessageType(JOptionPane.ERROR_MESSAGE);
+            JPanel buttonPanel = (JPanel)err.getComponent(1);
+            JButton buttonOk = (JButton)buttonPanel.getComponent(0);
+            buttonOk.setBackground(utils.highlight_color);
+            buttonOk.setForeground(utils.DarkColor(0.1f));
+            buttonOk.setBorderPainted(false);
+            buttonOk.setFocusPainted(false);
+            JDialog d=err.createDialog(null, "Jeeniyus! You're more hopeless than this...");
+            d.setVisible(true);
+        }
+        else if (!isValid)
+        {
+            UIManager.put("OptionPane.background", utils.DarkColor(0.1f));
+            UIManager.put("Panel.background", utils.DarkColor(0.1f));
+            UIManager.put("OptionPane.messageForeground", utils.highlight_color);
+            JOptionPane err= new JOptionPane("Enter ONLY valid characters (<, >, :, \", /, \\, |, ?, *)", JOptionPane.OK_OPTION);
+            err.setMessageType(JOptionPane.ERROR_MESSAGE);
+            JPanel buttonPanel = (JPanel)err.getComponent(1);
+            JButton buttonOk = (JButton)buttonPanel.getComponent(0);
+            buttonOk.setBackground(utils.highlight_color);
+            buttonOk.setForeground(utils.DarkColor(0.1f));
+            buttonOk.setBorderPainted(false);
+            buttonOk.setFocusPainted(false);
+            JDialog d=err.createDialog(null, "Jeeniyus! You're more hopeless than this...");
+            d.setVisible(true);
+        }
+        else if (isNUllOrEmpty)
+        {
+            UIManager.put("OptionPane.background", utils.DarkColor(0.1f));
+            UIManager.put("Panel.background", utils.DarkColor(0.1f));
+            UIManager.put("OptionPane.messageForeground", utils.highlight_color);
+            JOptionPane err= new JOptionPane("ENTER AN ACTUAL LETTER OR NUMBER!!!", JOptionPane.OK_OPTION);
             err.setMessageType(JOptionPane.ERROR_MESSAGE);
             JPanel buttonPanel = (JPanel)err.getComponent(1);
             JButton buttonOk = (JButton)buttonPanel.getComponent(0);
