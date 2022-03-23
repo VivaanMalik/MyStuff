@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -9,7 +8,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.ArrayList;
 
 public class windows extends classes
 {
@@ -33,15 +37,7 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SUBMITFORNEWFILE.name())
             {
-                // System.out.println("Meakz file");
-                // try 
-                // {
-                //     File file= new File();
-                // }
-                // catch (IOException exception)
-                // {
-
-                // }
+                CreateNewFile();
             }
             else if (e.getActionCommand()==ActionList.CANCELFORNEWFILE.name())
             {
@@ -52,6 +48,7 @@ public class windows extends classes
     
 
     public static String version="0.0.0";
+    public static String Data_Fille_path="..\\data.hopelessdata";
 
     //menu
     static JFrame menuwindow;
@@ -62,6 +59,7 @@ public class windows extends classes
     static OPButton menunewfilesubmitbutton;
     static OPButton menunewfilecancelbutton;
     static OPTextField menunewfilenamefield;
+    static JLabel menuLabelName;
 
 
     // main window
@@ -87,6 +85,7 @@ public class windows extends classes
         menuwindow.setLayout(null);
         menuwindow.getContentPane().setBackground(utils.DarkColor(0.15f));
         menuwindow.setTitle("Hopeless Game Engine "+version);
+        menuwindow.setIconImage(Toolkit.getDefaultToolkit().getImage("..\\UI\\Menu\\LogoSymbol.png"));
         menuwindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // menuwindow.pack();
         menuwindow.setLocationRelativeTo(null);
@@ -139,7 +138,7 @@ public class windows extends classes
     {
         String defaultprojectname="NewFuturelessProject";
 
-        File file=new File("..\\data.hopelessdata");
+        File file=new File(Data_Fille_path);
         // File file = new File("D:\\Totally_normalstuff\\yup_told ya\\Ha! On yo face\\bruh\\hehe boi\\SECRET\\My_stuff\\geminjin\\Project Hopeless2D\\data.hopelessdata");
         try
         {
@@ -181,11 +180,11 @@ public class windows extends classes
             menunewfilenamefield.setForeground(utils.DarkColor(0.1f));
             menunewfilenamefield.setBorder(new EmptyBorder(0, 10, 0, 10));
             menunewfilenamefield.setArcSize(15);
-            JLabel Name=new JLabel("Name:");
-            Name.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
-            Name.setForeground(utils.highlight_color);
-            Name.setFont(utils.Verdana(18));
-            menuwindow.add(Name);
+            menuLabelName=new JLabel("Name:");
+            menuLabelName.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
+            menuLabelName.setForeground(utils.highlight_color);
+            menuLabelName.setFont(utils.Verdana(18));
+            menuwindow.add(menuLabelName);
             
             menunewfilesubmitbutton=new OPButton("Create");
             menunewfilesubmitbutton.setArcSize(15);
@@ -195,6 +194,8 @@ public class windows extends classes
             menunewfilesubmitbutton.setBackground(utils.highlight_color);
             menunewfilesubmitbutton.setHoverBackgroundColor(utils.highlight_color.brighter());
             menunewfilesubmitbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
+            menunewfilesubmitbutton.setActionCommand(ActionList.SUBMITFORNEWFILE.name());
+            menunewfilesubmitbutton.addActionListener(new Listener());
             menunewfilesubmitbutton.setBounds(utils.Percentage2Number(0.15f, menuwidth)+utils.Percentage2Number(0.515f, bw), utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.478f, bw), Math.round(bh/1.5f));
 
             menunewfilecancelbutton=new OPButton("Cancel");
@@ -226,12 +227,123 @@ public class windows extends classes
         menuwindow.remove(menunewfilecancelbutton);
         menuwindow.remove(menunewfilesubmitbutton);
         menuwindow.remove(menunewfilenamefield);
+        menuwindow.remove(menuLabelName);
         utils.EnableButton(MenuNewFile);
         utils.Repaint(menuwindow);
     }
+
+    public static void CreateNewFile()
+    {
+        String name=menunewfilenamefield.getText();
+        String[] projectnems;
+        boolean isExisting=false;
+
+        try (BufferedReader bf = new BufferedReader(new FileReader(Data_Fille_path))) 
+        {
+            String line;
+            List<String> lines=new ArrayList<String>();
+            lines=Files.readAllLines(Paths.get(Data_Fille_path));
+            String[] listarray=lines.toArray(new String[0]);
+            for (int j=0; j<listarray.length; j++)
+            {
+                line=listarray[j];
+                if (line.startsWith("ProjectNames"))
+                {
+                    line=line.substring(16, line.length()-1);
+                    projectnems=line.split(", ");
+                    for (int i=0; i<projectnems.length; i++)
+                    {
+                        projectnems[i]=projectnems[i].replaceAll("(\\r|\\n|\\t)", "");
+                        name=name.replaceAll("(\\r|\\n|\\t)", "");
+                        if (projectnems[i].equals(name))
+                        {
+                            isExisting=true;
+                        }
+                    }
+                }
+            }
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+
+
+        if (!isExisting)
+        {
+            menuwindow.dispose();
+            OpenWindow(name);
+            String[] listarray=new String[0];
+            try
+            {
+                int charindex=0;
+                
+                // BufferedReader bf = new BufferedReader(new FileReader(Data_Fille_path));
+                String line;
+                List<String> lines=new ArrayList<String>();
+                try
+                {
+                    lines=Files.readAllLines(Paths.get(Data_Fille_path));
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                
+                listarray=lines.toArray(new String[0]);
+                for (int j=0; j<listarray.length; j++)
+                {
+                    line=listarray[j];
+                    if (line.startsWith("ProjectNames"))
+                    {
+                        charindex=line.length()-1;
+                        line=line.substring(16, line.length()-1);
+                    }
+                }
+                
+                for (int j=0; j<listarray.length; j++)
+                {
+                    if (listarray[j].startsWith("ProjectNames"))
+                    {
+                        listarray[j]=listarray[j].substring(0, charindex)+", "+name+listarray[j].substring(charindex);
+                    }
+                }
+                FileWriter fw=new FileWriter(Data_Fille_path);
+                if (listarray.length>0)
+                {
+                    fw.write("");
+                }
+                for (String i : listarray) 
+                {
+                    fw.append(i);
+                }
+                fw.close();   
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            UIManager.put("OptionPane.background", utils.DarkColor(0.1f));
+            UIManager.put("Panel.background", utils.DarkColor(0.1f));
+            UIManager.put("OptionPane.messageForeground", utils.highlight_color);
+            JOptionPane err= new JOptionPane("Project name already Exists", JOptionPane.OK_OPTION);
+            err.setMessageType(JOptionPane.ERROR_MESSAGE);
+            JPanel buttonPanel = (JPanel)err.getComponent(1);
+            JButton buttonOk = (JButton)buttonPanel.getComponent(0);
+            buttonOk.setBackground(utils.highlight_color);
+            buttonOk.setForeground(utils.DarkColor(0.1f));
+            buttonOk.setBorderPainted(false);
+            buttonOk.setFocusPainted(false);
+            JDialog d=err.createDialog(null, "Jeeniyus! You're more hopeless than this...");
+            d.setVisible(true);
+        }
+    }
     
     // Proper window
-    public static void OpenWindow()
+    public static void OpenWindow(String name)
     {
         UIManager.put("MenuItem.selectionForeground", utils.DarkColor(0.25f));
         UIManager.put("MenuItem.selectionBackground", utils.highlight_color);
@@ -245,7 +357,7 @@ public class windows extends classes
         // Open window
         Window=new JFrame();
         Window.setSize(width,height);
-        Window.setTitle("diz iz a vindo");
+        Window.setTitle(name);
         Window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         Window.getContentPane().setBackground(utils.DarkColor(0.04f));
@@ -255,8 +367,6 @@ public class windows extends classes
         Window.setVisible(true);
 
         InitializeWindows();
-
-        System.out.println("opens window...");
     }
 
     public static void InitializeWindows()
