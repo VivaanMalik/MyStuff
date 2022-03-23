@@ -2,6 +2,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -67,7 +70,9 @@ public class windows extends classes
     static OPButton menunewfilebrowsbutton;
     static OPTextField menunewfilenamefield;
     static JLabel menuLabelName;
-
+    static JLabel menuLabelLocaionPath;
+    static JLabel menuLabelLocation;
+    static String menuStringDir;
 
     // main window
     static JFrame Window;
@@ -177,7 +182,7 @@ public class windows extends classes
             {
                 e.printStackTrace();
             }
-
+            
             menunewfilenamefield= new OPTextField(defaultprojectname);
             int bw=utils.Percentage2Number(0.3f, menuwidth);
             int bh=utils.Percentage2Number(0.1f, menuheight);
@@ -187,6 +192,24 @@ public class windows extends classes
             menunewfilenamefield.setForeground(utils.DarkColor(0.1f));
             menunewfilenamefield.setBorder(new EmptyBorder(0, 10, 0, 10));
             menunewfilenamefield.setArcSize(15);
+            menunewfilenamefield.getDocument().addDocumentListener(new DocumentListener() {
+                public void changedUpdate(DocumentEvent e)
+                {
+                    menuLabelLocaionPath.setText(menuStringDir+"\\"+menunewfilenamefield.getText());
+                }
+
+                @Override
+                public void insertUpdate(DocumentEvent e) 
+                {
+                    changedUpdate(e);
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) 
+                {
+                    changedUpdate(e);
+                }
+            });
 
             menunewfilebrowsbutton=new OPButton("Browse...");
             menunewfilebrowsbutton.setArcSize(15);
@@ -200,12 +223,6 @@ public class windows extends classes
             menunewfilebrowsbutton.setActionCommand(ActionList.BROWSEFOLDERFORNNEWFILE.name());
             menunewfilebrowsbutton.addActionListener(new Listener());
             menunewfilebrowsbutton.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, utils.Percentage2Number(0.1f, menuwidth)), Math.round(bh/1.5f));
-
-            menuLabelName=new JLabel("Name:");
-            menuLabelName.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
-            menuLabelName.setForeground(utils.highlight_color);
-            menuLabelName.setFont(utils.Verdana(18));
-            menuwindow.add(menuLabelName);
             
             menunewfilesubmitbutton=new OPButton("Create");
             menunewfilesubmitbutton.setArcSize(15);
@@ -230,12 +247,32 @@ public class windows extends classes
             menunewfilecancelbutton.setActionCommand(ActionList.CANCELFORNEWFILE.name());
             menunewfilecancelbutton.addActionListener(new Listener());
             menunewfilecancelbutton.setBounds(utils.Percentage2Number(0.15f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.485f, bw), Math.round(bh/1.5f));
+            
+            menuLabelName=new JLabel("Name:");
+            menuLabelName.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
+            menuLabelName.setForeground(utils.highlight_color);
+            menuLabelName.setFont(utils.Verdana(18));
 
+            menuLabelLocation=new JLabel("Path:");
+            menuLabelLocation.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+24+bh+Math.round(bh/0.75f), bw, Math.round(bh/1.5f));
+            menuLabelLocation.setForeground(utils.highlight_color);
+            menuLabelLocation.setFont(utils.Verdana(18));
+            
+            JFileChooser jf=new JFileChooser();
+            menuStringDir=jf.getFileSystemView().getDefaultDirectory().toString();
+            menuLabelLocaionPath=new JLabel(menuStringDir+"\\"+menunewfilenamefield.getText());
+            menuLabelLocaionPath.setBounds(utils.Percentage2Number(0.15f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+24+bh+Math.round(bh/0.75f), menuwidth-utils.Percentage2Number(0.15f, menuwidth)-10, Math.round(bh/1.5f));
+            menuLabelLocaionPath.setForeground(utils.highlight_color);
+            menuLabelLocaionPath.setFont(utils.Verdana(20));
+            
             menuwindow.getContentPane().add(menunewfilesubmitbutton);
             menuwindow.getContentPane().add(menunewfilecancelbutton);
             menuwindow.getContentPane().add(menunewfilenamefield);
             menuwindow.getContentPane().add(menunewfilebrowsbutton);
-
+            menuwindow.getContentPane().add(menuLabelLocaionPath);
+            menuwindow.getContentPane().add(menuLabelName);
+            menuwindow.getContentPane().add(menuLabelLocation);
+            
             utils.Repaint(menuwindow);
         }
         catch (FileNotFoundException e)
@@ -251,6 +288,8 @@ public class windows extends classes
         menuwindow.remove(menunewfilenamefield);
         menuwindow.remove(menuLabelName);
         menuwindow.remove(menunewfilebrowsbutton);
+        menuwindow.remove(menuLabelLocaionPath);
+        menuwindow.remove(menuLabelLocation);
         utils.EnableButton(MenuNewFile);
         utils.Repaint(menuwindow);
     }
@@ -404,11 +443,8 @@ public class windows extends classes
         int opt=JFC.showOpenDialog(menuwindow);
         if (opt==JFileChooser.APPROVE_OPTION)
         {
-            System.out.println(JFC.getCurrentDirectory()+"\\"+JFC.getSelectedFile().getName());
-        }
-        else
-        {
-            System.out.println("Cancelled");
+            menuLabelLocaionPath.setText(JFC.getCurrentDirectory()+"\\"+JFC.getSelectedFile().getName()+"\\"+menunewfilenamefield.getText());
+            menuStringDir=JFC.getCurrentDirectory()+"\\"+JFC.getSelectedFile().getName();
         }
         try 
         {

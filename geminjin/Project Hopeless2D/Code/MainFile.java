@@ -1,8 +1,8 @@
-public class MainFile extends windows
+public class MainFile
 {
     public static void main(String args[])
     {
-        OpenMenuWindow();
+        windows.OpenMenuWindow();
         // OpenWindow();
     }
 }
