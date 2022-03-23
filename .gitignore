@@ -12,4 +12,5 @@ target
 *.obj
 *.blend1
 *.pyc
+*.hopelessdata
 school
