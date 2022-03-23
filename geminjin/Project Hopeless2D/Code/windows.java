@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +22,8 @@ public class windows extends classes
     {
         FILENAMEINPUT,
         SUBMITFORNEWFILE,
-        CANCELFORNEWFILE
+        CANCELFORNEWFILE,
+        BROWSEFOLDERFORNNEWFILE
     }
 
     // Listener
@@ -43,6 +45,10 @@ public class windows extends classes
             {
                 CancelEnteringNameForNewFile();
             }
+            else if (e.getActionCommand()==ActionList.BROWSEFOLDERFORNNEWFILE.name())
+            {
+                BrowseFolderNewFile();
+            }
         } 
     }
     
@@ -58,6 +64,7 @@ public class windows extends classes
     static OPButton MenuNewFile;
     static OPButton menunewfilesubmitbutton;
     static OPButton menunewfilecancelbutton;
+    static OPButton menunewfilebrowsbutton;
     static OPTextField menunewfilenamefield;
     static JLabel menuLabelName;
 
@@ -180,6 +187,20 @@ public class windows extends classes
             menunewfilenamefield.setForeground(utils.DarkColor(0.1f));
             menunewfilenamefield.setBorder(new EmptyBorder(0, 10, 0, 10));
             menunewfilenamefield.setArcSize(15);
+
+            menunewfilebrowsbutton=new OPButton("Browse...");
+            menunewfilebrowsbutton.setArcSize(15);
+            menunewfilebrowsbutton.setFont(utils.Verdana(16));
+            menunewfilebrowsbutton.setBorder(new EmptyBorder(0, 5, 0, 5));
+            menunewfilebrowsbutton.setBorderPainted(false);
+            menunewfilebrowsbutton.setFocusPainted(false);
+            menunewfilebrowsbutton.setBackground(utils.highlight_color);
+            menunewfilebrowsbutton.setHoverBackgroundColor(utils.highlight_color.brighter());
+            menunewfilebrowsbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
+            menunewfilebrowsbutton.setActionCommand(ActionList.BROWSEFOLDERFORNNEWFILE.name());
+            menunewfilebrowsbutton.addActionListener(new Listener());
+            menunewfilebrowsbutton.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, utils.Percentage2Number(0.1f, menuwidth)), Math.round(bh/1.5f));
+
             menuLabelName=new JLabel("Name:");
             menuLabelName.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+10+bh, bw, Math.round(bh/1.5f));
             menuLabelName.setForeground(utils.highlight_color);
@@ -213,6 +234,7 @@ public class windows extends classes
             menuwindow.getContentPane().add(menunewfilesubmitbutton);
             menuwindow.getContentPane().add(menunewfilecancelbutton);
             menuwindow.getContentPane().add(menunewfilenamefield);
+            menuwindow.getContentPane().add(menunewfilebrowsbutton);
 
             utils.Repaint(menuwindow);
         }
@@ -228,6 +250,7 @@ public class windows extends classes
         menuwindow.remove(menunewfilesubmitbutton);
         menuwindow.remove(menunewfilenamefield);
         menuwindow.remove(menuLabelName);
+        menuwindow.remove(menunewfilebrowsbutton);
         utils.EnableButton(MenuNewFile);
         utils.Repaint(menuwindow);
     }
@@ -339,6 +362,60 @@ public class windows extends classes
             buttonOk.setFocusPainted(false);
             JDialog d=err.createDialog(null, "Jeeniyus! You're more hopeless than this...");
             d.setVisible(true);
+        }
+    }
+
+    public static void BrowseFolderNewFile()
+    {
+        LookAndFeel laf=UIManager.getLookAndFeel();
+
+        UIManager.put("control", utils.DarkColor(0.1f));
+        UIManager.put("nimbusBlueGrey", utils.DarkColor(0.1f));
+        UIManager.put("nimbusBase", utils.highlight_color);
+        UIManager.put("nimbusLightBackground", utils.DarkColor(0.25f));
+        UIManager.put("controlText", utils.highlight_color);
+        UIManager.put("infoText", utils.highlight_color);
+        UIManager.put("menuText", utils.highlight_color);
+        UIManager.put("textForeground", utils.highlight_color);
+        UIManager.put("nimbusSelectedText", utils.highlight_highlight_color);
+        UIManager.put("nimbusSelectionBackground", utils.DarkColor(0.3f));
+        UIManager.put("nimbusFocus", utils.highlight_highlight_color);
+
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                try 
+                {
+                    UIManager.setLookAndFeel(info.getClassName());
+                } 
+                catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) 
+                {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+
+        JFileChooser JFC=new JFileChooser();
+        JFC.setCurrentDirectory(new File(JFC.getFileSystemView().getDefaultDirectory().toString()));
+        JFC.setDialogTitle("Select the location of the next hope destroyer");
+        JFC.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        JFC.setAcceptAllFileFilterUsed(false);
+        
+        int opt=JFC.showOpenDialog(menuwindow);
+        if (opt==JFileChooser.APPROVE_OPTION)
+        {
+            System.out.println(JFC.getCurrentDirectory()+"\\"+JFC.getSelectedFile().getName());
+        }
+        else
+        {
+            System.out.println("Cancelled");
+        }
+        try 
+        {
+            UIManager.setLookAndFeel(laf);
+        } catch (UnsupportedLookAndFeelException e) 
+        {
+            e.printStackTrace();
         }
     }
     
