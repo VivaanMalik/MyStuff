@@ -260,8 +260,7 @@ public class windows extends classes
             menuLabelLocation.setForeground(utils.highlight_color);
             menuLabelLocation.setFont(utils.Verdana(18));
             
-            JFileChooser jf=new JFileChooser();
-            menuStringDir=jf.getFileSystemView().getDefaultDirectory().toString();
+            menuStringDir=GetPrefferedFilePath();
             menuLabelLocaionPath=new JLabel(menuStringDir+"\\"+menunewfilenamefield.getText());
             menuLabelLocaionPath.setBounds(utils.Percentage2Number(0.15f, menuwidth), utils.Percentage2Number(0.4f, menuheight)+24+bh+Math.round(bh/0.75f), menuwidth-utils.Percentage2Number(0.15f, menuwidth)-10, Math.round(bh/1.5f));
             menuLabelLocaionPath.setForeground(utils.highlight_color);
@@ -352,7 +351,7 @@ public class windows extends classes
             String[] listarray=new String[0];
             try
             {
-                int charindex=0;
+                int ProjectNamesCharIndex=0;
                 
                 // BufferedReader bf = new BufferedReader(new FileReader(Data_Fille_path));
                 String line;
@@ -372,7 +371,7 @@ public class windows extends classes
                     line=listarray[j];
                     if (line.startsWith("ProjectNames"))
                     {
-                        charindex=line.length()-1;
+                        ProjectNamesCharIndex=line.length()-1;
                         line=line.substring(16, line.length()-1);
                     }
                 }
@@ -381,7 +380,11 @@ public class windows extends classes
                 {
                     if (listarray[j].startsWith("ProjectNames"))
                     {
-                        listarray[j]=listarray[j].substring(0, charindex)+", "+name+listarray[j].substring(charindex);
+                        listarray[j]=listarray[j].substring(0, ProjectNamesCharIndex)+", "+name+listarray[j].substring(ProjectNamesCharIndex)+"\n";
+                    }
+                    else if (listarray[j].startsWith("PrefferedProjectsPath"))
+                    {
+                        listarray[j]="PrefferedProjectsPath = "+menuStringDir+"\n";
                     }
                 }
                 FileWriter fw=new FileWriter(Data_Fille_path);
@@ -480,8 +483,10 @@ public class windows extends classes
             }
         }
 
-        JFileChooser JFC=new JFileChooser();
-        JFC.setCurrentDirectory(new File(JFC.getFileSystemView().getDefaultDirectory().toString()));
+        String path = GetPrefferedFilePath();
+
+        JFileChooser JFC;
+        JFC=new JFileChooser(path);
         JFC.setDialogTitle("Select the location of the next hope destroyer");
         JFC.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         JFC.setAcceptAllFileFilterUsed(false);
@@ -501,6 +506,34 @@ public class windows extends classes
         }
     }
     
+    private static String GetPrefferedFilePath() 
+    {
+        String path=null;
+
+        try (BufferedReader bf = new BufferedReader(new FileReader(Data_Fille_path))) 
+        {
+            String line;
+            List<String> lines=new ArrayList<String>();
+            lines=Files.readAllLines(Paths.get(Data_Fille_path));
+            String[] listarray=lines.toArray(new String[0]);
+            for (int j=0; j<listarray.length; j++)
+            {
+                line=listarray[j];
+                if (line.startsWith("PrefferedProjectsPath"))
+                {
+                    line=line.replaceAll("(\\r|\\n|\\t)", "");
+                    path=line.substring(24);
+                    return path;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
+    }
+
     // Proper window
     public static void OpenWindow(String name)
     {
