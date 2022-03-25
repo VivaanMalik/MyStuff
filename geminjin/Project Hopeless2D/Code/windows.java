@@ -402,6 +402,23 @@ public class windows extends classes
             {
                 e.printStackTrace();
             }
+
+            try 
+            {
+                System.out.println(menuLabelLocaionPath.getText()+"\\"+name+".hopls");
+                File f=new File(menuLabelLocaionPath.getText()+"\\"+name+".hopls");
+                if (f.getParentFile().mkdirs())
+                {
+                    f.createNewFile();
+                    FileWriter fw=new FileWriter(f);
+                    fw.write("This be a file :)");
+                    fw.close();
+                }
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
         }
         else if (isExisting)
         {
