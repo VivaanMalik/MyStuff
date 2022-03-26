@@ -365,22 +365,33 @@ public class windows extends classes
                     e.printStackTrace();
                 }
                 
-                listarray=lines.toArray(new String[0]);
+                listarray=lines.toArray(new String[0]);                
                 for (int j=0; j<listarray.length; j++)
                 {
                     line=listarray[j];
-                    if (line.startsWith("ProjectNames"))
-                    {
-                        ProjectNamesCharIndex=line.length()-1;
-                        line=line.substring(16, line.length()-1);
-                    }
-                }
-                
-                for (int j=0; j<listarray.length; j++)
-                {
                     if (listarray[j].startsWith("ProjectNames"))
                     {
-                        listarray[j]=listarray[j].substring(0, ProjectNamesCharIndex)+", "+name+listarray[j].substring(ProjectNamesCharIndex)+"\n";
+                        ProjectNamesCharIndex=line.length()-1;
+                        if (listarray[j].contains("||"))
+                        {
+                            listarray[j]=listarray[j].substring(0, ProjectNamesCharIndex)+name+listarray[j].substring(ProjectNamesCharIndex)+"\n";
+                        }
+                        else
+                        {
+                            listarray[j]=listarray[j].substring(0, ProjectNamesCharIndex)+", "+name+listarray[j].substring(ProjectNamesCharIndex)+"\n";
+                        }
+                    }
+                    else if (listarray[j].startsWith("ProjectFilePaths"))
+                    {
+                        int ProjectPathsCharIndex=line.length()-1;
+                        if (listarray[j].contains("||"))
+                        {
+                            listarray[j]=listarray[j].substring(0, ProjectPathsCharIndex)+menuStringDir+"\\"+name+listarray[j].substring(ProjectPathsCharIndex)+"\n";
+                        }
+                        else
+                        {
+                            listarray[j]=listarray[j].substring(0, ProjectPathsCharIndex)+", "+menuStringDir+"\\"+name+listarray[j].substring(ProjectPathsCharIndex)+"\n";
+                        }
                     }
                     else if (listarray[j].startsWith("PrefferedProjectsPath"))
                     {
@@ -411,7 +422,7 @@ public class windows extends classes
                 {
                     f.createNewFile();
                     FileWriter fw=new FileWriter(f);
-                    fw.write("This be a file :)");
+                    fw.write("Hopeless version = "+version);
                     fw.close();
                 }
             } 
