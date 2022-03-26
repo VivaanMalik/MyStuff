@@ -26,7 +26,9 @@ public class windows extends classes
         FILENAMEINPUT,
         SUBMITFORNEWFILE,
         CANCELFORNEWFILE,
-        BROWSEFOLDERFORNNEWFILE
+        BROWSEFOLDERFORNNEWFILE,
+        OPENFILEINPUT,
+        BROWSEFOLDERFOROPENFILE
     }
 
     // Listener
@@ -39,6 +41,7 @@ public class windows extends classes
                 JButton b=(JButton) e.getSource();
                 utils.DisableButton(b);
                 GetNewFileName();
+                CancelOpeningOfNewFile();
             }
             else if (e.getActionCommand()==ActionList.SUBMITFORNEWFILE.name())
             {
@@ -51,6 +54,13 @@ public class windows extends classes
             else if (e.getActionCommand()==ActionList.BROWSEFOLDERFORNNEWFILE.name())
             {
                 BrowseFolderNewFile();
+            }
+            else if (e.getActionCommand()==ActionList.OPENFILEINPUT.name())
+            {
+                JButton b=(JButton) e.getSource();
+                utils.DisableButton(b);
+                GetFileToOpen();
+                CancelEnteringNameForNewFile();
             }
         } 
     }
@@ -65,6 +75,8 @@ public class windows extends classes
     static int menuheight;
 
     static OPButton MenuNewFile;
+    static OPButton MenuOpenFile;
+    static OPButton menuopenfilebrowsbutton;
     static OPButton menunewfilesubmitbutton;
     static OPButton menunewfilecancelbutton;
     static OPButton menunewfilebrowsbutton;
@@ -142,10 +154,60 @@ public class windows extends classes
         MenuNewFile.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.4f, menuheight), bw, bh);
         MenuNewFile.setActionCommand(ActionList.FILENAMEINPUT.name());
         MenuNewFile.addActionListener(new Listener());
+
+        MenuOpenFile=new OPButton("Open File...");
+        MenuOpenFile.setArcSize(15);
+        MenuOpenFile.setBackground(utils.highlight_color);
+        MenuOpenFile.setFont(utils.Verdana(24));
+        MenuOpenFile.setFocusPainted(false);
+        MenuOpenFile.setBorderPainted(false);
+        MenuOpenFile.setHoverBackgroundColor(utils.highlight_color.brighter());
+        MenuOpenFile.setPressedBackgroundColor(utils.highlight_highlight_color);
+        MenuOpenFile.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.4f, menuheight), bw, bh);
+        MenuOpenFile.setActionCommand(ActionList.OPENFILEINPUT.name());
+        MenuOpenFile.addActionListener(new Listener());
         
         menuwindow.add(MenuNewFile);
+        menuwindow.add(MenuOpenFile);
         menuwindow.setVisible(true);
 
+    }
+
+    public static void GetFileToOpen()
+    {
+        int bw=utils.Percentage2Number(0.1f, menuwidth);
+        int bh=utils.Percentage2Number(0.1f, menuheight);
+
+        menuopenfilebrowsbutton=new OPButton("Browse...");
+        menuopenfilebrowsbutton.setArcSize(15);
+        menuopenfilebrowsbutton.setFont(utils.Verdana(16));
+        menuopenfilebrowsbutton.setBorder(new EmptyBorder(0, 5, 0, 5));
+        menuopenfilebrowsbutton.setBorderPainted(false);
+        menuopenfilebrowsbutton.setFocusPainted(false);
+        menuopenfilebrowsbutton.setBackground(utils.highlight_color);
+        menuopenfilebrowsbutton.setHoverBackgroundColor(utils.highlight_color.brighter());
+        menuopenfilebrowsbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
+        menuopenfilebrowsbutton.setActionCommand(ActionList.BROWSEFOLDERFOROPENFILE.name());
+        menuopenfilebrowsbutton.addActionListener(new Listener());
+        menuopenfilebrowsbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, bw), Math.round(bh/1.5f));
+
+        menuwindow.add(menuopenfilebrowsbutton);
+        utils.Repaint(menuwindow);
+    }
+
+    public static void CancelOpeningOfNewFile()
+    {
+        try
+        {
+            menuwindow.remove(menuopenfilebrowsbutton);
+
+            utils.EnableButton(MenuOpenFile);
+            utils.Repaint(menuwindow);
+        }
+        catch (NullPointerException n)
+        {
+
+        }
     }
 
     public static void GetNewFileName()
@@ -284,17 +346,24 @@ public class windows extends classes
 
     public static void CancelEnteringNameForNewFile()
     {
-        menuwindow.remove(menunewfilecancelbutton);
-        menuwindow.remove(menunewfilesubmitbutton);
-        menuwindow.remove(menunewfilenamefield);
-        menuwindow.remove(menuLabelName);
-        menuwindow.remove(menunewfilebrowsbutton);
-        menuwindow.remove(menuLabelLocaionPath);
-        menuwindow.remove(menuLabelLocation);
-        utils.EnableButton(MenuNewFile);
-        utils.Repaint(menuwindow);
-    }
+        try
+        {
+            menuwindow.remove(menunewfilecancelbutton);
+            menuwindow.remove(menunewfilesubmitbutton);
+            menuwindow.remove(menunewfilenamefield);
+            menuwindow.remove(menuLabelName);
+            menuwindow.remove(menunewfilebrowsbutton);
+            menuwindow.remove(menuLabelLocaionPath);
+            menuwindow.remove(menuLabelLocation);
+            utils.EnableButton(MenuNewFile);
+            utils.Repaint(menuwindow);
+        }
+        catch (NullPointerException n)
+        {
 
+        }
+    }
+    
     public static void CreateNewFile()
     {
         String name=menunewfilenamefield.getText();
@@ -422,7 +491,7 @@ public class windows extends classes
                 {
                     f.createNewFile();
                     FileWriter fw=new FileWriter(f);
-                    fw.write("Hopeless version = "+version);
+                    fw.write("Hopeless version = "+version+"\nMainResizeWeight = 0.5\n");
                     fw.close();
                 }
             } 
