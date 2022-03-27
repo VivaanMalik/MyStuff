@@ -4,6 +4,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -61,6 +62,10 @@ public class windows extends classes
                 utils.DisableButton(b);
                 GetFileToOpen();
                 CancelEnteringNameForNewFile();
+            }
+            else if (e.getActionCommand()==ActionList.BROWSEFOLDERFOROPENFILE.name())
+            {
+                BrowseFolderOpenFile();
             }
         } 
     }
@@ -189,7 +194,7 @@ public class windows extends classes
         menuopenfilebrowsbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
         menuopenfilebrowsbutton.setActionCommand(ActionList.BROWSEFOLDERFOROPENFILE.name());
         menuopenfilebrowsbutton.addActionListener(new Listener());
-        menuopenfilebrowsbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.4f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, bw), Math.round(bh/1.5f));
+        menuopenfilebrowsbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.35f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, bw), Math.round(bh/1.5f));
 
         menuwindow.add(menuopenfilebrowsbutton);
         utils.Repaint(menuwindow);
@@ -372,7 +377,7 @@ public class windows extends classes
         boolean isValid=true;
         boolean isNUllOrEmpty=false;
 
-        try (BufferedReader bf = new BufferedReader(new FileReader(Data_Fille_path))) 
+        try
         {
             String line;
             List<String> lines=new ArrayList<String>();
@@ -415,8 +420,7 @@ public class windows extends classes
 
         if (!isExisting&&isValid&&!isNUllOrEmpty)
         {
-            menuwindow.dispose();
-            OpenWindow(name);
+            OpenWindow(name, 0.5f);
             String[] listarray=new String[0];
             try
             {
@@ -491,7 +495,7 @@ public class windows extends classes
                 {
                     f.createNewFile();
                     FileWriter fw=new FileWriter(f);
-                    fw.write("Hopeless version = "+version+"\nMainResizeWeight = 0.5\n");
+                    fw.write("Hopeless version = "+version+"\nname = "+name+"\nLvl1ResizeWeight = 0.5\n");
                     fw.close();
                 }
             } 
@@ -547,6 +551,88 @@ public class windows extends classes
             buttonOk.setFocusPainted(false);
             JDialog d=err.createDialog(null, "Jeeniyus! You're more hopeless than this...");
             d.setVisible(true);
+        }
+    }
+
+    public static void BrowseFolderOpenFile()
+    {
+        LookAndFeel laf=UIManager.getLookAndFeel();
+
+        UIManager.put("control", utils.DarkColor(0.1f));
+        UIManager.put("nimbusBlueGrey", utils.DarkColor(0.1f));
+        UIManager.put("nimbusBase", utils.highlight_color);
+        UIManager.put("nimbusLightBackground", utils.DarkColor(0.25f));
+        UIManager.put("controlText", utils.highlight_color);
+        UIManager.put("infoText", utils.highlight_color);
+        UIManager.put("menuText", utils.highlight_color);
+        UIManager.put("textForeground", utils.highlight_color);
+        UIManager.put("nimbusSelectedText", utils.highlight_highlight_color);
+        UIManager.put("nimbusSelectionBackground", utils.DarkColor(0.3f));
+        UIManager.put("nimbusFocus", utils.highlight_highlight_color);
+
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                try 
+                {
+                    UIManager.setLookAndFeel(info.getClassName());
+                } 
+                catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) 
+                {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+
+        String path = GetPrefferedFilePath();
+
+        JFileChooser JFC;
+        JFC=new JFileChooser(path);
+        JFC.setDialogTitle("Select the location of the next hope destroyer");
+        // JFC.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        JFC.setFileFilter(new FileFilter() {
+            @Override
+            public String getDescription() 
+            {
+                return "*.hopls";
+            }
+
+            @Override
+            public boolean accept(File f) 
+            {
+                if (f.isDirectory())
+                {
+                    return true;
+                }
+                return f.getName().endsWith(".hopls");
+            }
+        });
+        JFC.setAcceptAllFileFilterUsed(false);
+        
+        int opt=JFC.showOpenDialog(menuwindow);
+        try 
+        {
+            UIManager.setLookAndFeel(laf);
+        } catch (UnsupportedLookAndFeelException e) 
+        {
+            e.printStackTrace();
+        }
+        if (opt==JFileChooser.APPROVE_OPTION)
+        {
+            try
+            {
+                //  open window with specifications
+                List<String> lines = new ArrayList<String>(0);
+                lines = Files.readAllLines(Paths.get(JFC.getCurrentDirectory().toString()+"\\"+JFC.getSelectedFile().getName()));
+                String[] linesarray=lines.toArray(new String[0]);
+                float Lvl1ResizeWeight = Float.valueOf(utils.GetLine("Lvl1ResizeWeight", linesarray));
+                String name = utils.GetLine("name", linesarray);
+                OpenWindow(name, Lvl1ResizeWeight);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -632,8 +718,9 @@ public class windows extends classes
     }
 
     // Proper window
-    public static void OpenWindow(String name)
+    public static void OpenWindow(String name, float Lvl1ResizeWeight)
     {
+        menuwindow.dispose();
         UIManager.put("MenuItem.selectionForeground", utils.DarkColor(0.25f));
         UIManager.put("MenuItem.selectionBackground", utils.highlight_color);
         UIManager.put("Menu.selectionForeground", utils.DarkColor(0.25f));
@@ -655,14 +742,14 @@ public class windows extends classes
         Window.setJMenuBar(Mb);
         Window.setVisible(true);
 
-        InitializeWindows();
+        InitializeWindows(Lvl1ResizeWeight);
     }
 
-    public static void InitializeWindows()
+    public static void InitializeWindows(float Lvl1ResizeWeight)
     {
         JSplitPane CodeGameSplit = new JSplitPane(SwingConstants.VERTICAL, gameWindow, codeWindow);
         CodeGameSplit.setOrientation(SwingConstants.VERTICAL);
-        CodeGameSplit.setResizeWeight(0.5);
+        CodeGameSplit.setResizeWeight(Lvl1ResizeWeight);
         CodeGameSplit.setBackground(Color.BLACK);
         CodeGameSplit.setForeground(Color.BLACK);
         CodeGameSplit.setDividerSize(2);
@@ -690,6 +777,7 @@ public class windows extends classes
         JMenu file=new JMenu("File");
         file.setForeground(utils.highlight_color);
         JMenuItem[] fileItems = {new JMenuItem("Save  Ctrl+S"), new JMenuItem("Save as...")};
+        System.out.println("test");
         for (int i = 0; i<fileItems.length; i++)
         {
             JMenuItem item=fileItems[i];
@@ -698,6 +786,7 @@ public class windows extends classes
             item.setBackground(utils.DarkColor(0.15f));
             file.add(item);
         }
+        System.out.println("test");
         Mb.add(file);
         return Mb;
     }

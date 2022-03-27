@@ -21,6 +21,18 @@ public class utils
 
     public static CompoundBorder RoundedBorder = new CompoundBorder(rounded, empty);
 
+    public static String GetLine(String match, String[] array)
+    {
+        for (String iterable : array) 
+        {
+            if (iterable.startsWith(match))
+            {
+                return iterable.substring(match.length()+3);
+            }
+        }
+        return null;
+    }
+
     public static void Repaint(JFrame frame)
     {
         frame.invalidate();
