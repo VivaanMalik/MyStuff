@@ -1,10 +1,13 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -79,6 +82,7 @@ public class windows extends classes
     static int menuwidth;
     static int menuheight;
 
+    static JPanel menulistpanel;
     static OPButton MenuNewFile;
     static OPButton MenuOpenFile;
     static OPButton menuopenfilebrowsbutton;
@@ -195,7 +199,70 @@ public class windows extends classes
         menuopenfilebrowsbutton.setActionCommand(ActionList.BROWSEFOLDERFOROPENFILE.name());
         menuopenfilebrowsbutton.addActionListener(new Listener());
         menuopenfilebrowsbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.35f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, bw), Math.round(bh/1.5f));
+        
+        menulistpanel=new JPanel()
+        {
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                g.setColor(getBackground());
+                g.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+            }
+        };
+        menulistpanel.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.525f, menuheight), utils.Percentage2Number(0.75f, menuwidth), utils.Percentage2Number(0.4f, menuheight));
+        menulistpanel.setPreferredSize(new Dimension(utils.Percentage2Number(0.75f, menuwidth), utils.Percentage2Number(0.4f, menuheight)));
+        menulistpanel.setBackground(utils.highlight_highlight_color);
 
+        try
+        {
+            List<String> lines=new ArrayList<String>();
+            List<String> updatedLines = new ArrayList<>();
+            lines=Files.readAllLines(Paths.get(Data_Fille_path));
+            for (String line : lines) 
+            {
+                if (line.startsWith("ProjectNames"))
+                {
+                    line=line.substring(16, line.length()-1);
+                    for (String i : line.split(", ")) 
+                    {
+                        updatedLines.add(i);
+                    }
+                }
+            }
+            final JList<String> list = new JList<String>(updatedLines.toArray(new String[updatedLines.size()]));
+            list.setBackground(utils.highlight_highlight_color);
+            list.setBorder(null);
+            list.setBounds(menulistpanel.getX(), menulistpanel.getY(), menulistpanel.getWidth(), menulistpanel.getHeight());
+            list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            list.setFont(utils.Verdana(19));
+            list.setFixedCellHeight(utils.Percentage2Number(0.09f, menuheight));
+            list.setFixedCellWidth(utils.Percentage2Number(0.6f, menuwidth));
+            list.setLayoutOrientation(JList.VERTICAL);
+            list.setCellRenderer(utils.OPCellRenderer());
+            
+
+            JScrollPane scrollpane = new JScrollPane();
+            scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollpane.setPreferredSize(new Dimension(utils.Percentage2Number(0.74f, menuwidth), utils.Percentage2Number(0.4f, menuheight)));
+            scrollpane.setAutoscrolls(true);
+            scrollpane.setViewportView(list);
+            scrollpane.setBackground(new Color(0f, 0f, 0f, 0f));
+            scrollpane.setForeground(new Color(0f, 0f, 0f, 0f));
+            scrollpane.setBorder(null);
+            JScrollBar scrollbar=scrollpane.getVerticalScrollBar();
+            scrollbar.setBackground(utils.highlight_highlight_color);
+            scrollbar.setUI(new MyScrollBarUI());
+            // scrollpane.getViewport().setBounds(menulistpanel.getX(), menulistpanel.getY(), menulistpanel.getWidth(), menulistpanel.getHeight());
+
+            menulistpanel.add(scrollpane);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        menuwindow.add(menulistpanel);
         menuwindow.add(menuopenfilebrowsbutton);
         utils.Repaint(menuwindow);
     }
@@ -205,6 +272,7 @@ public class windows extends classes
         try
         {
             menuwindow.remove(menuopenfilebrowsbutton);
+            menuwindow.remove(menulistpanel);
 
             utils.EnableButton(MenuOpenFile);
             utils.Repaint(menuwindow);
@@ -652,7 +720,8 @@ public class windows extends classes
         UIManager.put("nimbusSelectionBackground", utils.DarkColor(0.3f));
         UIManager.put("nimbusFocus", utils.highlight_highlight_color);
 
-        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) 
+        {
             if ("Nimbus".equals(info.getName())) {
                 try 
                 {
@@ -747,12 +816,34 @@ public class windows extends classes
 
     public static void InitializeWindows(float Lvl1ResizeWeight)
     {
+        UIManager.put("SplitPane.background", utils.highlight_highlight_color);
+        UIManager.put("SplitPane.dividerFocusColor", utils.highlight_highlight_color);
         JSplitPane CodeGameSplit = new JSplitPane(SwingConstants.VERTICAL, gameWindow, codeWindow);
+        CodeGameSplit.setUI(new BasicSplitPaneUI()
+        {
+            @Override
+            public BasicSplitPaneDivider createDefaultDivider() 
+            {
+                return new BasicSplitPaneDivider(this) 
+                {                
+                    public void setBorder(Border b) {}
+
+                    @Override
+                    public void paint(Graphics g) 
+                    {
+                        g.setColor(utils.highlight_highlight_color);
+                        g.fillRect(0, 0, getSize().width, getSize().height);
+                        super.paint(g);
+                    }
+                };
+            }
+        });
+        CodeGameSplit.setBackground(utils.highlight_highlight_color);
+        CodeGameSplit.setForeground(utils.highlight_highlight_color);
         CodeGameSplit.setOrientation(SwingConstants.VERTICAL);
         CodeGameSplit.setResizeWeight(Lvl1ResizeWeight);
-        CodeGameSplit.setBackground(Color.BLACK);
-        CodeGameSplit.setForeground(Color.BLACK);
-        CodeGameSplit.setDividerSize(2);
+        CodeGameSplit.setBorder(new EmptyBorder(0, 0, 0, 0));
+        CodeGameSplit.setDividerSize(5);
 
         Dimension gdimension=new Dimension(utils.Percentage2Number(0.25f, width), height);
         gameWindow.setMinimumSize(gdimension);
@@ -774,10 +865,11 @@ public class windows extends classes
     {
         JMenuBar Mb= new JMenuBar();
         Mb.setBackground(utils.DarkColor(0.2f));
+        Mb.setForeground(utils.highlight_highlight_color);
+        Mb.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, utils.highlight_highlight_color));
         JMenu file=new JMenu("File");
         file.setForeground(utils.highlight_color);
         JMenuItem[] fileItems = {new JMenuItem("Save  Ctrl+S"), new JMenuItem("Save as...")};
-        System.out.println("test");
         for (int i = 0; i<fileItems.length; i++)
         {
             JMenuItem item=fileItems[i];
@@ -786,7 +878,6 @@ public class windows extends classes
             item.setBackground(utils.DarkColor(0.15f));
             file.add(item);
         }
-        System.out.println("test");
         Mb.add(file);
         return Mb;
     }
