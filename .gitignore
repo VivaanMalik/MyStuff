@@ -13,4 +13,5 @@ target
 *.blend1
 *.pyc
 *.hopelessdata
+*.class
 school
