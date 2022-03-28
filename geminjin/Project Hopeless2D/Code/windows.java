@@ -12,6 +12,8 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +21,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class windows extends classes
         OPENFILEINPUT,
         BROWSEFOLDERFOROPENFILE,
         OPENFILEFOROPENINGFILE,
-        CANCELFOROPENFILE
+        CANCELFOROPENFILE, SAVEFILE, SAVEAS
     }
 
     // Listener
@@ -80,6 +83,10 @@ public class windows extends classes
             {
                 CancelOpeningOfNewFile();
             }
+            else if (e.getActionCommand()==ActionList.SAVEFILE.name())
+            {
+                utils.Save(FILEPATH, "Lvl1ResizeWeight", String.valueOf(Lvl1ResizeWeight));
+            }
         } 
     }
     
@@ -107,8 +114,11 @@ public class windows extends classes
     static JLabel menuLabelLocaionPath;
     static JLabel menuLabelLocation;
     static String menuStringDir;
-
+    
     // main window
+    static Path FILEPATH;
+    static float Lvl1ResizeWeight;
+
     static JFrame Window;
     static JPanel codeWindow = new JPanel();
     static JPanel gameWindow = new JPanel();
@@ -320,7 +330,7 @@ public class windows extends classes
     public static void OpenFileToOpenFile()
     {
         List<Object> filedata = utils.ExtractGameData(Paths.get(menulist.getSelectedValue().split("\\|")[1]+"\\"+menulist.getSelectedValue().split("\\|")[0]+".hopls"));
-        OpenWindow((String)filedata.get(0), (float)filedata.get(1));
+        OpenWindow((String)filedata.get(0), (float)filedata.get(1), (Path)filedata.get(2));
     }
 
     public static void CancelOpeningOfNewFile()
@@ -546,7 +556,6 @@ public class windows extends classes
 
         if (!isExisting&&isValid&&!isNUllOrEmpty)
         {
-            OpenWindow(name, 0.5f);
             String[] listarray=new String[0];
             try
             {
@@ -612,10 +621,9 @@ public class windows extends classes
             {
                 e.printStackTrace();
             }
-
+            
             try 
             {
-                System.out.println(menuLabelLocaionPath.getText()+"\\"+name+".hopls");
                 File f=new File(menuLabelLocaionPath.getText()+"\\"+name+".hopls");
                 if (f.getParentFile().mkdirs())
                 {
@@ -629,6 +637,7 @@ public class windows extends classes
             {
                 e.printStackTrace();
             }
+            OpenWindow(name, 0.5f, Paths.get(menuLabelLocaionPath.getText()+"\\"+name+".hopls"));
         }
         else if (isExisting)
         {
@@ -745,22 +754,8 @@ public class windows extends classes
         }
         if (opt==JFileChooser.APPROVE_OPTION)
         {
-            // try
-            // {
-            //     //  open window with specifications
-            //     List<String> lines = new ArrayList<String>(0);
-            //     lines = Files.readAllLines(Paths.get(JFC.getCurrentDirectory().toString()+"\\"+JFC.getSelectedFile().getName()));
-            //     String[] linesarray=lines.toArray(new String[0]);
-            //     float Lvl1ResizeWeight = Float.valueOf(utils.GetLine("Lvl1ResizeWeight", linesarray));
-            //     String name = utils.GetLine("name", linesarray);
-            //     OpenWindow(name, Lvl1ResizeWeight);
-            // }
-            // catch (IOException e)
-            // {
-            //     e.printStackTrace();
-            // }
             List<Object> fildata=utils.ExtractGameData(Paths.get(JFC.getCurrentDirectory().toString()+"\\"+JFC.getSelectedFile().getName()));
-            OpenWindow((String)fildata.get(0), (float)fildata.get(1));
+            OpenWindow((String)fildata.get(0), (float)fildata.get(1), (Path)fildata.get(2));
         }
     }
 
@@ -847,8 +842,10 @@ public class windows extends classes
     }
 
     // Proper window
-    public static void OpenWindow(String name, float Lvl1ResizeWeight)
+    public static void OpenWindow(String name, float Lvl1ResizeWeightparam, Path path)
     {
+        FILEPATH=path;
+        Lvl1ResizeWeight=Lvl1ResizeWeightparam;
         menuwindow.dispose();
         UIManager.put("MenuItem.selectionForeground", utils.DarkColor(0.25f));
         UIManager.put("MenuItem.selectionBackground", utils.highlight_color);
@@ -861,7 +858,7 @@ public class windows extends classes
 
         // Open window
         Window=new JFrame();
-        Window.setSize(width,height);
+        Window.setSize(width, height);
         Window.setTitle(name);
         Window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -874,11 +871,22 @@ public class windows extends classes
         InitializeWindows(Lvl1ResizeWeight);
     }
 
-    public static void InitializeWindows(float Lvl1ResizeWeight)
+    public static void InitializeWindows(float Lvl1ResizeWeightparam)
     {
         UIManager.put("SplitPane.background", utils.highlight_highlight_color);
         UIManager.put("SplitPane.dividerFocusColor", utils.highlight_highlight_color);
         JSplitPane CodeGameSplit = new JSplitPane(SwingConstants.VERTICAL, gameWindow, codeWindow);
+        CodeGameSplit.addPropertyChangeListener(new PropertyChangeListener() 
+        {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) 
+            {
+                int location = (int) CodeGameSplit.getDividerLocation();
+                Lvl1ResizeWeight=utils.Number2Percentage(location, width);
+            }
+            
+        });
         CodeGameSplit.setUI(new BasicSplitPaneUI()
         {
             @Override
@@ -901,7 +909,7 @@ public class windows extends classes
         CodeGameSplit.setBackground(utils.highlight_highlight_color);
         CodeGameSplit.setForeground(utils.highlight_highlight_color);
         CodeGameSplit.setOrientation(SwingConstants.VERTICAL);
-        CodeGameSplit.setResizeWeight(Lvl1ResizeWeight);
+        CodeGameSplit.setDividerLocation(utils.Percentage2Number(Lvl1ResizeWeightparam, width));
         CodeGameSplit.setBorder(new EmptyBorder(0, 0, 0, 0));
         CodeGameSplit.setDividerSize(5);
 
@@ -930,12 +938,15 @@ public class windows extends classes
         JMenu file=new JMenu("File");
         file.setForeground(utils.highlight_color);
         JMenuItem[] fileItems = {new JMenuItem("Save  Ctrl+S"), new JMenuItem("Save as...")};
+        String[] ActionCommands = {ActionList.SAVEFILE.name(), ActionList.SAVEAS.name()};
         for (int i = 0; i<fileItems.length; i++)
         {
             JMenuItem item=fileItems[i];
             item.setFont(utils.Verdana(12));
             item.setForeground(utils.DarkColor(0.7f));
             item.setBackground(utils.DarkColor(0.15f));
+            item.setActionCommand(ActionCommands[i]);
+            item.addActionListener(new Listener());
             file.add(item);
         }
         Mb.add(file);

@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class utils
@@ -96,7 +97,7 @@ public class utils
             String[] linesarray=lines.toArray(new String[0]);
             float Lvl1ResizeWeight = Float.valueOf(GetLine("Lvl1ResizeWeight", linesarray));
             String name = GetLine("name", linesarray);
-            return Arrays.asList(name, Lvl1ResizeWeight);
+            return Arrays.asList(name, Lvl1ResizeWeight, path);
         }
         catch (IOException e)
         {
@@ -159,5 +160,41 @@ public class utils
                 // return listCellRendererComponent;
             }
         };
+    }
+
+    public static void Save(Path path, String tofind, String toreplace)
+    {
+        try
+        {
+            List<String> lines = new ArrayList<String>(0);
+            lines = Files.readAllLines(path);
+            String[] linesarray=lines.toArray(new String[0]);
+            for (int i=0; i<linesarray.length; i++) 
+            {
+                if (linesarray[i].startsWith(tofind))
+                {
+                    linesarray[i]=linesarray[i].substring(0, tofind.length()+3)+toreplace;
+                }
+            }
+            FileWriter fw = new FileWriter(path.toString());
+            if (linesarray.length>0)
+            {
+                fw.write("");
+            }
+            for (String i : linesarray) 
+            {
+                fw.append(i+"\n");
+            }
+            fw.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void Saveas()
+    {
+
     }
 }
