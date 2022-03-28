@@ -32,7 +32,9 @@ public class windows extends classes
         CANCELFORNEWFILE,
         BROWSEFOLDERFORNNEWFILE,
         OPENFILEINPUT,
-        BROWSEFOLDERFOROPENFILE
+        BROWSEFOLDERFOROPENFILE,
+        OPENFILEFOROPENINGFILE,
+        CANCELFOROPENFILE
     }
 
     // Listener
@@ -70,6 +72,14 @@ public class windows extends classes
             {
                 BrowseFolderOpenFile();
             }
+            else if (e.getActionCommand()==ActionList.OPENFILEFOROPENINGFILE.name())
+            {
+                OpenFileToOpenFile();
+            }
+            else if (e.getActionCommand()==ActionList.CANCELFOROPENFILE.name())
+            {
+                CancelOpeningOfNewFile();
+            }
         } 
     }
     
@@ -83,12 +93,15 @@ public class windows extends classes
     static int menuheight;
 
     static JPanel menulistpanel;
+    static JList<String> menulist;
     static OPButton MenuNewFile;
     static OPButton MenuOpenFile;
     static OPButton menuopenfilebrowsbutton;
+    static OPButton menuopenfilecancelbutton;
     static OPButton menunewfilesubmitbutton;
     static OPButton menunewfilecancelbutton;
     static OPButton menunewfilebrowsbutton;
+    static OPButton menuopenfileopenbutton;
     static OPTextField menunewfilenamefield;
     static JLabel menuLabelName;
     static JLabel menuLabelLocaionPath;
@@ -184,7 +197,7 @@ public class windows extends classes
 
     public static void GetFileToOpen()
     {
-        int bw=utils.Percentage2Number(0.1f, menuwidth);
+        int bw=utils.Percentage2Number(0.135f, menuwidth);
         int bh=utils.Percentage2Number(0.1f, menuheight);
 
         menuopenfilebrowsbutton=new OPButton("Browse...");
@@ -198,7 +211,33 @@ public class windows extends classes
         menuopenfilebrowsbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
         menuopenfilebrowsbutton.setActionCommand(ActionList.BROWSEFOLDERFOROPENFILE.name());
         menuopenfilebrowsbutton.addActionListener(new Listener());
-        menuopenfilebrowsbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.35f, menuheight)+17+bh+Math.round(bh/1.5f), utils.Percentage2Number(0.925f, bw), Math.round(bh/1.5f));
+        menuopenfilebrowsbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.35f, menuheight)+17+bh+Math.round(bh/1.5f), bw, Math.round(bh/1.5f));
+
+        menuopenfileopenbutton=new OPButton("Open...");
+        menuopenfileopenbutton.setArcSize(15);
+        menuopenfileopenbutton.setFont(utils.Verdana(16));
+        menuopenfileopenbutton.setBorder(new EmptyBorder(0, 5, 0, 5));
+        menuopenfileopenbutton.setBorderPainted(false);
+        menuopenfileopenbutton.setFocusPainted(false);
+        menuopenfileopenbutton.setBackground(utils.highlight_color);
+        menuopenfileopenbutton.setHoverBackgroundColor(utils.highlight_color.brighter());
+        menuopenfileopenbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
+        menuopenfileopenbutton.setActionCommand(ActionList.OPENFILEFOROPENINGFILE.name());
+        menuopenfileopenbutton.addActionListener(new Listener());
+        menuopenfileopenbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.45f, menuheight)+17+bh+Math.round(bh/1.5f), bw, Math.round(bh/1.5f));
+
+        menuopenfilecancelbutton=new OPButton("Cancel...");
+        menuopenfilecancelbutton.setArcSize(15);
+        menuopenfilecancelbutton.setFont(utils.Verdana(16));
+        menuopenfilecancelbutton.setBorder(new EmptyBorder(0, 5, 0, 5));
+        menuopenfilecancelbutton.setBorderPainted(false);
+        menuopenfilecancelbutton.setFocusPainted(false);
+        menuopenfilecancelbutton.setBackground(utils.highlight_color);
+        menuopenfilecancelbutton.setHoverBackgroundColor(utils.highlight_color.brighter());
+        menuopenfilecancelbutton.setPressedBackgroundColor(utils.highlight_highlight_color);
+        menuopenfilecancelbutton.setActionCommand(ActionList.CANCELFOROPENFILE.name());
+        menuopenfilecancelbutton.addActionListener(new Listener());
+        menuopenfilecancelbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.55f, menuheight)+17+bh+Math.round(bh/1.5f), bw, Math.round(bh/1.5f));
         
         menulistpanel=new JPanel()
         {
@@ -212,7 +251,7 @@ public class windows extends classes
         menulistpanel.setBounds(utils.Percentage2Number(0.05f, menuwidth), utils.Percentage2Number(0.525f, menuheight), utils.Percentage2Number(0.75f, menuwidth), utils.Percentage2Number(0.4f, menuheight));
         menulistpanel.setPreferredSize(new Dimension(utils.Percentage2Number(0.75f, menuwidth), utils.Percentage2Number(0.4f, menuheight)));
         menulistpanel.setBackground(utils.highlight_highlight_color);
-
+        menulistpanel.setBorder(null);
         try
         {
             List<String> lines=new ArrayList<String>();
@@ -228,26 +267,35 @@ public class windows extends classes
                         updatedLines.add(i);
                     }
                 }
+                if (line.startsWith("ProjectFilePaths"))
+                {
+                    line=line.substring(20, line.length()-1);
+                    String[] line2=line.split(", ");
+                    for (int i=0; i<line2.length; i++) 
+                    {
+                        updatedLines.set(i, updatedLines.get(i)+"|"+line2[i]);
+                    }
+                }
             }
-            final JList<String> list = new JList<String>(updatedLines.toArray(new String[updatedLines.size()]));
-            list.setBackground(utils.highlight_highlight_color);
-            list.setBorder(null);
-            list.setBounds(menulistpanel.getX(), menulistpanel.getY(), menulistpanel.getWidth(), menulistpanel.getHeight());
-            list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            list.setFont(utils.Verdana(19));
-            list.setFixedCellHeight(utils.Percentage2Number(0.09f, menuheight));
-            list.setFixedCellWidth(utils.Percentage2Number(0.6f, menuwidth));
-            list.setLayoutOrientation(JList.VERTICAL);
-            list.setCellRenderer(utils.OPCellRenderer());
+            menulist = new JList<String>(updatedLines.toArray(new String[updatedLines.size()]));
+            menulist.setBackground(utils.highlight_highlight_color);
+            menulist.setBorder(null);
+            menulist.setBounds(menulistpanel.getX(), menulistpanel.getY(), menulistpanel.getWidth(), menulistpanel.getHeight()-10);
+            menulist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            menulist.setFont(utils.Verdana(19));
+            menulist.setFixedCellHeight(utils.Percentage2Number(0.09f, menuheight));
+            menulist.setFixedCellWidth(utils.Percentage2Number(0.6f, menuwidth));
+            menulist.setLayoutOrientation(JList.VERTICAL);
+            menulist.setCellRenderer(utils.OPCellRenderer());
             
 
             JScrollPane scrollpane = new JScrollPane();
             scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            scrollpane.setPreferredSize(new Dimension(utils.Percentage2Number(0.74f, menuwidth), utils.Percentage2Number(0.4f, menuheight)));
+            scrollpane.setPreferredSize(new Dimension(utils.Percentage2Number(0.74f, menuwidth), utils.Percentage2Number(0.39f, menuheight)));
             scrollpane.setAutoscrolls(true);
-            scrollpane.setViewportView(list);
-            scrollpane.setBackground(new Color(0f, 0f, 0f, 0f));
+            scrollpane.setViewportView(menulist);
+            scrollpane.setBackground(utils.highlight_highlight_color);
             scrollpane.setForeground(new Color(0f, 0f, 0f, 0f));
             scrollpane.setBorder(null);
             JScrollBar scrollbar=scrollpane.getVerticalScrollBar();
@@ -262,9 +310,17 @@ public class windows extends classes
             e.printStackTrace();
         }
 
+        menuwindow.add(menuopenfilecancelbutton);
         menuwindow.add(menulistpanel);
+        menuwindow.add(menuopenfileopenbutton);
         menuwindow.add(menuopenfilebrowsbutton);
         utils.Repaint(menuwindow);
+    }
+    
+    public static void OpenFileToOpenFile()
+    {
+        List<Object> filedata = utils.ExtractGameData(Paths.get(menulist.getSelectedValue().split("\\|")[1]+"\\"+menulist.getSelectedValue().split("\\|")[0]+".hopls"));
+        OpenWindow((String)filedata.get(0), (float)filedata.get(1));
     }
 
     public static void CancelOpeningOfNewFile()
@@ -273,6 +329,8 @@ public class windows extends classes
         {
             menuwindow.remove(menuopenfilebrowsbutton);
             menuwindow.remove(menulistpanel);
+            menuwindow.remove(menuopenfileopenbutton);
+            menuwindow.remove(menuopenfilecancelbutton);
 
             utils.EnableButton(MenuOpenFile);
             utils.Repaint(menuwindow);
@@ -687,20 +745,22 @@ public class windows extends classes
         }
         if (opt==JFileChooser.APPROVE_OPTION)
         {
-            try
-            {
-                //  open window with specifications
-                List<String> lines = new ArrayList<String>(0);
-                lines = Files.readAllLines(Paths.get(JFC.getCurrentDirectory().toString()+"\\"+JFC.getSelectedFile().getName()));
-                String[] linesarray=lines.toArray(new String[0]);
-                float Lvl1ResizeWeight = Float.valueOf(utils.GetLine("Lvl1ResizeWeight", linesarray));
-                String name = utils.GetLine("name", linesarray);
-                OpenWindow(name, Lvl1ResizeWeight);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            // try
+            // {
+            //     //  open window with specifications
+            //     List<String> lines = new ArrayList<String>(0);
+            //     lines = Files.readAllLines(Paths.get(JFC.getCurrentDirectory().toString()+"\\"+JFC.getSelectedFile().getName()));
+            //     String[] linesarray=lines.toArray(new String[0]);
+            //     float Lvl1ResizeWeight = Float.valueOf(utils.GetLine("Lvl1ResizeWeight", linesarray));
+            //     String name = utils.GetLine("name", linesarray);
+            //     OpenWindow(name, Lvl1ResizeWeight);
+            // }
+            // catch (IOException e)
+            // {
+            //     e.printStackTrace();
+            // }
+            List<Object> fildata=utils.ExtractGameData(Paths.get(JFC.getCurrentDirectory().toString()+"\\"+JFC.getSelectedFile().getName()));
+            OpenWindow((String)fildata.get(0), (float)fildata.get(1));
         }
     }
 

@@ -1,4 +1,9 @@
 import java.lang.Math;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
@@ -7,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +20,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.io.IOException;
 
 public class utils
 {
@@ -81,6 +87,24 @@ public class utils
         return new Font("Verdana", Font.PLAIN, size);
     }
 
+    public static List<Object> ExtractGameData(Path path)
+    {
+        try
+        {
+            List<String> lines = new ArrayList<String>(0);
+            lines = Files.readAllLines(path);
+            String[] linesarray=lines.toArray(new String[0]);
+            float Lvl1ResizeWeight = Float.valueOf(GetLine("Lvl1ResizeWeight", linesarray));
+            String name = GetLine("name", linesarray);
+            return Arrays.asList(name, Lvl1ResizeWeight);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static ListCellRenderer<? super String> OPCellRenderer()
     {
         return new DefaultListCellRenderer()
@@ -96,12 +120,11 @@ public class utils
                     protected void paintComponent(Graphics g)
                     {
                         g.setColor(getBackground());
-                        g.fillRoundRect(0+3, 0+3, getWidth()-6, getHeight()-6, 15, 15);
+                        g.fillRoundRect(0+3, 0, getWidth()-6, getHeight()-3, 15, 15);
                         g.setColor(getForeground());
-                        g.drawRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                        g.drawRoundRect(0+3, 0, getWidth()-6, getHeight()-3, 15, 15);
                     }
                 };
-                panel.setBounds(listCellRendererComponent.getX(), listCellRendererComponent.getY(), listCellRendererComponent.getWidth(), listCellRendererComponent.getHeight());
                 if (isSelected)
                 {
                     // rect.setBackground(DarkColor(0.2f));
@@ -114,12 +137,24 @@ public class utils
                 }
                 panel.setForeground(utils.highlight_highlight_color);
                 listCellRendererComponent.setForeground(highlight_color);
+                listCellRendererComponent.setFont(Verdana(18));
                 listCellRendererComponent.setOpaque(false);
-                listCellRendererComponent.setHorizontalAlignment(SwingConstants.CENTER);
                 listCellRendererComponent.setBorder(null);
-                listCellRendererComponent.setVerticalAlignment(SwingConstants.CENTER);
-                listCellRendererComponent.setHorizontalAlignment(SwingConstants.CENTER);
+                listCellRendererComponent.setVerticalAlignment(JLabel.CENTER);
+                listCellRendererComponent.setHorizontalAlignment(JLabel.LEFT);
+                String[] text = listCellRendererComponent.getText().split("\\|");
+                listCellRendererComponent.setText(text[0]);
+
+                JLabel pathtext=new JLabel(text[1]);
+                pathtext.setFont(Verdana(14));
+                pathtext.setForeground(highlight_highlight_color);
+                pathtext.setOpaque(false);
+                pathtext.setHorizontalAlignment(JLabel.RIGHT);
+                pathtext.setVerticalAlignment(JLabel.BOTTOM);
                 panel.add(listCellRendererComponent);
+                panel.add(pathtext);
+                panel.setLayout(new GridLayout());
+                panel.setBorder(new EmptyBorder(10, 10, 10, 10));
                 return panel;
                 // return listCellRendererComponent;
             }
