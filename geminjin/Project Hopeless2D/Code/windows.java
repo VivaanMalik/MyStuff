@@ -930,6 +930,8 @@ public class windows extends classes
         menuwindow.dispose();
         UIManager.put("MenuItem.selectionForeground", utils.DarkColor(0.25f));
         UIManager.put("MenuItem.selectionBackground", utils.highlight_color);
+        UIManager.put("MenuItem.acceleratorForeground", utils.highlight_highlight_color);
+        UIManager.put("MenuItem.acceleratorSelectionForeground", utils.DarkColor(0.3f));
         UIManager.put("Menu.selectionForeground", utils.DarkColor(0.25f));
         UIManager.put("Menu.selectionBackground", utils.highlight_color);
         // get window size
@@ -1028,7 +1030,7 @@ public class windows extends classes
         {
             JMenuItem item=fileItems[i];
             item.setFont(utils.Verdana(12));
-            item.setForeground(utils.DarkColor(0.7f));
+            item.setForeground(utils.highlight_color);
             item.setBackground(utils.DarkColor(0.15f));
             item.setActionCommand(ActionCommands[i]);
             item.addActionListener(new Listener());
