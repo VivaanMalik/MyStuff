@@ -7,11 +7,16 @@ import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -21,6 +26,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -193,8 +199,92 @@ public class utils
         }
     }
 
-    public static void Saveas()
+    public static Path Saveas(Path path, JFrame frem)
     {
 
+        LookAndFeel laf=UIManager.getLookAndFeel();
+
+        UIManager.put("control", utils.DarkColor(0.1f));
+        UIManager.put("nimbusBlueGrey", utils.DarkColor(0.1f));
+        UIManager.put("nimbusBase", utils.highlight_color);
+        UIManager.put("nimbusLightBackground", utils.DarkColor(0.25f));
+        UIManager.put("controlText", utils.highlight_color);
+        UIManager.put("infoText", utils.highlight_color);
+        UIManager.put("menuText", utils.highlight_color);
+        UIManager.put("textForeground", utils.highlight_color);
+        UIManager.put("nimbusSelectedText", utils.highlight_highlight_color);
+        UIManager.put("nimbusSelectionBackground", utils.DarkColor(0.3f));
+        UIManager.put("nimbusFocus", utils.highlight_highlight_color);
+
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                try 
+                {
+                    UIManager.setLookAndFeel(info.getClassName());
+                } 
+                catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) 
+                {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+        
+        try
+        {
+            JFileChooser jfc = new JFileChooser(path.toString());
+            jfc.setDialogTitle("Select the Folder for the new location of the next hope destroyer");
+            jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            jfc.setAcceptAllFileFilterUsed(false);
+            int opt=jfc.showOpenDialog(frem);
+            try 
+            {
+                UIManager.setLookAndFeel(laf);
+            } 
+            catch (UnsupportedLookAndFeelException e) 
+            {
+                e.printStackTrace();
+            }
+            if (opt==JFileChooser.APPROVE_OPTION)
+            {
+                File file = new File(path.toString()).getParentFile();
+                File filekabeta = new File(path.toString());
+                File newfilelocnewpaththingy = new File(jfc.getCurrentDirectory().toString()+"\\"+jfc.getSelectedFile().getName()+"\\"+file.getName()+"\\"+filekabeta.getName());
+                File newfileloc=new File(jfc.getCurrentDirectory().toString()+"\\"+jfc.getSelectedFile().getName()+"\\"+file.getName());
+                Files.move(file.toPath(), newfileloc.toPath());
+                Path p=newfilelocnewpaththingy.toPath();
+                return p;
+            }
+            else
+            {
+                throw new IOException("lol");
+            }     
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void FileIsUnsaved(JFrame frem)
+    {
+        if (frem.getTitle().contains("*"))
+        {
+
+        }
+        else
+        {
+            frem.setTitle(frem.getTitle()+"*");
+        }
+    }
+
+    public static void FileIsSaved(JFrame frem)
+    {
+        if (frem.getTitle().contains("*"))
+        {
+            String title = frem.getTitle();
+            frem.setTitle(title.substring(0, title.length()-1));
+        }
     }
 }

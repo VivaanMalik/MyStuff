@@ -5,6 +5,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
@@ -37,7 +39,9 @@ public class windows extends classes
         OPENFILEINPUT,
         BROWSEFOLDERFOROPENFILE,
         OPENFILEFOROPENINGFILE,
-        CANCELFOROPENFILE, SAVEFILE, SAVEAS
+        CANCELFOROPENFILE, 
+        SAVEFILE, 
+        SAVEAS
     }
 
     // Listener
@@ -85,7 +89,67 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SAVEFILE.name())
             {
-                utils.Save(FILEPATH, "Lvl1ResizeWeight", String.valueOf(Lvl1ResizeWeight));
+                SaveStuff();
+            }
+            else if (e.getActionCommand()==ActionList.SAVEAS.name())
+            {
+                Path tmppath = utils.Saveas(FILEPATH, Window);
+                if (tmppath!=null)
+                {
+                    try
+                    {
+                        List<String> lines=new ArrayList<String>();
+                        lines=Files.readAllLines(Paths.get(Data_Fille_path));
+                        String[] updatedLines=lines.toArray(new String[0]);
+                        for (int i = 0; i < updatedLines.length; i ++)
+                        {
+                            if (updatedLines[i].startsWith("ProjectFilePaths"))
+                            {
+                                String line = updatedLines[i].substring(20, updatedLines[i].length()-1);
+                                String[] paths=line.split(", ");
+                                File f = FILEPATH.toFile();
+                                f=f.getParentFile();
+                                for (int j=0; j<paths.length; j++) 
+                                {
+                                    if (new File(paths[j]).equals(f))
+                                    {
+                                        paths[j]=tmppath.toFile().getParentFile().toString();
+                                    }
+                                }
+                                String newline="";
+                                for (int j=0; j<paths.length; j++)
+                                {
+                                    if (j!=0)
+                                    {
+                                        newline=newline+", "+paths[j];
+                                    }
+                                    else
+                                    {
+                                        newline=newline+paths[j];
+                                    }
+                                }
+                                updatedLines[i] = updatedLines[i].substring(0, 20)+newline+"|";
+                            }
+                        }
+                        
+                        FileWriter fw= new FileWriter(Data_Fille_path);
+                        if (updatedLines.length>0)
+                        {
+                            fw.write("");
+                            for (String i : updatedLines)
+                            {
+                                fw.append(i+"\n");
+                            }
+                        }
+                        fw.close();
+                    }
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    FILEPATH=tmppath;
+                    SaveStuff();
+                }
             }
         } 
     }
@@ -235,6 +299,7 @@ public class windows extends classes
         menuopenfileopenbutton.setActionCommand(ActionList.OPENFILEFOROPENINGFILE.name());
         menuopenfileopenbutton.addActionListener(new Listener());
         menuopenfileopenbutton.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.45f, menuheight)+17+bh+Math.round(bh/1.5f), bw, Math.round(bh/1.5f));
+        utils.DisableButton(menuopenfileopenbutton);
 
         menuopenfilecancelbutton=new OPButton("Cancel...");
         menuopenfilecancelbutton.setArcSize(15);
@@ -297,7 +362,17 @@ public class windows extends classes
             menulist.setFixedCellWidth(utils.Percentage2Number(0.6f, menuwidth));
             menulist.setLayoutOrientation(JList.VERTICAL);
             menulist.setCellRenderer(utils.OPCellRenderer());
-            
+            menulist.addListSelectionListener(new ListSelectionListener()
+            {
+                @Override
+                public void valueChanged(ListSelectionEvent e) 
+                {
+                    if (menulist.getSelectedIndex()!=-1)
+                    {
+                        utils.EnableButton(menuopenfileopenbutton);
+                    }
+                }
+            });            
 
             JScrollPane scrollpane = new JScrollPane();
             scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -841,6 +916,12 @@ public class windows extends classes
         return new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
     }
 
+    public static void SaveStuff()
+    {
+        utils.Save(FILEPATH, "Lvl1ResizeWeight", String.valueOf(Lvl1ResizeWeight));
+        utils.FileIsSaved(Window);
+    }
+
     // Proper window
     public static void OpenWindow(String name, float Lvl1ResizeWeightparam, Path path)
     {
@@ -869,6 +950,7 @@ public class windows extends classes
         Window.setVisible(true);
 
         InitializeWindows(Lvl1ResizeWeight);
+        utils.FileIsSaved(Window);
     }
 
     public static void InitializeWindows(float Lvl1ResizeWeightparam)
@@ -884,6 +966,7 @@ public class windows extends classes
             {
                 int location = (int) CodeGameSplit.getDividerLocation();
                 Lvl1ResizeWeight=utils.Number2Percentage(location, width);
+                utils.FileIsUnsaved(Window);
             }
             
         });
@@ -895,7 +978,7 @@ public class windows extends classes
                 return new BasicSplitPaneDivider(this) 
                 {                
                     public void setBorder(Border b) {}
-
+                    
                     @Override
                     public void paint(Graphics g) 
                     {
@@ -937,7 +1020,9 @@ public class windows extends classes
         Mb.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, utils.highlight_highlight_color));
         JMenu file=new JMenu("File");
         file.setForeground(utils.highlight_color);
-        JMenuItem[] fileItems = {new JMenuItem("Save  Ctrl+S"), new JMenuItem("Save as...")};
+        JMenuItem[] fileItems = {new JMenuItem("Save"), new JMenuItem("Save as...")};
+        int[] Mnemonics = {KeyEvent.VK_S, -1};
+        KeyStroke[] Accelerators = {KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), null};
         String[] ActionCommands = {ActionList.SAVEFILE.name(), ActionList.SAVEAS.name()};
         for (int i = 0; i<fileItems.length; i++)
         {
@@ -947,6 +1032,14 @@ public class windows extends classes
             item.setBackground(utils.DarkColor(0.15f));
             item.setActionCommand(ActionCommands[i]);
             item.addActionListener(new Listener());
+            if (Mnemonics[i]!=-1)
+            {
+                item.setMnemonic(Mnemonics[i]);
+            }
+            if (Accelerators[i]!=null)
+            {
+                item.setAccelerator(Accelerators[i]);
+            }
             file.add(item);
         }
         Mb.add(file);
