@@ -1000,7 +1000,7 @@ public class windows extends classes
 
         Dimension gdimension=new Dimension(utils.Percentage2Number(0.25f, width), height);
         gameWindow.setMinimumSize(gdimension);
-        gameWindow.setBackground(utils.DarkColor(0.08f));
+        gameWindow.setBackground(utils.DarkColor(0.1f));
         gameWindow.setBorder(BorderFactory.createEmptyBorder());
 
         Dimension cdimension=new Dimension(utils.Percentage2Number(0.15f, width), height);
@@ -1009,6 +1009,7 @@ public class windows extends classes
         codeWindow.setBorder(BorderFactory.createEmptyBorder());
 
         Window.add(CodeGameSplit);
+        gameWindow.setSize(CodeGameSplit.getDividerLocation(), Window.getHeight());
 
         SetupCodeWindow();
         SetupGameWindow();
@@ -1066,7 +1067,32 @@ public class windows extends classes
         Font f= utils.Verdana(15);
         titlelabel.setFont(f);
         titlelabel.setForeground(utils.highlight_color);
-        titlelabel.setBounds(10, 10, 100, 10);
-        gameWindow.add(titlelabel);
+        gameWindow.setLayout(new BorderLayout());
+        titlelabel.setHorizontalAlignment(JLabel.CENTER);
+        // titlelabel.setVerticalAlignment(JLabel.TOP);
+        // titlelabel.setAlignmentY(Component.TOP_ALIGNMENT);
+        gameWindow.add(titlelabel, "North");
+
+        GameWindow GW = new GameWindow();
+        GameWindow.Color[][] colorz={{new GameWindow.Color(100, 100, 100), new GameWindow.Color(100, 100, 100)}, {new GameWindow.Color(100, 100, 100), new GameWindow.Color(100, 100, 100)}};
+        GameWindow.Entity e= GW.CreateEntity(colorz, new GameWindow.Vector2(5, 5));
+        BufferedImage i = e.GetImage(0);
+        float scale=utils.Number2Percentage((int) gameWindow.getWidth(), i.getWidth());
+        Image image = i.getScaledInstance(Math.round(scale * i.getWidth()), Math.round(scale * i.getHeight()), Image.SCALE_FAST);
+        JLabel img = new JLabel(new ImageIcon(image));
+        // img.setHorizontalAlignment(JLabel.CENTER);
+        // img.setVerticalAlignment(JLabel.CENTER);
+        // img.setAlignmentY(Component.CENTER_ALIGNMENT);
+        JPanel gameWindow_gaeview=new JPanel();
+        gameWindow_gaeview.setLayout(new BorderLayout());
+        float ratio = 16f/9f;
+        int w=(int)gameWindow.getWidth();
+        int h = (int) Math.round((float)w/ratio);
+        System.out.println(h);
+        gameWindow_gaeview.setPreferredSize(new Dimension(w, h));
+        gameWindow_gaeview.setMinimumSize(new Dimension(w, h));
+        gameWindow_gaeview.setMaximumSize(new Dimension(w, h));
+        gameWindow.add(gameWindow_gaeview, "Center");
+        gameWindow_gaeview.add(img, "Center");
     }
 }
