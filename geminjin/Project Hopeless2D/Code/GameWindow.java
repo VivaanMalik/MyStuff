@@ -1,5 +1,8 @@
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 public class GameWindow 
 {
@@ -151,5 +154,17 @@ public class GameWindow
             x=X;
             y=Y;
         }
+    }
+
+    public static void ShowWindow()
+    {
+        float ratio = 16f/9f;
+        JFrame frem = new JFrame();
+        frem.setResizable(false);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = (int)screenSize.getWidth();
+        frem.setSize(new Dimension(w, (int)Math.round((float)w/ratio)));
+        frem.setLocationRelativeTo(null);
+        frem.setVisible(true);
     }
 }

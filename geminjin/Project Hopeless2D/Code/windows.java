@@ -41,7 +41,8 @@ public class windows extends classes
         OPENFILEFOROPENINGFILE,
         CANCELFOROPENFILE, 
         SAVEFILE, 
-        SAVEAS
+        SAVEAS,
+        SHOWGAMEWINDOW
     }
 
     // Listener
@@ -150,6 +151,10 @@ public class windows extends classes
                     FILEPATH=tmppath;
                     SaveStuff();
                 }
+            }
+            else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
+            {
+                GameWindow.ShowWindow();
             }
         } 
     }
@@ -969,6 +974,8 @@ public class windows extends classes
                 int location = (int) CodeGameSplit.getDividerLocation();
                 Lvl1ResizeWeight=utils.Number2Percentage(location, width);
                 utils.FileIsUnsaved(Window);
+
+                gameWindow.setSize(CodeGameSplit.getDividerLocation(), Window.getHeight());
             }
             
         });
@@ -1063,36 +1070,41 @@ public class windows extends classes
     public static void SetupGameWindow()
     {
         JLabel titlelabel= new JLabel("Title");
-        titlelabel.setText("Game");
+        titlelabel.setText("Game Data");
         Font f= utils.Verdana(15);
         titlelabel.setFont(f);
         titlelabel.setForeground(utils.highlight_color);
         gameWindow.setLayout(new BorderLayout());
         titlelabel.setHorizontalAlignment(JLabel.CENTER);
-        // titlelabel.setVerticalAlignment(JLabel.TOP);
-        // titlelabel.setAlignmentY(Component.TOP_ALIGNMENT);
         gameWindow.add(titlelabel, "North");
-
-        GameWindow GW = new GameWindow();
-        GameWindow.Color[][] colorz={{new GameWindow.Color(100, 100, 100), new GameWindow.Color(100, 100, 100)}, {new GameWindow.Color(100, 100, 100), new GameWindow.Color(100, 100, 100)}};
-        GameWindow.Entity e= GW.CreateEntity(colorz, new GameWindow.Vector2(5, 5));
-        BufferedImage i = e.GetImage(0);
-        float scale=utils.Number2Percentage((int) gameWindow.getWidth(), i.getWidth());
-        Image image = i.getScaledInstance(Math.round(scale * i.getWidth()), Math.round(scale * i.getHeight()), Image.SCALE_FAST);
-        JLabel img = new JLabel(new ImageIcon(image));
-        // img.setHorizontalAlignment(JLabel.CENTER);
-        // img.setVerticalAlignment(JLabel.CENTER);
-        // img.setAlignmentY(Component.CENTER_ALIGNMENT);
-        JPanel gameWindow_gaeview=new JPanel();
-        gameWindow_gaeview.setLayout(new BorderLayout());
-        float ratio = 16f/9f;
-        int w=(int)gameWindow.getWidth();
-        int h = (int) Math.round((float)w/ratio);
-        System.out.println(h);
-        gameWindow_gaeview.setPreferredSize(new Dimension(w, h));
-        gameWindow_gaeview.setMinimumSize(new Dimension(w, h));
-        gameWindow_gaeview.setMaximumSize(new Dimension(w, h));
-        gameWindow.add(gameWindow_gaeview, "Center");
-        gameWindow_gaeview.add(img, "Center");
+        JPanel CONTROLAREA = new JPanel()
+        {
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                g.setColor(getBackground());
+                g.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+            }
+        };
+        
+        CONTROLAREA.setPreferredSize(new Dimension (gameWindow.getWidth(), utils.Percentage2Number(0.3f, Window.getHeight())));
+        CONTROLAREA.setBackground(utils.highlight_highlight_color.darker().darker());
+        CONTROLAREA.setLayout(new BorderLayout());
+        CONTROLAREA.setBorder(new EmptyBorder(10, 10, 10, 10));
+        OPButton RunButton = new OPButton("Run File");
+        RunButton.setArcSize(15);
+        RunButton.setFont(utils.Verdana(16));
+        RunButton.setBorderPainted(false);
+        RunButton.setFocusPainted(false);
+        RunButton.setBackground(utils.highlight_color);
+        RunButton.setHoverBackgroundColor(utils.highlight_color.brighter());
+        RunButton.setPressedBackgroundColor(utils.highlight_highlight_color);
+        RunButton.setActionCommand(ActionList.SHOWGAMEWINDOW.name());
+        RunButton.addActionListener(new Listener());
+        RunButton.setPreferredSize(new Dimension(utils.Percentage2Number(0.2f, CONTROLAREA.getPreferredSize().height), utils.Percentage2Number(0.3f, CONTROLAREA.getPreferredSize().width)));
+        RunButton.setMaximumSize(new Dimension(utils.Percentage2Number(0.2f, CONTROLAREA.getPreferredSize().height), utils.Percentage2Number(0.3f, CONTROLAREA.getPreferredSize().width)));
+        CONTROLAREA.add(RunButton, "South");  
+        gameWindow.add(CONTROLAREA, "South");
+        gameWindow.setBorder(new EmptyBorder(0, 10, 10, 10));
     }
 }
