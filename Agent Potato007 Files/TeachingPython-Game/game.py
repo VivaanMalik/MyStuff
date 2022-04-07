@@ -19,6 +19,8 @@ clock = pygame.time.Clock()
 
 playeranimationindex=0
 
+HORIZONTALWALL = pygame.image.load("IMAJIZ\\HORIZONTALWALL.png")
+VERTICALWALL = pygame.image.load("IMAJIZ\\VERTICALWALL.png")
 PLAYER_WALK_RIGHT = [pygame.image.load("IMAJIZ\\CHAR_WALK_01.png"),pygame.image.load("IMAJIZ\\CHAR_WALK_02.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_03.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_04.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_05.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_06.png")]
 PLAYER_WALK_LEFT = [pygame.image.load("IMAJIZ\\CHAR_WALK_07.png"),pygame.image.load("IMAJIZ\\CHAR_WALK_08.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_09.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_10.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_11.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_12.png")]
 PLAYER_WALK_FRONT = [pygame.image.load("IMAJIZ\\CHAR_WALK_13.png"),pygame.image.load("IMAJIZ\\CHAR_WALK_14.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_15.png"), pygame.image.load("IMAJIZ\\CHAR_WALK_16.png")]
@@ -40,8 +42,8 @@ def drawGraphics(rooms, roomindex, PlayerX, PlayerY, PlayerAnim):
     # drawroomz
     screen.fill((0, 173, 124))
     if len(roomdata[roomindex])==0:
-        for i in range(160):
-            if i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]:
+        for i in range(170):
+            if i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]:
                 roomdata[roomindex].append(random.choice(NS_TILES))
             elif i == 0:
                 roomdata[roomindex].append(random.choice(SS_TILES))
@@ -56,7 +58,19 @@ def drawGraphics(rooms, roomindex, PlayerX, PlayerY, PlayerAnim):
             image = roomdata[roomindex][i]
             smoltilesie = math.ceil(tilesize/2)
             image = pygame.transform.scale(image, (smoltilesie, smoltilesie))
-            screen.blit(image, (xpos*smoltilesie, ypos*smoltilesie))
+            screen.blit(image, (xpos*smoltilesie+round(smoltilesie/2), ypos*smoltilesie+round(midtilesize*1.1)))
+        for i in range(11):
+            wall = HORIZONTALWALL
+            wall =  pygame.transform.scale(wall, (midtilesize, round(midtilesize*1.1)))
+            screen.blit(wall, (i*midtilesize, 0))
+        for i in range(8):
+            wall1 = VERTICALWALL
+            wall2 = VERTICALWALL
+            wall1 = pygame.transform.scale(wall1, ((midtilesize*1.1), midtilesize))
+            wall2 = pygame.transform.scale(wall2, (midtilesize, midtilesize))
+            wall2 = pygame.transform.flip(wall2, True, False)
+            screen.blit(wall1, (0, (i*midtilesize)))
+            screen.blit(wall2, (screen.get_width()-wall2.get_width(), (i*midtilesize)))
 
     # draw player
     if PlayerAnim=="IDLE":

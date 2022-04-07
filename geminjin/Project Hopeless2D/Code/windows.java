@@ -159,6 +159,7 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
             {
+                PixelArt.path = FILEPATH.getParent().toString()+"\\"+"Sprite.jpg";
                 PixelArt.ShowWindow();
             }
         } 
@@ -192,7 +193,6 @@ public class windows extends classes
     // main window
     static Path FILEPATH;
     static float Lvl1ResizeWeight;
-
     static JFrame Window;
     static JPanel codeWindow = new JPanel();
     static JPanel gameWindow = new JPanel();

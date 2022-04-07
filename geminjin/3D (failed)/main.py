@@ -15,7 +15,7 @@ if demo==0:
 
     window.Dotz(render.render(Cube.verts, Crot=
     Vector3(roty/2, roty, 0), sensorsize=sensorsize))
-    light=render.LightSource(200, Vector3(-5, 0, 5), imgres, depth)
+    light=render.LightSource(100, Vector3(-5, 0, 5), imgres, depth)
     while True:
         roty+=0.1
         dots=render.render(Cube.verts, Crot=Vector3(roty/2, roty, 0), sensorsize=sensorsize)

@@ -3,17 +3,26 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.awt.event.InputEvent;
 import java.text.NumberFormat;
 import java.awt.GridBagConstraints;
+
+import javax.imageio.ImageIO;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.NumberFormatter;
@@ -22,9 +31,13 @@ public class PixelArt extends classes
 {
     static int WIDTH=0;
     static int HEIGHT=0;
-    Color CURRENTCOLOR = utils.highlight_color;
+    static Color CURRENTCOLOR = utils.highlight_color;
+    static String path = "";
     static void ShowWindow()
     {
+        WIDTH=0;
+        HEIGHT=0;
+        CURRENTCOLOR = utils.highlight_color;
         JFrame frem = new JFrame();
         frem.setResizable(false);
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -50,7 +63,7 @@ public class PixelArt extends classes
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.gridheight = 1;
         gbc.gridwidth = 2;
         gbc.weighty = 0.5;
@@ -62,7 +75,7 @@ public class PixelArt extends classes
         HeightPixel.setFont(utils.Verdana(16));
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.gridheight = 1;
         gbc.gridwidth = 2;
         gbc.weighty = 0.5;
@@ -223,8 +236,10 @@ public class PixelArt extends classes
         frem.setTitle("Creat new Sprite...");
         frem.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         JPanel artarea = new JPanel();
-        artarea.setBackground(utils.DarkColor(0.2f));
+        JPanel[] pixels = new JPanel[WIDTH*HEIGHT];
 
+        
+        artarea.setBackground(utils.DarkColor(0.2f));
         int possiblescale1 = (int) Math.floor(frem.getHeight()/HEIGHT);
         int possiblescale2 = (int) Math.floor((frem.getWidth()/1.3f)/WIDTH);
         int scale = 0;
@@ -237,12 +252,84 @@ public class PixelArt extends classes
             scale = possiblescale1;
         }
         scale = (int) Math.floor(scale*0.95);
+        JPanel iconarea = new JPanel();
         artarea.setBounds(frem.getWidth()-(scale*WIDTH), Math.round(frem.getHeight()/2)-Math.round((HEIGHT*scale)/2), WIDTH*scale, HEIGHT*scale);
         artarea.setLayout(null);
-        frem.getContentPane().add(artarea);
-        for (int x = 0; x < WIDTH; x++)
+        artarea.setBorder(null);
+        iconarea.setBounds(0, 0, frem.getWidth()-artarea.getWidth(), frem.getHeight());
+        iconarea.setLayout(new GridLayout(2, 2));
+        iconarea.setBorder(null);
+        iconarea.setBackground(frem.getContentPane().getBackground());
+
+        JLabel ColorLabel = new JLabel("Color: ");
+        ColorLabel.setFont(utils.Verdana(16));
+        ColorLabel.setForeground(utils.highlight_color);
+
+        JLabel ColorLabel2 = new JLabel("Color2: ");
+        ColorLabel2.setFont(utils.Verdana(16));
+        ColorLabel2.setForeground(utils.highlight_color);
+        int size = Math.round(scale/2);
+
+        OPButton SAVE = new OPButton("SAVE SPRITE");
+        SAVE.setFont(utils.Verdana(30));
+        SAVE.setBackground(CURRENTCOLOR);
+        SAVE.setHoverBackgroundColor(CURRENTCOLOR.brighter());
+        SAVE.setFocusPainted(false);
+        SAVE.setBorderPainted(false);
+        SAVE.addActionListener(new ActionListener()
         {
-            for (int y = 0; y < HEIGHT; y++)
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                try 
+                {
+                    BufferedImage image = new BufferedImage(WIDTH*size, HEIGHT*size, BufferedImage.TYPE_INT_RGB);
+                    for (int i = 0; i < pixels.length; i++)
+                    {
+                        int y = (int) Math.floor(i/WIDTH);
+                        int x = i - (y*WIDTH);
+                        for (int xx = 0; xx < size; xx++)
+                        {
+                            for (int yy = 0; yy < size; yy++)
+                            {
+                                image.setRGB((x*size)+xx, (y*size)+yy, pixels[i].getBackground().getRGB());
+                            }
+                        }
+                    }
+                    File file = new File(path);
+                    ImageIO.write(image, "jpg", file);
+                } 
+                catch (IOException e1) 
+                {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        OPButton ColorPane = new OPButton("");
+        ColorPane.setBackground(CURRENTCOLOR);
+        ColorPane.setHoverBackgroundColor(CURRENTCOLOR.brighter());
+        ColorPane.setFocusPainted(false);
+        ColorPane.setBorderPainted(false);
+        ColorPane.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                CURRENTCOLOR = JColorChooser.showDialog(frem, "Choose the new hope-destructing color", CURRENTCOLOR);
+                ColorPane.setBackground(CURRENTCOLOR);
+            }
+        });
+
+        iconarea.add(ColorLabel);
+        iconarea.add(ColorPane);
+        iconarea.add(ColorLabel2);
+        iconarea.add(SAVE);
+        frem.getContentPane().add(iconarea);
+        frem.getContentPane().add(artarea);
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            for (int x = 0; x < WIDTH; x++)
             {
                 // OPButton b = new OPButton();
                 // b.setBorderPainted(false);
@@ -253,33 +340,74 @@ public class PixelArt extends classes
                 // artarea.add(b);
                 JPanel p = new JPanel();
                 p.setBackground(artarea.getBackground());
-                p.setBorder(new LineBorder(utils.DarkColor(0.1f), 1));
+                if (scale>10)
+                {
+                    p.setBorder(new LineBorder(utils.DarkColor(0.1f), 1));
+                }
+                Border border=p.getBorder();
                 p.setBounds(x*scale, y*scale, scale, scale);
-                p.addMouseListener(new MouseListener() {
+                p.addMouseListener(new MouseListener() 
+                {
+                    @Override
+                    public void mouseClicked(MouseEvent e) 
                     {
-
+                        if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
+                        {
+                            p.setBackground(CURRENTCOLOR);
+                            p.setBorder(null);
+                        }
+                        else if ((e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) 
+                        {
+                            p.setBackground(artarea.getBackground());
+                            p.setBorder(border);
+                        }
                     }
 
                     @Override
-                    public void mouseClicked(MouseEvent e) {}
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {}
+                    public void mousePressed(MouseEvent e) 
+                    {
+                        if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
+                        {
+                            p.setBackground(CURRENTCOLOR);
+                            p.setBorder(null);
+                        }
+                        else if ((e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) 
+                        {
+                            p.setBackground(artarea.getBackground());
+                            p.setBorder(border);
+                        }
+                    }
 
                     @Override
                     public void mouseReleased(MouseEvent e) {}
 
                     @Override
-                    public void mouseEntered(MouseEvent e) {
-                        p.setBackground(artarea.getBackground().brighter());
+                    public void mouseEntered(MouseEvent e) 
+                    {
+                        if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
+                        {
+                            p.setBackground(CURRENTCOLOR);
+                            p.setBorder(null);
+                        }
+                        else if ((e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) 
+                        {
+                            p.setBackground(artarea.getBackground());
+                            p.setBorder(border);
+                        }
+                        else
+                        {
+                            p.setBackground(p.getBackground());
+                        }
                     }
 
                     @Override
-                    public void mouseExited(MouseEvent e) {
-                        p.setBackground(artarea.getBackground());
+                    public void mouseExited(MouseEvent e) 
+                    {
+                        p.setBackground(p.getBackground());
                     }
                 });
                 artarea.add(p);
+                pixels[(y*WIDTH)+x] = p;
             }
         }
         frem.setVisible(true);
