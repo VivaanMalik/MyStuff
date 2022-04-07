@@ -1,6 +1,9 @@
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -9,7 +12,7 @@ public class GameWindow
     int Xsize;
     int Ysize;
     JPanel gamewindow;
-    Entity[] ent=new Entity[1];
+    static Entity[] ent=new Entity[1];
 
     public void AddToEntities(Entity e)
     {
@@ -37,6 +40,7 @@ public class GameWindow
             Sprites=new PixelImage[1];
             Sprites[0]=Sprite;
             Size=size;
+            ent[0] = this;
         }
 
         public Entity(PixelImage[] Sprite, Vector2 size)
@@ -55,19 +59,20 @@ public class GameWindow
             return Size;
         }
 
-        public BufferedImage GetImage(int index)
+        public Image GetImage(int index)
         {
             Color[][] img = Sprites[index].PixelData;
-            BufferedImage ActualGameWindow=new BufferedImage(img[0].length, img.length, BufferedImage.TYPE_INT_RGB);
+            BufferedImage BFIMAGE=new BufferedImage(img[0].length, img.length, BufferedImage.TYPE_INT_RGB);
             for (int yColors = 0; yColors < img.length; yColors++)
             {
                 for (int xColor = 0; xColor < img[yColors].length; xColor++)
                 {
                     Color color = img[yColors][xColor];
-                    ActualGameWindow.setRGB(xColor, yColors, 65536 * color.r + 256 * color.g + color.b);
+                    BFIMAGE.setRGB(xColor, yColors, 65536 * color.r + 256 * color.g + color.b);
                 }
             }
-            return ActualGameWindow;
+            Image FinalImage = BFIMAGE.getScaledInstance(Size.x, Size.y, BufferedImage.SCALE_SMOOTH);
+            return FinalImage;
         }
     }
 
@@ -166,5 +171,10 @@ public class GameWindow
         frem.setSize(new Dimension(w, (int)Math.round((float)w/ratio)));
         frem.setLocationRelativeTo(null);
         frem.setVisible(true);
+
+        Color[][] pxldata = {{new Color(100, 100, 0), new Color(0, 100, 100)}, {new Color(100, 100, 100), new Color(100, 0, 100)}};
+        PixelImage img = new PixelImage(pxldata);
+        Entity entity = new Entity(img, new Vector2(200, 200));
+        frem.add(new JLabel(new ImageIcon(entity.GetImage(0))));
     }
 }

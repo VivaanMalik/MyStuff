@@ -1,11 +1,14 @@
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
+import javax.swing.text.NumberFormatter;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Color;
@@ -86,6 +89,35 @@ public class classes
             setOpaque(false);
         }
         
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            g.setColor(getBackground());
+            g.fillRoundRect(0, 0, getWidth(), getHeight(), arcsize, arcsize);
+            super.paintComponent(g);
+        }
+
+        public int getArcSize() {
+            return arcsize;
+        }
+
+        public void setArcSize(int arcsize) {
+            this.arcsize = arcsize;
+        }
+    }
+
+    static class OPFormattedTextFieldForNumbers extends JFormattedTextField
+    {
+        private int arcsize;
+
+        public OPFormattedTextFieldForNumbers() {
+            this(null);
+        }
+
+        public OPFormattedTextFieldForNumbers(NumberFormatter mask) {
+            super(mask);
+            setOpaque(false);
+        }
 
         @Override
         protected void paintComponent(Graphics g) {

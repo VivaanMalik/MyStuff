@@ -42,7 +42,8 @@ public class windows extends classes
         CANCELFOROPENFILE, 
         SAVEFILE, 
         SAVEAS,
-        SHOWGAMEWINDOW
+        SHOWGAMEWINDOW, 
+        PIXELART
     }
 
     // Listener
@@ -155,6 +156,10 @@ public class windows extends classes
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
                 GameWindow.ShowWindow();
+            }
+            else if (e.getActionCommand()==ActionList.PIXELART.name())
+            {
+                PixelArt.ShowWindow();
             }
         } 
     }
@@ -1030,6 +1035,8 @@ public class windows extends classes
         Mb.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, utils.highlight_highlight_color));
         JMenu file=new JMenu("File");
         file.setForeground(utils.highlight_color);
+        JMenu windows = new JMenu("Window");
+        windows.setForeground(utils.highlight_color);
         JMenuItem[] fileItems = {new JMenuItem("Save"), new JMenuItem("Save as...")};
         int[] Mnemonics = {KeyEvent.VK_S, -1};
         KeyStroke[] Accelerators = {KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK), null};
@@ -1052,7 +1059,30 @@ public class windows extends classes
             }
             file.add(item);
         }
+        JMenuItem[] WindowItems = {new JMenuItem("Pixel Art")};
+        String[] WindowActionCommands = {ActionList.PIXELART.name()};
+        KeyStroke[] WindowsAccellerators = {KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK)};
+        int[] windowsmnemonics = {-1};
+        for (int i = 0; i < WindowItems.length; i++)
+        {
+            JMenuItem item=WindowItems[i];
+            item.setFont(utils.Verdana(12));
+            item.setForeground(utils.highlight_color);
+            item.setBackground(utils.DarkColor(0.15f));
+            item.setActionCommand(WindowActionCommands[i]);
+            item.addActionListener(new Listener());
+            if (Mnemonics[i]!=-1)
+            {
+                item.setMnemonic(windowsmnemonics[i]);
+            }
+            if (Accelerators[i]!=null)
+            {
+                item.setAccelerator(WindowsAccellerators[i]);
+            }
+            windows.add(item);
+        }
         Mb.add(file);
+        Mb.add(windows);
         return Mb;
     }
 
