@@ -10,7 +10,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -155,11 +154,12 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
+                GameWindow.path = FILEPATH.getParent().toString();
                 GameWindow.ShowWindow();
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
             {
-                PixelArt.path = FILEPATH.getParent().toString()+"\\"+"Sprite.jpg";
+                PixelArt.path = FILEPATH.getParent().toString();
                 PixelArt.ShowWindow();
             }
         } 

@@ -30,7 +30,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class utils
+public class utils extends classes
 {
     public static Color highlight_color = new Color(255, 0, 94);
     public static Color highlight_highlight_color=new Color(190, 0, 54);
@@ -286,5 +286,35 @@ public class utils
             String title = frem.getTitle();
             frem.setTitle(title.substring(0, title.length()-1));
         }
+    }
+
+    public static int[] FindIndexVector2(JPanel o, JPanel[] pixels, int WIDTH)
+    {
+        if (pixels.length==0)
+        {
+            return null;
+        }
+
+        for (int i = 0; i < pixels.length; i++)
+        {
+            if (o==pixels[i])
+            {
+                int y = (int) Math.floor(i/WIDTH);
+                int x = i - (y*WIDTH);
+                int[] returnval = {x, y};
+                return returnval;
+            }
+        }
+        return null;
+    }
+
+    static public String xytoString(int x, int y)
+    {
+        return "|"+String.valueOf(x)+","+String.valueOf(y)+"|";
+    }
+
+    static public String listintxytoString(int[] xy)
+    {
+        return xytoString(xy[0], xy[1]);
     }
 }

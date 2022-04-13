@@ -1,14 +1,19 @@
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.GridLayout;
 
-public class GameWindow 
+public class GameWindow extends classes
 {
+    static String path;
     int Xsize;
     int Ysize;
     JPanel gamewindow;
@@ -47,6 +52,23 @@ public class GameWindow
         {
             Sprites=Sprite;
             Size=size;
+        }
+
+        public Entity(BufferedImage[] images, Vector2 size)
+        {
+            Sprites = new PixelImage[images.length];
+            for (int i =0; i < images.length; i++)
+            {
+                PixelImage p = new PixelImage(images[i].getWidth(), images[i].getHeight());
+                for (int x = 0; x < images[i].getWidth(); x++)
+                {
+                    for (int y = 0; y < images[i].getHeight(); y++)
+                    {
+                        p.SetPixel(x, y, new Color(images[i].getRGB(x, y), false));
+                    }
+                }
+                Sprites[i] = p;
+            }
         }
 
         public PixelImage[] getSprite()
@@ -98,7 +120,7 @@ public class GameWindow
             {
                 for (int yval = 0; yval < PixelData[xval].length; yval++) 
                 {
-                    PixelData[yval][xval] = new Color(0);
+                    PixelData[yval][xval] = new Color(0, true);
                 }
             }
         }
@@ -109,6 +131,11 @@ public class GameWindow
             PixelY=PixelColorData.length;
             PixelData=PixelColorData;
         }
+
+        public void SetPixel(int x, int y, Color col)
+        {
+            PixelData[y][x] = col;
+        }
     }
     
     public static class Color
@@ -118,12 +145,22 @@ public class GameWindow
         int b;
         int a;
 
-        public Color(int rgb)
+        public Color(int rgb, boolean isSameValue)
         {
-            r=rgb;
-            g=rgb;
-            b=rgb;
-            a=1;
+            if (isSameValue==true)
+            {
+                r=rgb;
+                g=rgb;
+                b=rgb;
+                a=1;
+            }
+            else
+            {
+                r = (rgb >> 16) & 0xFF; // find r value... weirdd
+                g = (rgb >> 8) & 0xFF;
+                b = rgb & 0xFF;
+                a = 1;
+            }
         }
 
         public Color(int R, int G, int B)
@@ -143,24 +180,6 @@ public class GameWindow
         }
     }
 
-    public static class Vector2
-    {
-        int x;
-        int y;
-
-        public Vector2()
-        {
-            x=0;
-            y=0;
-        }
-
-        public Vector2(int X, int Y)
-        {
-            x=X;
-            y=Y;
-        }
-    }
-
     public static void ShowWindow()
     {
         float ratio = 16f/9f;
@@ -168,6 +187,7 @@ public class GameWindow
         frem.setResizable(false);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int w = (int)screenSize.getWidth();
+        frem.setLayout(new GridLayout());
         frem.setSize(new Dimension(w, (int)Math.round((float)w/ratio)));
         frem.setLocationRelativeTo(null);
         frem.setVisible(true);
@@ -176,5 +196,16 @@ public class GameWindow
         PixelImage img = new PixelImage(pxldata);
         Entity entity = new Entity(img, new Vector2(200, 200));
         frem.add(new JLabel(new ImageIcon(entity.GetImage(0))));
+
+        try
+        {
+            BufferedImage[] imgs = {ImageIO.read(new File(path+"\\"+"TNT.jpg"))};
+            Entity entity2 = new Entity(imgs, new Vector2(400, 400));
+            frem.add(new JLabel(new ImageIcon(entity2.GetImage(0))));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
