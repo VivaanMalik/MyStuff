@@ -4,11 +4,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.InputEvent;
@@ -20,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -30,17 +34,58 @@ import javax.swing.text.NumberFormatter;
 
 public class PixelArt extends classes
 {
+    // tool constants
+    final static String ERASER = "ERASER";
+    final static String PEN = "PEN";
+    final static String COLORPICKER = "COLORPICKER";
+    
     static int WIDTH=0;
     static int HEIGHT=0;
     static Color CURRENTCOLOR = utils.highlight_color;
     static String path = "";
     static int semnems = 0;
     static String nullpxls = "";
-    static String TOOL = "PEN";
+    static String TOOL = PEN;
+
+    static JFrame frem;
+    static JPanel[] pixels;
 
     static void SetTool(String tool)
     {
         TOOL = tool;
+        Toolkit tk = Toolkit.getDefaultToolkit();
+
+        Image eraser = tk.getImage("..\\UI\\Blox\\ERASER.png");
+        eraser = eraser.getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH);
+        Cursor erasercursor = tk.createCustomCursor(eraser , new Point(0, 2), "img");
+
+        Image pen = tk.getImage("..\\UI\\Blox\\PEN.png");
+        pen = pen.getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH);
+        Cursor pencursor = tk.createCustomCursor(pen , new Point(0, 0), "img");
+
+        Image cp = tk.getImage("..\\UI\\Blox\\COLORPICKER.png");
+        cp = cp.getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH);
+        Cursor cpcursor = tk.createCustomCursor(cp , new Point(0, 31), "img");
+
+        for (JPanel i : pixels)
+        {
+            if (TOOL.equals(ERASER))
+            {
+                i.setCursor (erasercursor);
+            }
+            else if (TOOL.equals(PEN))
+            {
+                i.setCursor(pencursor);
+            }
+            else if (TOOL.equals(COLORPICKER))
+            {
+                i.setCursor(cpcursor);
+            }
+            else
+            {
+                i.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        }
     }
 
     static String GetTool()
@@ -240,7 +285,7 @@ public class PixelArt extends classes
     static void ShowFinalWindow()
     {
         float ratio = 16f/9f;
-        JFrame frem = new JFrame();
+        frem = new JFrame();
         frem.setResizable(false);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int w = (int)screenSize.getWidth();
@@ -251,7 +296,7 @@ public class PixelArt extends classes
         frem.setTitle("Creat new Sprite...");
         frem.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         JPanel artarea = new JPanel();
-        JPanel[] pixels = new JPanel[WIDTH*HEIGHT];
+        pixels = new JPanel[WIDTH*HEIGHT];
 
         artarea.setBackground(utils.DarkColor(0.2f));
         int possiblescale1 = (int) Math.floor(frem.getHeight()/HEIGHT);
@@ -271,16 +316,18 @@ public class PixelArt extends classes
         artarea.setLayout(null);
         artarea.setBorder(null);
         iconarea.setBounds(0, 0, frem.getWidth()-artarea.getWidth(), frem.getHeight());
-        iconarea.setLayout(new GridLayout(2, 2));
+        iconarea.setLayout(new GridLayout(3, 2));
         iconarea.setBorder(null);
-        iconarea.setBackground(frem.getContentPane().getBackground());
+        iconarea.setBackground(utils.highlight_highlight_color);
 
-        JLabel ColorLabel = new JLabel("Color: ");
-        ColorLabel.setFont(utils.Verdana(16));
-        ColorLabel.setForeground(utils.highlight_color);
-
-        OPTextField ColorLabel2 = new OPTextField("newDespairingSprite");
-        ColorLabel2.getDocument().addDocumentListener(new DocumentListener() 
+        OPTextField nemin = new OPTextField("newDespairingSprite");
+        nemin.setFont(utils.Verdana(10));
+        nemin.setBackground(CURRENTCOLOR);
+        nemin.setForeground(utils.DarkColor(0.1f));
+        nemin.setBorder(new EmptyBorder(0, 0, 0, 0));
+        nemin.setHorizontalAlignment(SwingConstants.CENTER);
+        nemin.setArcSize(69420);
+        nemin.getDocument().addDocumentListener(new DocumentListener() 
         {
             @Override
             public void insertUpdate(DocumentEvent e) 
@@ -299,7 +346,7 @@ public class PixelArt extends classes
             {
                 File folder = new File(path);
                 File[] othershitindir = folder.listFiles();
-                String text = ColorLabel2.getText();
+                String text = nemin.getText();
                 for (File i : othershitindir)
                 {
                     if (i.getName().equals(text))
@@ -310,8 +357,8 @@ public class PixelArt extends classes
 
             } 
         });
-        ColorLabel2.setFont(utils.Verdana(16));
-        ColorLabel2.setForeground(utils.highlight_color);
+        nemin.setFont(utils.Verdana(16));
+        nemin.setForeground(utils.highlight_color);
         int size = Math.round(scale/2);
 
         OPButton SAVE = new OPButton("SAVE SPRITE");
@@ -320,6 +367,7 @@ public class PixelArt extends classes
         SAVE.setHoverBackgroundColor(CURRENTCOLOR.brighter());
         SAVE.setFocusPainted(false);
         SAVE.setBorderPainted(false);
+        SAVE.setArcSize(69420);
         SAVE.addActionListener(new ActionListener()
         {
             @Override
@@ -353,7 +401,7 @@ public class PixelArt extends classes
                             }
                         }
                     }
-                    String suffix = ColorLabel2.getText();
+                    String suffix = nemin.getText();
                     if (semnems>0)
                     {
                         suffix=suffix+"("+String.valueOf(semnems)+")";
@@ -373,11 +421,13 @@ public class PixelArt extends classes
             }
         });
 
-        OPButton ColorPane = new OPButton("");
+        OPButton ColorPane = new OPButton("Color");
         ColorPane.setBackground(CURRENTCOLOR);
+        ColorPane.setForeground(utils.CONTRASTNotactually(CURRENTCOLOR));
         ColorPane.setHoverBackgroundColor(CURRENTCOLOR.brighter());
         ColorPane.setFocusPainted(false);
         ColorPane.setBorderPainted(false);
+        ColorPane.setArcSize(69420);
         ColorPane.addActionListener(new ActionListener()
         {
             @Override
@@ -389,6 +439,7 @@ public class PixelArt extends classes
                     CURRENTCOLOR=TMPCURRENTCOLOR;
                 }
                 ColorPane.setBackground(CURRENTCOLOR);
+                ColorPane.setForeground(utils.CONTRASTNotactually(CURRENTCOLOR));
                 ColorPane.setHoverBackgroundColor(CURRENTCOLOR.brighter());
             }
         });
@@ -398,12 +449,13 @@ public class PixelArt extends classes
         PenTool.setHoverBackgroundColor(CURRENTCOLOR.brighter());
         PenTool.setFocusPainted(false);
         PenTool.setBorderPainted(false);
+        PenTool.setArcSize(69420);
         PenTool.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                SetTool("PEN");
+                SetTool(PEN);
             }
         });
 
@@ -412,20 +464,36 @@ public class PixelArt extends classes
         EraserTool.setHoverBackgroundColor(CURRENTCOLOR.brighter());
         EraserTool.setFocusPainted(false);
         EraserTool.setBorderPainted(false);
+        EraserTool.setArcSize(69420);
         EraserTool.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                SetTool("ERASER");
+                SetTool(ERASER);
+            }
+        });
+
+        OPButton colorpickerTool = new OPButton("Color Picker");
+        colorpickerTool.setBackground(CURRENTCOLOR);
+        colorpickerTool.setHoverBackgroundColor(CURRENTCOLOR.brighter());
+        colorpickerTool.setFocusPainted(false);
+        colorpickerTool.setBorderPainted(false);
+        colorpickerTool.setArcSize(69420);
+        colorpickerTool.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                SetTool(COLORPICKER);
             }
         });
 
         iconarea.add(EraserTool);
         iconarea.add(PenTool);
-        iconarea.add(ColorLabel);
+        iconarea.add(colorpickerTool);
         iconarea.add(ColorPane);
-        iconarea.add(ColorLabel2);
+        iconarea.add(nemin);
         iconarea.add(SAVE);
         frem.getContentPane().add(iconarea);
         frem.getContentPane().add(artarea);
@@ -453,7 +521,7 @@ public class PixelArt extends classes
                     @Override
                     public void mouseClicked(MouseEvent e) 
                     {
-                        if (GetTool().equals("PEN"))
+                        if (GetTool().equals(PEN))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
@@ -468,13 +536,23 @@ public class PixelArt extends classes
                                 p.setBorder(border);
                             }
                         }
-                        else if (GetTool().equals("ERASER"))
+                        else if (GetTool().equals(ERASER))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
                                 p.setBackground(artarea.getBackground());
                                 nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
                                 p.setBorder(border);
+                            }
+                        }
+                        else if (GetTool().equals(COLORPICKER))
+                        {
+                            if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
+                            {
+                                CURRENTCOLOR = p.getBackground();
+                                ColorPane.setBackground(CURRENTCOLOR);
+                                ColorPane.setForeground(utils.CONTRASTNotactually(CURRENTCOLOR));
+                                ColorPane.setHoverBackgroundColor(CURRENTCOLOR.brighter());
                             }
                         }
                     }
@@ -482,7 +560,7 @@ public class PixelArt extends classes
                     @Override
                     public void mousePressed(MouseEvent e) 
                     {
-                        if (GetTool().equals("PEN"))
+                        if (GetTool().equals(PEN))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
@@ -497,13 +575,23 @@ public class PixelArt extends classes
                                 p.setBorder(border);
                             }
                         }
-                        else if (GetTool().equals("ERASER"))
+                        else if (GetTool().equals(ERASER))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
                                 p.setBackground(artarea.getBackground());
                                 nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
                                 p.setBorder(border);
+                            }
+                        }
+                        else if (GetTool().equals(COLORPICKER))
+                        {
+                            if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
+                            {
+                                CURRENTCOLOR = p.getBackground();
+                                ColorPane.setBackground(CURRENTCOLOR);
+                                ColorPane.setForeground(utils.CONTRASTNotactually(CURRENTCOLOR));
+                                ColorPane.setHoverBackgroundColor(CURRENTCOLOR.brighter());
                             }
                         }
                     }
@@ -511,20 +599,24 @@ public class PixelArt extends classes
                     @Override
                     public void mouseReleased(MouseEvent e) 
                     {
-                        if (GetTool().equals("PEN"))
+                        if (GetTool().equals(PEN))
                         {
                         
                         }
-                        else if (GetTool().equals("ERASER"))
+                        else if (GetTool().equals(ERASER))
                         {
                             
+                        }
+                        else if (GetTool().equals(COLORPICKER))
+                        {
+                            SetTool(PEN);
                         }
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) 
                     {
-                        if (GetTool().equals("PEN"))
+                        if (GetTool().equals(PEN))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
@@ -539,7 +631,7 @@ public class PixelArt extends classes
                                 p.setBorder(border);
                             }
                         }
-                        else if (GetTool().equals("ERASER"))
+                        else if (GetTool().equals(ERASER))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
@@ -548,18 +640,32 @@ public class PixelArt extends classes
                                 p.setBorder(border);
                             }
                         }
+                        else if (GetTool().equals(COLORPICKER))
+                        {
+                            if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
+                            {
+                                CURRENTCOLOR = p.getBackground();
+                                ColorPane.setBackground(CURRENTCOLOR);
+                                ColorPane.setForeground(utils.CONTRASTNotactually(CURRENTCOLOR));
+                                ColorPane.setHoverBackgroundColor(CURRENTCOLOR.brighter());
+                            }
+                        }
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) 
                     {
-                        if (GetTool().equals("PEN"))
+                        if (GetTool().equals(PEN))
                         {
                             
                         }
-                        else if (GetTool().equals("ERASER"))
+                        else if (GetTool().equals(ERASER))
                         {
                             
+                        }
+                        else if (GetTool().equals(COLORPICKER))
+                        {
+
                         }
                     }
                 });

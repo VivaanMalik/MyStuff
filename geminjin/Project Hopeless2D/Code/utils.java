@@ -317,4 +317,51 @@ public class utils extends classes
     {
         return xytoString(xy[0], xy[1]);
     }
+
+    static Color CONTRASTNotactually(Color color) 
+    {
+        int y = (int) Math.sqrt((2126 * (color.getRed()^2) + 7152 * (color.getGreen()^2) + 722 * (color.getBlue()^2)) / 10000);
+        int rindecrementval = 69;
+        int gindecrementval = rindecrementval;
+        int bindecrementval = rindecrementval;
+        if (y>=128)
+        {
+            if (color.getRed()-rindecrementval<0)
+            {
+                rindecrementval = color.getRed();
+            }
+            if (color.getGreen()-gindecrementval<0)
+            {
+                gindecrementval = color.getGreen();
+            }
+            if (color.getBlue()-bindecrementval<0)
+            {
+                bindecrementval = color.getBlue();
+            }
+        }
+        else if (y<128)
+        {
+            if (color.getRed()+rindecrementval>255)
+            {
+                rindecrementval = 255 - color.getRed();
+            }
+            if (color.getGreen()+gindecrementval>255)
+            {
+                gindecrementval = 255 - color.getGreen();
+            }
+            if (color.getBlue()+bindecrementval>255)
+            {
+                bindecrementval = 255 - color.getBlue();
+            }
+        }
+        return y >= 128 ? new Color(color.getRed()-rindecrementval, color.getGreen()-gindecrementval, color.getBlue()-bindecrementval) : new Color(color.getRed()+rindecrementval, color.getGreen()+gindecrementval, color.getBlue()+bindecrementval);
+    }
+
+    static Color rgbwithoffsetadjust(double y, int r, int g, int b)
+    {
+        int ro = r+y < 0 ? 0 : (int) Math.round(r+y);
+        int go = g+y < 0 ? 0 : (int) Math.round(g+y);
+        int bo = b+y < 0 ? 0 : (int) Math.round(b+y);
+        return new Color(ro, go, bo);
+    }
 }
