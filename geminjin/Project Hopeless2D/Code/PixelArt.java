@@ -16,13 +16,19 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.event.InputEvent;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.GridBagConstraints;
 import javax.imageio.ImageIO;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -31,6 +37,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
+import java.awt.event.KeyEvent;
 
 public class PixelArt extends classes
 {
@@ -46,10 +53,14 @@ public class PixelArt extends classes
     static int semnems = 0;
     static String nullpxls = "";
     static String TOOL = PEN;
-
+    static JPanel artarea;
     static JFrame frem;
     static JPanel[] pixels;
-
+    static Border border;
+    static List<String> CACHEHISTORYCTRLZANDCTRLY = new ArrayList<String>(); // C:R-G-B:|x,y| colors (c), with val of rgb at x, y       D:|x,y| delets cell at x, y
+    static int curret_index_in_timeline=0;
+    static boolean firstpixel = false;
+  
     static void SetTool(String tool)
     {
         TOOL = tool;
@@ -95,6 +106,11 @@ public class PixelArt extends classes
 
     static void ShowWindow()
     {
+        semnems = 0;
+        nullpxls = "";
+        TOOL = PEN;
+        CACHEHISTORYCTRLZANDCTRLY = new ArrayList<String>(); // C:R-G-B:|x,y| colors (c), with val of rgb at x, y       D:|x,y| delets cell at x, y
+        curret_index_in_timeline=0;
         WIDTH=0;
         HEIGHT=0;
         CURRENTCOLOR = utils.highlight_color;
@@ -295,7 +311,7 @@ public class PixelArt extends classes
         frem.setLayout(null);
         frem.setTitle("Creat new Sprite...");
         frem.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        JPanel artarea = new JPanel();
+        artarea = new JPanel();
         pixels = new JPanel[WIDTH*HEIGHT];
 
         artarea.setBackground(utils.DarkColor(0.2f));
@@ -322,8 +338,8 @@ public class PixelArt extends classes
 
         OPTextField nemin = new OPTextField("newDespairingSprite");
         nemin.setFont(utils.Verdana(10));
-        nemin.setBackground(CURRENTCOLOR);
-        nemin.setForeground(utils.DarkColor(0.1f));
+        nemin.setBackground(utils.DarkColor(0.2f));
+        // nemin.setForeground(utils.DarkColor(0.1f));
         nemin.setBorder(new EmptyBorder(0, 0, 0, 0));
         nemin.setHorizontalAlignment(SwingConstants.CENTER);
         nemin.setArcSize(69420);
@@ -364,7 +380,7 @@ public class PixelArt extends classes
         OPButton SAVE = new OPButton("SAVE SPRITE");
         SAVE.setFont(utils.Verdana(30));
         SAVE.setBackground(CURRENTCOLOR);
-        SAVE.setHoverBackgroundColor(CURRENTCOLOR.brighter());
+        SAVE.setHoverBackgroundColor(SAVE.getBackground().brighter());
         SAVE.setFocusPainted(false);
         SAVE.setBorderPainted(false);
         SAVE.setArcSize(69420);
@@ -508,13 +524,17 @@ public class PixelArt extends classes
                 // b.setHoverBackgroundColor(artarea.getBackground().brighter());
                 // b.setBounds(x*scale, y*scale, scale, scale);
                 // artarea.add(b);
+
+                int X = x;
+                int Y = y;
+
                 JPanel p = new JPanel();
                 p.setBackground(new Color(0f, 0f, 0f, 0f));
                 if (scale>10)
                 {
                     p.setBorder(new LineBorder(utils.DarkColor(0.1f), 1));
                 }
-                Border border=p.getBorder();
+                border=p.getBorder();
                 p.setBounds(x*scale, y*scale, scale, scale);
                 p.addMouseListener(new MouseListener() 
                 {
@@ -525,24 +545,18 @@ public class PixelArt extends classes
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(CURRENTCOLOR);
-                                nullpxls = nullpxls.replace(utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH)), "");
-                                p.setBorder(null);
+                                Drau(p, X, Y);
                             }
                             else if ((e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(artarea.getBackground());
-                                nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
-                                p.setBorder(border);
+                                Irez(p, X, Y);
                             }
                         }
                         else if (GetTool().equals(ERASER))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(artarea.getBackground());
-                                nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
-                                p.setBorder(border);
+                                Irez(p, X, Y);
                             }
                         }
                         else if (GetTool().equals(COLORPICKER))
@@ -564,24 +578,18 @@ public class PixelArt extends classes
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(CURRENTCOLOR);
-                                nullpxls = nullpxls.replace(utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH)), "");
-                                p.setBorder(null);
+                                Drau(p, X, Y);
                             }
                             else if ((e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(artarea.getBackground());
-                                nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
-                                p.setBorder(border);
+                                Irez(p, X, Y);
                             }
                         }
                         else if (GetTool().equals(ERASER))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(artarea.getBackground());
-                                nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
-                                p.setBorder(border);
+                                Irez(p, X, Y);
                             }
                         }
                         else if (GetTool().equals(COLORPICKER))
@@ -601,11 +609,13 @@ public class PixelArt extends classes
                     {
                         if (GetTool().equals(PEN))
                         {
-                        
+                            popeverythingafterindexinList(curret_index_in_timeline);
+                            curret_index_in_timeline++;
                         }
                         else if (GetTool().equals(ERASER))
                         {
-                            
+                            popeverythingafterindexinList(curret_index_in_timeline);       
+                            curret_index_in_timeline++;
                         }
                         else if (GetTool().equals(COLORPICKER))
                         {
@@ -620,24 +630,18 @@ public class PixelArt extends classes
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(CURRENTCOLOR);
-                                nullpxls = nullpxls.replace(utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH)), "");
-                                p.setBorder(null);
+                                Drau(p, X, Y);
                             }
                             else if ((e.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(artarea.getBackground());
-                                nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
-                                p.setBorder(border);
+                                Irez(p, X, Y);
                             }
                         }
                         else if (GetTool().equals(ERASER))
                         {
                             if ((e.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) 
                             {
-                                p.setBackground(artarea.getBackground());
-                                nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
-                                p.setBorder(border);
+                                Irez(p, X, Y);
                             }
                         }
                         else if (GetTool().equals(COLORPICKER))
@@ -675,6 +679,182 @@ public class PixelArt extends classes
                 pixels[(y*WIDTH)+x] = p;
             }
         }
+        SetTool(PEN);
+
+        UIManager.put("MenuItem.selectionForeground", utils.DarkColor(0.25f));
+        UIManager.put("MenuItem.selectionBackground", utils.highlight_color);
+        UIManager.put("MenuItem.acceleratorForeground", utils.highlight_highlight_color);
+        UIManager.put("MenuItem.acceleratorSelectionForeground", utils.DarkColor(0.3f));
+        UIManager.put("Menu.selectionForeground", utils.DarkColor(0.25f));
+        UIManager.put("Menu.selectionBackground", utils.highlight_color);
+
+        JMenuBar mb = new JMenuBar();
+        JMenu edit = new JMenu();
+        JMenuItem[] edititems = {new JMenuItem("Undo"), new JMenuItem("Redo")};
+        int[] Mnemonics = {KeyEvent.VK_S, -1};
+        KeyStroke[] Accelerators = {KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK), KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_DOWN_MASK)};
+        String[] ActionCommands = {"UNDO", "REDO"};
+        for (int i = 0; i<edititems.length; i++)
+        {
+            JMenuItem item=edititems[i];
+            item.setFont(utils.Verdana(12));
+            item.setForeground(utils.highlight_color);
+            item.setBackground(utils.DarkColor(0.15f));
+            item.setActionCommand(ActionCommands[i]);
+            item.addActionListener(new ActionListener()
+            {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    if (e.getActionCommand().equals("UNDO"))
+                    {
+                        if (curret_index_in_timeline>0)
+                        {
+                            for (int i = 0; i < CACHEHISTORYCTRLZANDCTRLY.size(); i++)
+                            {
+                                if (CACHEHISTORYCTRLZANDCTRLY.get(i).isEmpty())
+                                {
+                                    CACHEHISTORYCTRLZANDCTRLY.remove(i);
+                                }
+                            }
+                            curret_index_in_timeline--;
+                            DOWHATHESAYZ(CACHEHISTORYCTRLZANDCTRLY.get(curret_index_in_timeline), 0);
+                            CACHEHISTORYCTRLZANDCTRLY.add(curret_index_in_timeline, "");
+                        }
+                    }
+                    else if (e.getActionCommand().equals("REDO"))
+                    {
+                        for (int i = 0; i < CACHEHISTORYCTRLZANDCTRLY.size(); i++)
+                        {
+                            if (CACHEHISTORYCTRLZANDCTRLY.get(i).isEmpty())
+                            {
+                                CACHEHISTORYCTRLZANDCTRLY.remove(i);
+                            }
+                        }
+                        if (curret_index_in_timeline<CACHEHISTORYCTRLZANDCTRLY.size())
+                        {
+                            DOWHATHESAYZ(CACHEHISTORYCTRLZANDCTRLY.get(curret_index_in_timeline), 1);
+                            curret_index_in_timeline++;
+                        }
+                    }                     
+                }
+                
+            });
+            if (Mnemonics[i]!=-1)
+            {
+                item.setMnemonic(Mnemonics[i]);
+            }
+            if (Accelerators[i]!=null)
+            {
+                item.setAccelerator(Accelerators[i]);
+            }
+            edit.add(item);
+        }
+        mb.add(edit);
+        frem.setJMenuBar(mb);
         frem.setVisible(true);
+    }
+
+    static void Drau(JPanel p, int x, int y)
+    {
+        if (p.getBackground()!=CURRENTCOLOR)
+        {
+            p.setBackground(CURRENTCOLOR);
+            nullpxls = nullpxls.replace(utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH)), "");
+            p.setBorder(null);
+            
+            String strtoset = CACHEHISTORYCTRLZANDCTRLY.size() == curret_index_in_timeline ? "" : CACHEHISTORYCTRLZANDCTRLY.get(curret_index_in_timeline);
+            strtoset+="##D:"+String.valueOf(CURRENTCOLOR.getRed())+"-"+String.valueOf(CURRENTCOLOR.getGreen())+"-"+String.valueOf(CURRENTCOLOR.getBlue())+":"+String.valueOf(x)+","+String.valueOf(y)+"##";
+            if (curret_index_in_timeline<CACHEHISTORYCTRLZANDCTRLY.size())
+            {
+                if (firstpixel==true)
+                {
+                    CACHEHISTORYCTRLZANDCTRLY.set(curret_index_in_timeline, "");
+                    firstpixel = false;
+                }
+                CACHEHISTORYCTRLZANDCTRLY.set(curret_index_in_timeline, strtoset);
+            }
+            else
+            {
+                CACHEHISTORYCTRLZANDCTRLY.add(strtoset);
+            }
+        }
+    }
+    
+    static void Irez(JPanel p, int X, int Y)
+    {
+        if (!nullpxls.contains(utils.xytoString(X, Y)))
+        {
+            p.setBackground(artarea.getBackground());
+            nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
+            p.setBorder(border);
+            
+            String strtoset = CACHEHISTORYCTRLZANDCTRLY.size() == curret_index_in_timeline ? "" : CACHEHISTORYCTRLZANDCTRLY.get(curret_index_in_timeline);
+            strtoset += "##C:"+String.valueOf(CURRENTCOLOR.getRed())+"-"+String.valueOf(CURRENTCOLOR.getGreen())+"-"+String.valueOf(CURRENTCOLOR.getBlue())+":"+String.valueOf(X)+","+String.valueOf(Y)+"##";
+            if (curret_index_in_timeline<CACHEHISTORYCTRLZANDCTRLY.size())
+            {
+                if (firstpixel==true)
+                {
+                    CACHEHISTORYCTRLZANDCTRLY.set(curret_index_in_timeline, "");
+                    firstpixel = false;
+                }
+                CACHEHISTORYCTRLZANDCTRLY.set(curret_index_in_timeline, strtoset);
+            }
+            else
+            {
+                CACHEHISTORYCTRLZANDCTRLY.add(strtoset);
+            }
+        }
+    }
+
+    static void Draumodified(JPanel p, int x, int y)
+    {
+        p.setBackground(CURRENTCOLOR);
+        nullpxls = nullpxls.replace(utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH)), "");
+        p.setBorder(null);
+    }
+    
+    static void Irezmodified(JPanel p, int X, int Y)
+    {
+        p.setBackground(artarea.getBackground());
+        nullpxls+=utils.listintxytoString(utils.FindIndexVector2(p, pixels, WIDTH));
+        p.setBorder(border);
+    }
+
+    static void popeverythingafterindexinList(int index)
+    {
+        for (int i = index+1; i < CACHEHISTORYCTRLZANDCTRLY.size(); i++)
+        {
+            CACHEHISTORYCTRLZANDCTRLY.remove(i);
+        }
+    }
+
+    static void DOWHATHESAYZ(String str, int ru /*undo or redo 0 or 1*/)
+    {
+        String[] strs = str.split("##");
+        for (String substr : strs)
+        {
+            if (substr.isEmpty())
+            {
+                continue;
+            }
+            String[] partsofdata = substr.split(":");
+            int x = Integer.valueOf(partsofdata[2].split(",")[0]);  
+            int y = Integer.valueOf(partsofdata[2].split(",")[1]);
+            int index = (y*WIDTH)+x;
+            if ((partsofdata[0].equals("D") && ru == 0) || (partsofdata[0].equals("C") && ru == 1))
+            {
+                Irezmodified(pixels[index], x, y);
+            }
+            else if ((partsofdata[0].equals("C") && ru == 0) || (partsofdata[0].equals("D") && ru == 1))
+            {
+                int r = Integer.valueOf(partsofdata[1].split("-")[0]);
+                int g = Integer.valueOf(partsofdata[1].split("-")[1]);
+                int b = Integer.valueOf(partsofdata[1].split("-")[2]);
+                CURRENTCOLOR = new Color(r, g, b);
+                Draumodified(pixels[index], x, y);
+            }
+        }
     }
 }

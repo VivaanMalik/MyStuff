@@ -324,7 +324,8 @@ public class utils extends classes
         int rindecrementval = 69;
         int gindecrementval = rindecrementval;
         int bindecrementval = rindecrementval;
-        if (y>=128)
+        int colormesure = 128;
+        if (y>=colormesure)
         {
             if (color.getRed()-rindecrementval<0)
             {
@@ -339,7 +340,7 @@ public class utils extends classes
                 bindecrementval = color.getBlue();
             }
         }
-        else if (y<128)
+        else
         {
             if (color.getRed()+rindecrementval>255)
             {
@@ -354,7 +355,7 @@ public class utils extends classes
                 bindecrementval = 255 - color.getBlue();
             }
         }
-        return y >= 128 ? new Color(color.getRed()-rindecrementval, color.getGreen()-gindecrementval, color.getBlue()-bindecrementval) : new Color(color.getRed()+rindecrementval, color.getGreen()+gindecrementval, color.getBlue()+bindecrementval);
+        return y >= colormesure ? new Color(color.getRed()-rindecrementval, color.getGreen()-gindecrementval, color.getBlue()-bindecrementval) : new Color(color.getRed()+rindecrementval, color.getGreen()+gindecrementval, color.getBlue()+bindecrementval);
     }
 
     static Color rgbwithoffsetadjust(double y, int r, int g, int b)
