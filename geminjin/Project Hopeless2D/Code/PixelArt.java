@@ -398,13 +398,7 @@ public class PixelArt extends classes
                         int x = i - (y*WIDTH);        
                         if (nullpxls.contains(utils.xytoString(x, y))==true)
                         {
-                            for (int xx = 0; xx < size; xx++)
-                            {
-                                for (int yy = 0; yy < size; yy++)
-                                {
-                                    // Do nothing :) You earned it
-                                }
-                            }
+                            // Do nothing :) You earned it
                         }
                         else
                         {
