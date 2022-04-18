@@ -198,7 +198,7 @@ public class windows extends classes
     static JPanel gameWindow = new JPanel();
     static int width;
     static int height;
-
+    static JSplitPane CodeGameSplit;
 
 
     public static void OpenMenuWindow()
@@ -969,7 +969,7 @@ public class windows extends classes
     {
         UIManager.put("SplitPane.background", utils.highlight_highlight_color);
         UIManager.put("SplitPane.dividerFocusColor", utils.highlight_highlight_color);
-        JSplitPane CodeGameSplit = new JSplitPane(SwingConstants.VERTICAL, gameWindow, codeWindow);
+        CodeGameSplit = new JSplitPane(SwingConstants.VERTICAL, gameWindow, codeWindow);
         CodeGameSplit.addPropertyChangeListener(new PropertyChangeListener() 
         {
 
@@ -1095,6 +1095,11 @@ public class windows extends classes
         titlelabel.setForeground(utils.highlight_color);
         titlelabel.setBounds(10, 10, 100, 10);
         codeWindow.add(titlelabel);
+        codeWindow.setLayout(new BoxLayout(codeWindow, BoxLayout.Y_AXIS));
+        int widthofcodearea = Window.getContentPane().getWidth() -  (int) CodeGameSplit.getDividerLocation();
+        widthofcodearea = Math.round(0.95f*widthofcodearea);
+        codeWindow.add(CodingWindow.SetupWindow(widthofcodearea, Window.getHeight()));
+        
     }
 
     public static void SetupGameWindow()

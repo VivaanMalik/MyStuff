@@ -182,14 +182,13 @@ public class classes
             super(text);
         }
 
-        @Override
-        protected void paintComponent(Graphics g) 
+        public void paint(Graphics g) 
         {
             g.setColor(getBackground());
             g.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
             g.setFont(getFont());
             g.setColor(getForeground());
-            g.drawString(getText(), 0, 0);
+            // g.drawString(getText(), 0, 0);
             super.paint(g);
         }
     }
