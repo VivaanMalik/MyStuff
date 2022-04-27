@@ -1,5 +1,5 @@
 import random
-from tkinter import W
+from turtle import width
 import pygame
 pygame.init()
 
@@ -119,40 +119,275 @@ def findintersections(a, b:list):
     return retrunlist
 
 def GetTile(topimg = None, bottomimg = None, leftimg = None, rightimg = None):
-    possible = []
-    if topimg in WaterBottom:
-        possible.append(x for x in WaterTop)
-    elif topimg in GrassBottom:
-        possible.append(x for x in GrassTop)
-    elif topimg in GWWBottom:
-        possible.append(x for x in WWGTop)
-    elif topimg in WWGBottom:
-        possible.append(x for x in GWWTop)
+    possible = [Water2, Grass2, WaterCornerAS2, WaterCornerDW2, WaterCornerSD2, WaterCornerWA2, WaterSideA2, WaterSideD2, WaterSideS2, WaterSideW2]
+    if topimg!=None:
+        possible=[]
+        if topimg in WaterBottom:
+            possible.extend(WaterTop)
+        elif topimg in GrassBottom:
+            possible.extend(GrassTop)
+        elif topimg in GWWBottom:
+            possible.extend(WWGTop)
+        elif topimg in WWGBottom:
+            possible.extend(GWWTop)
 
-    if bottomimg in WaterTop:
-        possible.append(findintersections(possible, WaterBottom))
-    elif bottomimg in GrassTop:
-        possible.append(findintersections(possible, GrassBottom))
-    elif bottomimg in GWWTop:
-        possible.append(findintersections(possible, WWGBottom))
-    elif bottomimg in WWGTop:
-        possible.append(findintersections(possible, GWWBottom))
+    if bottomimg!=None:
+        if bottomimg in WaterTop:
+            possible = findintersections(possible, WaterBottom)
+        elif bottomimg in GrassTop:
+            possible = findintersections(possible, GrassBottom)
+        elif bottomimg in GWWTop:
+            possible = findintersections(possible, WWGBottom)
+        elif bottomimg in WWGTop:
+            possible = findintersections(possible, GWWBottom)
 
-    for i in range(possible):
+    if leftimg!=None:
+        if leftimg in WaterRight:
+            possible = findintersections(possible, WaterLeft)
+        elif leftimg in GrassRight:
+            possible = findintersections(possible, GrassLeft)
+        elif leftimg in GWWRight:
+            possible = findintersections(possible, WWGLeft)
+        elif leftimg in WWGRight:
+            possible = findintersections(possible, GWWLeft)
+    
+    if rightimg!=None:
+        if rightimg in WaterLeft:
+            possible = findintersections(possible, WaterRight)
+        elif rightimg in GrassLeft:
+            possible = findintersections(possible, GrassRight)
+        elif rightimg in GWWLeft:
+            possible = findintersections(possible, WWGRight)
+        elif rightimg in WWGLeft:
+            possible = findintersections(possible, GWWRight)
+
+    i = 0
+    while i < len(possible):
         if possible[i] == None:
             possible.pop(i)
+        i+=1
+    if len(possible)==0:
+        return None, 0
+    finalimg = possible[random.randrange(0, len(possible))]
+    return finalimg, len(possible)
 
-    return possible[random.randrange(0, possible.count())]
 
+background = []
+backgroundpossibletiles = []
+for i in range(round(W_height/tilesize)):
+    line = []
+    secondline = []
+    for j in range(round(W_width/tilesize)):
+        line.append(None)
+        secondline.append(10)
+    background.append(line)
+    backgroundpossibletiles.append(secondline)
+        
+x = 0
+y = 0
+full = False
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        keyypress = pygame.key.get_pressed()
+        if keyypress[pygame.K_SPACE] and not full:
+            for Y in range (len(background)):
+                for X in range (len(background[0])):
+                    if Y == 0:
+                        top = None
+                    else:
+                        top = background[Y-1][X]
+                    if Y==len(background)-1:
+                        bottom = None
+                    else:
+                        bottom = background[Y+1][X]
+                    if X == 0:
+                        left = None
+                    else:
+                        left = background[Y][X-1]
+                    if X==len(background[Y])-1:
+                        right = None
+                    else:
+                        right = background[Y][X+1]
+                    tile, possibilities = GetTile(top, bottom, left, right)
+                    backgroundpossibletiles[Y][X] = possibilities
+            
+            tmpnum = 10000
+            for Y in range(len(backgroundpossibletiles)):
+                for X in range(len(backgroundpossibletiles[Y])):
+                    if tmpnum>backgroundpossibletiles[Y][X] and background[Y][X]==None:
+                        x = X
+                        y = Y
 
-        # ReGraphics2()
-        screen.fill((0, 0, 0))
-        # screen.blit() add source to new function
-        pygame.display.update()
+            if background[y][x] == None:
+                # ReGraphics2()
+                screen.fill((0, 0, 0))
+                if y == 0:
+                    top = None
+                else:
+                    top = background[y-1][x]
+                if y==len(background)-1:
+                    bottom = None
+                else:
+                    bottom = background[y+1][x]
+                if x == 0:
+                    left = None
+                else:
+                    left = background[y][x-1]
+                if x==len(background[y])-1:
+                    right = None
+                else:
+                    right = background[y][x+1]
+                tile, possibilities = GetTile(top, bottom, left, right)
+                background[y][x] = tile
+                backgroundpossibletiles[y][x] = possibilities
+            if background[y][x]==None:
+                topy = y-1
+                bottomy = y+1
+                leftx = x-1
+                rightx = x+1
+
+                # if topy>=0:
+                #     background[topy][x] = None
+                # if bottomy<len(background):
+                #     background[bottomy][x] = None
+                # if leftx>=0:
+                #     background[y][leftx] = None
+                # if rightx<len(background[0]):
+                #     background[y][rightx] = None
+
+
+                if 0<=topy:
+                    if topy <= 0:
+                        top = None
+                    else:
+                        top = background[topy-1][x]
+                    if topy>=len(background)-1:
+                        bottom = None
+                    else:
+                        bottom = background[topy+1][x]
+                    if x <= 0:
+                        left = None
+                    else:
+                        left = background[topy][x-1]
+                    if x>=len(background[topy])-1:
+                        right = None
+                    else:
+                        right = background[topy][x+1]
+                    tile, possibilities = GetTile(top, bottom, left, right)
+                    background[topy][x] = tile
+                    backgroundpossibletiles[topy][x] = possibilities
+
+                if len(background)>bottomy:
+                    if bottomy <= 0:
+                        top = None
+                    else:
+                        top = background[bottomy-1][x]
+                    if bottomy>=len(background)-1:
+                        bottom = None
+                    else:
+                        bottom = background[bottomy+1][x]
+                    if x <= 0:
+                        left = None
+                    else:
+                        left = background[bottomy][x-1]
+                    if x>=len(background[bottomy])-1:
+                        right = None
+                    else:
+                        right = background[bottomy][x+1]
+                    tile, possibilities = GetTile(top, bottom, left, right)
+                    background[bottomy][x] = tile
+                    backgroundpossibletiles[bottomy][x] = possibilities
+                
+                if 0<=rightx:
+                    if y <= 0:
+                        top = None
+                    else:
+                        top = background[y-1][leftx]
+                    if y>=len(background)-1:
+                        bottom = None
+                    else:
+                        bottom = background[y+1][leftx]
+                    if leftx <= 0:
+                        left = None
+                    else:
+                        left = background[y][leftx-1]
+                    if leftx>=len(background[y])-1:
+                        right = None
+                    else:
+                        right = background[y][leftx+1]
+                    tile, possibilities = GetTile(top, bottom, left, right)
+                    background[y][leftx] = tile
+                    backgroundpossibletiles[y][leftx] = possibilities
+                
+                if len(background[0])>rightx:
+                    if y <= 0:
+                        top = None
+                    else:
+                        top = background[y-1][rightx]
+                    if y>=len(background)-1:
+                        bottom = None
+                    else:
+                        bottom = background[y+1][rightx]
+                    if rightx <= 0:
+                        left = None
+                    else:
+                        left = background[y][rightx-1]
+                    if rightx>=len(background[y])-1:
+                        right = None
+                    else:
+                        right = background[y][rightx+1]
+                    tile, possibilities = GetTile(top, bottom, left, right)
+                    background[y][rightx] = tile
+                    backgroundpossibletiles[y][rightx] = possibilities
+
+            screen.fill((0, 0, 0))
+            width = 2
+            for Y in range(len(background)):
+                for X in range(len(background[y])):
+                    if background[Y][X]!=None:
+                        screen.blit(background[Y][X], (X*tilesize, Y*tilesize))
+            pygame.draw.rect(screen, (255, 0, 0), [(x*tilesize)-width, (y*tilesize)-width, tilesize+(2*width), tilesize+(2*width)])
+            if background[y][x]!=None:
+                screen.blit(background[y][x], (x*tilesize, y*tilesize))
+            else:
+                pygame.draw.rect(screen, (0, 0, 0), [x*tilesize, y*tilesize, tilesize, tilesize]) 
+            pygame.display.update()
+
+            if x+1==len(background[y]):
+                if y+1==len(background):
+                    x = 0
+                    y = 0
+                else:
+                    y+=1
+                x = 0
+            else:
+                x+=1
+
+        NoneCount = 0
+        for i in background:
+            for j in i:
+                if j == None:
+                    NoneCount+=1
+        if NoneCount == 0:
+            full = True
+            screen.fill((0, 0, 0))
+            for Y in range(len(background)):
+                for X in range(len(background[y])):
+                    if background[Y][X]!=None:
+                        screen.blit(background[Y][X], (X*tilesize, Y*tilesize))
+            pygame.display.update()
+
+        if keyypress[pygame.K_DELETE]:
+            for Y in range(len(background)):
+                for X in range(len(background[Y])):
+                    background[Y][X]=None
+                    screen.fill((0, 0, 0))
+                    pygame.display.update()
+                    x =0
+                    y =0
+            full = False
 
         clock.tick(60)
 
