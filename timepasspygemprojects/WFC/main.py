@@ -1,14 +1,13 @@
 import random
-from turtle import width
 import pygame
 pygame.init()
 
 
 run = True
-screenratio = 8/5 # 16/9
+screenratio = 16/9 # 16/9
 W_height = pygame.display.Info().current_h
 W_width = round(W_height*screenratio)
-tilesize = round(W_height/10)
+tilesize = round(W_height/16)
 screen = pygame.display.set_mode((W_width, W_height), pygame.FULLSCREEN|pygame.SCALED)
 pygame.display.set_caption("This is a window =)")
 clock = pygame.time.Clock()
@@ -44,6 +43,16 @@ Water2 = pygame.image.load(".\\newimgs\\Water.png")
 Water2 = pygame.transform.scale(Water2, (tilesize, tilesize))
 Grass2 = pygame.image.load(".\\newimgs\\Grass.png")
 Grass2 = pygame.transform.scale(Grass2, (tilesize, tilesize))
+Bush2 = pygame.image.load(".\\newimgs\\Bush.png")
+Bush2 = pygame.transform.scale(Bush2, (tilesize, tilesize))
+Tent2 = pygame.image.load(".\\newimgs\\Tent.png")
+Tent2 = pygame.transform.scale(Tent2, (tilesize, tilesize))
+TentRightTop = pygame.image.load(".\\newimgs\\TentTop.png")
+TentRightTop = pygame.transform.scale(TentRightTop, (tilesize, tilesize))
+TentRightBottom = pygame.image.load(".\\newimgs\\TentBottom.png")
+TentRightBottom = pygame.transform.scale(TentRightBottom, (tilesize, tilesize))
+TentLeftTop = pygame.transform.flip(TentRightTop, True, False)
+TentLeftBottom = pygame.transform.flip(TentRightBottom, True, False)
 WaterCornerSD2 = pygame.image.load(".\\newimgs\\WaterCorner.png")
 WaterCornerSD2 = pygame.transform.scale(WaterCornerSD2, (tilesize, tilesize))
 WaterCornerDW2 = pygame.transform.rotate(WaterCornerSD2, rotconst)
@@ -56,21 +65,34 @@ WaterSideW2 = pygame.transform.rotate(WaterSideD2, rotconst)
 WaterSideA2 = pygame.transform.rotate(WaterSideW2, rotconst)
 
 WaterBottom = [None, Water2, WaterSideW2]
-GrassBottom = [None, Grass2, WaterCornerSD2, WaterCornerAS2, WaterSideS2]
+GrassBottom = [None, Grass2, WaterCornerSD2, WaterCornerAS2, WaterSideS2, Bush2, TentRightBottom, TentLeftBottom]
 GWWBottom = [None, WaterCornerWA2, WaterSideA2]
 WWGBottom = [None, WaterCornerDW2, WaterSideD2]
 WaterTop = [None, Water2, WaterSideS2]
-GrassTop = [None, Grass2, WaterCornerDW2, WaterCornerWA2, WaterSideW2]
+GrassTop = [None, Grass2, WaterCornerDW2, WaterCornerWA2, WaterSideW2, Bush2, TentRightTop, TentLeftTop]
 GWWTop = [None, WaterCornerSD2, WaterSideD2]
 WWGTop = [None, WaterCornerAS2, WaterSideA2]
 WaterLeft = [None, Water2, WaterSideD2]
-GrassLeft = [None, Grass2, WaterCornerWA2, WaterCornerAS2, WaterSideA2]
+GrassLeft = [None, Grass2, WaterCornerWA2, WaterCornerAS2, WaterSideA2, Bush2, TentLeftTop, TentLeftBottom]
 GWWLeft = [None, WaterCornerDW2, WaterSideW2]
 WWGLeft = [None, WaterCornerSD2, WaterSideS2]
 WaterRight = [None, Water2, WaterSideA2]
-GrassRight = [None, Grass2, WaterCornerSD2, WaterCornerDW2, WaterSideD2]
+GrassRight = [None, Grass2, WaterCornerSD2, WaterCornerDW2, WaterSideD2, Bush2, TentRightTop, TentRightBottom]
 GWWRight = [None, WaterCornerAS2, WaterSideS2]
 WWGRight = [None, WaterCornerWA2, WaterSideW2]
+TRT = [TentRightTop]
+TLT = [TentLeftTop]
+TRB = [TentRightBottom]
+TLB = [TentLeftBottom]
+
+matchingPairsBottom   =  [TRT, TLT, WaterBottom, GrassBottom, GWWBottom, WWGBottom]
+matchingPairsBottomUSE = [TRB, TLB, WaterTop, GrassTop, WWGTop, GWWTop]
+matchingPairsTop     =   [TRB, TLB, WaterTop, GrassTop, WWGTop, GWWTop]
+matchingPairsTopUSE   =  [TRT, TLT, WaterBottom, GrassBottom, GWWBottom, WWGBottom]
+matchingPairsLeft    =   [TRT, TRB, WaterLeft, GrassLeft, WWGLeft, GWWLeft]
+matchingPairsLeftUSE  =  [TLT, TLB, WaterRight, GrassRight, GWWRight, WWGRight]
+matchingPairsRight   =   [TLT, TLB, WaterRight, GrassRight, GWWRight, WWGRight]
+matchingPairsRightUSE  = [TRT, TRB, WaterLeft, GrassLeft, WWGLeft, GWWLeft]
 
 
 def ReGraphics1():
@@ -111,7 +133,7 @@ def ReGraphics2():
     pygame.display.update()
 
 
-def findintersections(a, b:list):
+def findintersections(a:list, b:list):
     retrunlist = []
     for i in a:
         if i in b:
@@ -119,47 +141,31 @@ def findintersections(a, b:list):
     return retrunlist
 
 def GetTile(topimg = None, bottomimg = None, leftimg = None, rightimg = None):
-    possible = [Water2, Grass2, WaterCornerAS2, WaterCornerDW2, WaterCornerSD2, WaterCornerWA2, WaterSideA2, WaterSideD2, WaterSideS2, WaterSideW2]
-    if topimg!=None:
-        possible=[]
-        if topimg in WaterBottom:
-            possible.extend(WaterTop)
-        elif topimg in GrassBottom:
-            possible.extend(GrassTop)
-        elif topimg in GWWBottom:
-            possible.extend(WWGTop)
-        elif topimg in WWGBottom:
-            possible.extend(GWWTop)
-
+    possible = [Water2, Grass2, WaterCornerAS2, WaterCornerDW2, WaterCornerSD2, WaterCornerWA2, WaterSideA2, WaterSideD2, WaterSideS2, WaterSideW2, TentRightBottom, TentLeftBottom, TentRightTop, TentLeftTop, Bush2]
     if bottomimg!=None:
-        if bottomimg in WaterTop:
-            possible = findintersections(possible, WaterBottom)
-        elif bottomimg in GrassTop:
-            possible = findintersections(possible, GrassBottom)
-        elif bottomimg in GWWTop:
-            possible = findintersections(possible, WWGBottom)
-        elif bottomimg in WWGTop:
-            possible = findintersections(possible, GWWBottom)
+        possible=[]
+        for i in range(len(matchingPairsTop)):
+            if bottomimg in matchingPairsTop[i]:
+                possible.extend(matchingPairsTopUSE[i])
+                break
 
-    if leftimg!=None:
-        if leftimg in WaterRight:
-            possible = findintersections(possible, WaterLeft)
-        elif leftimg in GrassRight:
-            possible = findintersections(possible, GrassLeft)
-        elif leftimg in GWWRight:
-            possible = findintersections(possible, WWGLeft)
-        elif leftimg in WWGRight:
-            possible = findintersections(possible, GWWLeft)
-    
+    if topimg!=None:
+        for i in range(len(matchingPairsBottom)):
+            if topimg in matchingPairsBottom[i]:
+                possible = findintersections(possible, matchingPairsBottomUSE[i])
+                break
+
     if rightimg!=None:
-        if rightimg in WaterLeft:
-            possible = findintersections(possible, WaterRight)
-        elif rightimg in GrassLeft:
-            possible = findintersections(possible, GrassRight)
-        elif rightimg in GWWLeft:
-            possible = findintersections(possible, WWGRight)
-        elif rightimg in WWGLeft:
-            possible = findintersections(possible, GWWRight)
+        for i in range(len(matchingPairsLeft)):
+            if rightimg in matchingPairsLeft[i]:
+                possible = findintersections(possible, matchingPairsLeftUSE[i])
+                break
+    
+    if leftimg!=None:
+        for i in range(len(matchingPairsRight)):
+            if leftimg in matchingPairsRight[i]:
+                possible = findintersections(possible, matchingPairsRightUSE[i])
+                break
 
     i = 0
     while i < len(possible):
@@ -179,7 +185,7 @@ for i in range(round(W_height/tilesize)):
     secondline = []
     for j in range(round(W_width/tilesize)):
         line.append(None)
-        secondline.append(10)
+        secondline.append(0)
     background.append(line)
     backgroundpossibletiles.append(secondline)
         
