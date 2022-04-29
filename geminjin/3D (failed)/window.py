@@ -158,6 +158,8 @@ def Ngonz(data, faces, lightsource):
         meanpoint=MeanPoint(pointsformean)
         multiplier=multipliers[indexi]
 
+
+        multiplier = distance(lightsource.pos, meanpoint)/500
         r=round(color.r*multiplier)
         g=round(color.g*multiplier)
         b=round(color.b*multiplier)
