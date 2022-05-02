@@ -42,7 +42,8 @@ public class windows extends classes
         SAVEFILE, 
         SAVEAS,
         SHOWGAMEWINDOW, 
-        PIXELART
+        PIXELART,
+        OPENCODEBUTTON
     }
 
     // Listener
@@ -162,6 +163,79 @@ public class windows extends classes
                 PixelArt.path = FILEPATH.getParent().toString();
                 PixelArt.ShowWindow();
             }
+            else if (e.getActionCommand()==ActionList.OPENCODEBUTTON.name())
+            {
+                LookAndFeel laf=UIManager.getLookAndFeel();
+
+                UIManager.put("control", utils.DarkColor(0.1f));
+                UIManager.put("nimbusBlueGrey", utils.DarkColor(0.1f));
+                UIManager.put("nimbusBase", utils.highlight_color);
+                UIManager.put("nimbusLightBackground", utils.DarkColor(0.25f));
+                UIManager.put("controlText", utils.highlight_color);
+                UIManager.put("infoText", utils.highlight_color);
+                UIManager.put("menuText", utils.highlight_color);
+                UIManager.put("textForeground", utils.highlight_color);
+                UIManager.put("nimbusSelectedText", utils.highlight_highlight_color);
+                UIManager.put("nimbusSelectionBackground", utils.DarkColor(0.3f));
+                UIManager.put("nimbusFocus", utils.highlight_highlight_color);
+
+                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        try 
+                        {
+                            UIManager.setLookAndFeel(info.getClassName());
+                        } 
+                        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e3) 
+                        {
+                            e3.printStackTrace();
+                        }
+                        break;
+                    }
+                }
+
+                String path = FILEPATH.getParent().toString();
+
+                JFileChooser JFC;
+                JFC=new JFileChooser(path);
+                JFC.setDialogTitle("Select the location of the next hope destroyer");
+                // JFC.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                JFC.setFileFilter(new FileFilter() {
+                    @Override
+                    public String getDescription() 
+                    {
+                        return "*.java";
+                    }
+
+                    @Override
+                    public boolean accept(File f) 
+                    {
+                        if (f.isDirectory())
+                        {
+                            return true;
+                        }
+                        return f.getName().endsWith(".java");
+                    }
+                });
+                JFC.setAcceptAllFileFilterUsed(false);
+                
+                int opt=JFC.showOpenDialog(menuwindow);
+                try 
+                {
+                    UIManager.setLookAndFeel(laf);
+                } catch (UnsupportedLookAndFeelException e2) 
+                {
+                    e2.printStackTrace();
+                }
+                if (opt==JFileChooser.APPROVE_OPTION)
+                {
+                    CodeText = CodingWindow.openfile(JFC.getCurrentDirectory().toString(), JFC.getSelectedFile().getName());
+                    CODEFILENAME = JFC.getSelectedFile().getName();
+                    CODEFILEPATH = JFC.getCurrentDirectory().toString();
+                    codeWindow.removeAll();
+                    SetupCodeWindow(CodeText);
+                    utils.Repaint(Window);
+                }
+            }
         } 
     }
     
@@ -191,6 +265,9 @@ public class windows extends classes
     static String menuStringDir;
     
     // main window
+    static String CODEFILENAME = null;
+    static String CODEFILEPATH = null;
+    static String CodeText = "\n";
     static Path FILEPATH;
     static float Lvl1ResizeWeight;
     static JFrame Window;
@@ -979,8 +1056,12 @@ public class windows extends classes
                 int location = (int) CodeGameSplit.getDividerLocation();
                 Lvl1ResizeWeight=utils.Number2Percentage(location, width);
                 utils.FileIsUnsaved(Window);
-
+                CodeText = CodingWindow.openfile(CODEFILEPATH, CODEFILENAME);
                 gameWindow.setSize(CodeGameSplit.getDividerLocation(), Window.getHeight());
+                codeWindow.removeAll();
+                gameWindow.removeAll();
+                SetupGameWindow();
+                SetupCodeWindow(CodeText);
             }
             
         });
@@ -1023,8 +1104,6 @@ public class windows extends classes
         Window.add(CodeGameSplit);
         gameWindow.setSize(CodeGameSplit.getDividerLocation(), Window.getHeight());
 
-        SetupCodeWindow();
-        SetupGameWindow();
     }
 
     public static JMenuBar InitializeMenu()
@@ -1086,7 +1165,7 @@ public class windows extends classes
         return Mb;
     }
 
-    public static void SetupCodeWindow()
+    public static void SetupCodeWindow(String CodeText)
     {
         JLabel titlelabel= new JLabel("Title");
         titlelabel.setText("Code");
@@ -1095,11 +1174,26 @@ public class windows extends classes
         titlelabel.setForeground(utils.highlight_color);
         titlelabel.setBounds(10, 10, 100, 10);
         codeWindow.add(titlelabel);
-        codeWindow.setLayout(new BoxLayout(codeWindow, BoxLayout.Y_AXIS));
         int widthofcodearea = Window.getContentPane().getWidth() -  (int) CodeGameSplit.getDividerLocation();
+        JPanel Buttons = new JPanel();
+        Buttons.setBounds(10, 40, widthofcodearea, utils.Percentage2Number(0.6f, Window.getHeight()));
+        Buttons.setLayout(new BoxLayout(Buttons, BoxLayout.X_AXIS));
+        Buttons.setBackground(codeWindow.getBackground());
+        OPButton OpenCodeButton = new OPButton("Open File (Code)");
+        OpenCodeButton.setArcSize(15);
+        OpenCodeButton.setFont(utils.Verdana(16));
+        OpenCodeButton.setBorderPainted(false);
+        OpenCodeButton.setFocusPainted(false);
+        OpenCodeButton.setBackground(utils.highlight_color);
+        OpenCodeButton.setHoverBackgroundColor(utils.highlight_color.brighter());
+        OpenCodeButton.setPressedBackgroundColor(utils.highlight_highlight_color);
+        OpenCodeButton.setActionCommand(ActionList.OPENCODEBUTTON.name());
+        OpenCodeButton.addActionListener(new Listener());
+        Buttons.add(OpenCodeButton);
+        codeWindow.setLayout(new BoxLayout(codeWindow, BoxLayout.Y_AXIS));
         widthofcodearea = Math.round(0.95f*widthofcodearea);
-        codeWindow.add(CodingWindow.SetupWindow(widthofcodearea, Window.getHeight()));
-        
+        codeWindow.add(Buttons);
+        codeWindow.add(CodingWindow.SetupWindow(widthofcodearea, Window.getHeight(), CodeText));
     }
 
     public static void SetupGameWindow()

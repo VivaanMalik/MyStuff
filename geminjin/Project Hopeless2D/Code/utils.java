@@ -94,6 +94,11 @@ public class utils extends classes
         return new Font("Verdana", Font.PLAIN, size);
     }
 
+    public static Font Consolas(int size)
+    {
+        return new Font("Consolas", Font.PLAIN, size);
+    }
+
     public static List<Object> ExtractGameData(Path path)
     {
         try
