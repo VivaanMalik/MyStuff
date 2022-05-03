@@ -228,11 +228,11 @@ public class windows extends classes
                 }
                 if (opt==JFileChooser.APPROVE_OPTION)
                 {
-                    CodeText = CodingWindow.openfile(JFC.getCurrentDirectory().toString(), JFC.getSelectedFile().getName());
+                    CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp = CodingWindow.openfile(JFC.getCurrentDirectory().toString(), JFC.getSelectedFile().getName());
                     CODEFILENAME = JFC.getSelectedFile().getName();
                     CODEFILEPATH = JFC.getCurrentDirectory().toString();
                     codeWindow.removeAll();
-                    SetupCodeWindow(CodeText);
+                    SetupCodeWindow(CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp);
                     utils.Repaint(Window);
                 }
             }
@@ -247,7 +247,6 @@ public class windows extends classes
     static JFrame menuwindow;
     static int menuwidth;
     static int menuheight;
-
     static JPanel menulistpanel;
     static JList<String> menulist;
     static OPButton MenuNewFile;
@@ -267,7 +266,7 @@ public class windows extends classes
     // main window
     static String CODEFILENAME = null;
     static String CODEFILEPATH = null;
-    static String CodeText = "\n";
+    static String CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp = "\n";
     static Path FILEPATH;
     static float Lvl1ResizeWeight;
     static JFrame Window;
@@ -1009,6 +1008,22 @@ public class windows extends classes
         utils.FileIsSaved(Window);
     }
 
+    public static void saveCodeedFileAuto(String txt)
+    {
+        String path = CODEFILEPATH+"\\"+CODEFILENAME;
+        try 
+        {
+            FileWriter fw = new FileWriter(path);
+            fw.write("");
+            fw.write(txt);
+            fw.close();
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    }
+
     // Proper window
     public static void OpenWindow(String name, float Lvl1ResizeWeightparam, Path path)
     {
@@ -1056,12 +1071,12 @@ public class windows extends classes
                 int location = (int) CodeGameSplit.getDividerLocation();
                 Lvl1ResizeWeight=utils.Number2Percentage(location, width);
                 utils.FileIsUnsaved(Window);
-                CodeText = CodingWindow.openfile(CODEFILEPATH, CODEFILENAME);
+                CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp = CodingWindow.openfile(CODEFILEPATH, CODEFILENAME);
                 gameWindow.setSize(CodeGameSplit.getDividerLocation(), Window.getHeight());
                 codeWindow.removeAll();
                 gameWindow.removeAll();
                 SetupGameWindow();
-                SetupCodeWindow(CodeText);
+                SetupCodeWindow(CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp);
             }
             
         });
@@ -1165,7 +1180,7 @@ public class windows extends classes
         return Mb;
     }
 
-    public static void SetupCodeWindow(String CodeText)
+    public static void SetupCodeWindow(String CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp)
     {
         JLabel titlelabel= new JLabel("Title");
         titlelabel.setText("Code");
@@ -1189,11 +1204,26 @@ public class windows extends classes
         OpenCodeButton.setPressedBackgroundColor(utils.highlight_highlight_color);
         OpenCodeButton.setActionCommand(ActionList.OPENCODEBUTTON.name());
         OpenCodeButton.addActionListener(new Listener());
+        OPButton SaveCodeButton = new OPButton("Save File (Code)");
+        SaveCodeButton.setArcSize(15);
+        SaveCodeButton.setFont(utils.Verdana(16));
+        SaveCodeButton.setBorderPainted(false);
+        SaveCodeButton.setFocusPainted(false);
+        SaveCodeButton.setBackground(utils.highlight_color);
+        SaveCodeButton.setHoverBackgroundColor(utils.highlight_color.brighter());
+        SaveCodeButton.setPressedBackgroundColor(utils.highlight_highlight_color);
+        SaveCodeButton.addActionListener(new CodingWindow.SaveButtonListener());
+        if (CODEFILENAME==null||CODEFILEPATH==null)
+        {
+            utils.DisableButton(SaveCodeButton);
+        }
+        Buttons.add(SaveCodeButton);
+        Buttons.add(Box.createRigidArea(new Dimension(5, 0)));
         Buttons.add(OpenCodeButton);
         codeWindow.setLayout(new BoxLayout(codeWindow, BoxLayout.Y_AXIS));
         widthofcodearea = Math.round(0.95f*widthofcodearea);
         codeWindow.add(Buttons);
-        codeWindow.add(CodingWindow.SetupWindow(widthofcodearea, Window.getHeight(), CodeText));
+        codeWindow.add(CodingWindow.SetupWindow(widthofcodearea, Window.getHeight(), CodeNotMineButTheUserOfMaGameEngineIKnowItsALongVariableNameButShutUp));
     }
 
     public static void SetupGameWindow()
