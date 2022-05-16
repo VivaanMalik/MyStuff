@@ -8,7 +8,6 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.text.NumberFormatter;
-
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Color;

@@ -4,7 +4,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.awt.image.BufferedImage;
+import java.awt.Image;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -40,6 +41,13 @@ public class utils extends classes
     static Border empty = new EmptyBorder(0, 10, 0, 10);
 
     public static CompoundBorder RoundedBorder = new CompoundBorder(rounded, empty);
+
+    public static BufferedImage toBufferedImage(Image img)
+    {
+        BufferedImage buffered = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+        buffered.getGraphics().drawImage(img, 0, 0 , null);
+        return buffered;
+    }
 
     public static String GetLine(String match, String[] array)
     {

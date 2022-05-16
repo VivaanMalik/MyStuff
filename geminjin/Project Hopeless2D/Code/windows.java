@@ -241,7 +241,7 @@ public class windows extends classes
     
 
     public static String version="0.0.0";
-    public static String Data_Fille_path="..\\data.hopelessdata";
+    public static String Data_Fille_path=System.getenv("APPDATA")+"Local\\Hopeless2D\\data.hopelessdata";
 
     //menu
     static JFrame menuwindow;
@@ -348,6 +348,29 @@ public class windows extends classes
         MenuOpenFile.setBounds(utils.Percentage2Number(0.95f, menuwidth)-bw, utils.Percentage2Number(0.4f, menuheight), bw, bh);
         MenuOpenFile.setActionCommand(ActionList.OPENFILEINPUT.name());
         MenuOpenFile.addActionListener(new Listener());
+
+        try
+        {
+            List<String> lines=new ArrayList<String>();
+            lines=Files.readAllLines(Paths.get(Data_Fille_path));
+            String[] updatedLines=lines.toArray(new String[0]);
+            for (int i = 0; i < updatedLines.length; i ++)
+            {
+                if (updatedLines[i].startsWith("ProjectFilePaths"))
+                {
+                    String line = updatedLines[i].substring(20, updatedLines[i].length()-1);
+                    String[] paths=line.split(", ");
+                    if (paths.length == 0)
+                    {
+                        utils.DisableButton(MenuOpenFile);
+                    }
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         
         menuwindow.add(MenuNewFile);
         menuwindow.add(MenuOpenFile);
