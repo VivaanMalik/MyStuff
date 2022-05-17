@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 
 public class GameWindow extends classes
 {
+    static JFrame frame;
+    static JLayeredPane frem;
     static String path;
     int Xsize;
     int Ysize;
@@ -24,91 +26,6 @@ public class GameWindow extends classes
     {
         ent[0] = e;
     }
-
-    // public static class Entity
-    // {
-    //     public static PixelImage[] Sprites;
-    //     public static Vector2 Size;
-    //     public static Vector2 position;
-    //     public static int rotation;
-    //     public static List<Entity> toaddsprites = new ArrayList<Entity>();
-    //     public static List<Integer> toaddindexes = new ArrayList<Integer>();
-
-    //     public Entity(PixelImage Sprite, Vector2 size, Vector2 pos, int rot)
-    //     {
-    //         Sprites=new PixelImage[1];
-    //         Sprites[0]=Sprite;
-    //         Size=size;
-    //         rotation = rot;
-    //         position=pos;
-    //         ent[0] = this;
-    //     }
-
-    //     public Entity(PixelImage[] Sprite, Vector2 size, Vector2 pos, int rot)
-    //     {
-    //         Sprites=Sprite;
-    //         Size=size;
-    //         position=pos;
-    //         rotation = rot;
-    //     }
-
-    //     public Entity(BufferedImage[] images, Vector2 size, Vector2 pos, int rot)
-    //     {
-    //         position=pos;
-    //         rotation=rot;
-    //         Sprites = new PixelImage[images.length];
-    //         for (int i =0; i < images.length; i++)
-    //         {
-    //             PixelImage p = new PixelImage(images[i].getWidth(), images[i].getHeight());
-    //             for (int x = 0; x < images[i].getWidth(); x++)
-    //             {
-    //                 for (int y = 0; y < images[i].getHeight(); y++)
-    //                 {
-    //                     p.SetPixel(x, y, new Color(images[i].getRGB(x, y), false));
-    //                 }
-    //             }
-    //             Sprites[i] = p;
-    //         }
-    //     }
-        
-    //     public Vector2 getposition()
-    //     {
-    //         return position;
-    //     }
-
-    //     public PixelImage[] getSprite()
-    //     {
-    //         return Sprites;
-    //     }
-
-    //     public Vector2 getSize()
-    //     {
-    //         return Size;
-    //     }
-
-    //     public void addEntity(Entity e, int imageindex)
-    //     {
-    //         toaddsprites.add(e);
-    //         toaddindexes.add(imageindex);
-    //     }
-
-    //     public Image GetImage(int index)
-    //     {
-    //         Color[][] img = Sprites[index].PixelData;
-    //         BufferedImage BFIMAGE=new BufferedImage(img[0].length, img.length, BufferedImage.TYPE_INT_RGB);
-    //         for (int yColors = 0; yColors < img.length; yColors++)
-    //         {
-    //             for (int xColor = 0; xColor < img[yColors].length; xColor++)
-    //             {
-    //                 Color color = img[yColors][xColor];
-    //                 BFIMAGE.setRGB(xColor, yColors, 65536 * color.r + 256 * color.g + color.b);
-    //             }
-    //         }
-    //         Image FinalImage = BFIMAGE.getScaledInstance(Size.x, Size.y, BufferedImage.SCALE_SMOOTH);
-    //         return FinalImage;
-    //     }
-    // }
-
 
     public Entity CreateEntity(Color[][] colorz, Vector2 size, Vector2 pos, int rot)
     {
@@ -196,21 +113,8 @@ public class GameWindow extends classes
     {
         float ratio = 16f/9f;
         List<Entity> entityes = new ArrayList<Entity>();
-        JFrame frame = new JFrame();
-        JLayeredPane frem = new JLayeredPane();
-        // {
-        //     @Override
-        //     protected void paintComponent(Graphics g)
-        //     {
-        //         super.paintComponents(g);
-        //         System.out.println(entityes.size());
-        //         for (Entity e : entityes)
-        //         {
-        //             System.out.print(e);
-        //             g.drawImage(e.GetImage(0), e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y, null, null);
-        //         }
-        //     }
-        // };
+        frame = new JFrame();
+        frem = new JLayeredPane();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.setResizable(false);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -221,12 +125,6 @@ public class GameWindow extends classes
         frame.setSize(new Dimension(w, (int)Math.round((float)w/ratio)));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        
-        
-        // Color[][] pxldata = {{new Color(100, 100, 0), new Color(0, 100, 100)}, {new Color(100, 100, 100), new Color(100, 0, 100)}};
-        // PixelImage img = new PixelImage(pxldata);
-        // Entity entity = new Entity(img, new Vector2(200, 200));
-        // frem.add(new JLabel(new ImageIcon(entity.GetImage(0))));
         
         try
         {
