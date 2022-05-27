@@ -102,13 +102,6 @@ public class CodingWindow extends classes
         p.removeAll();
         txtarea = new JTextArea(txt);
         txtarea.setDocument(new CustomUndoPlainDocument());
-        // {
-        //     @Override
-        //     public void replace(int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-        //         txtarea.replaceRange(text, 0, txtarea.getText().length());
-        //     }
-        // });
-        // System.out.println(txtarea.getDocument());
         txtarea.setText(txt);
         txtarea.setForeground(utils.highlight_color);
         txtarea.setBackground(utils.DarkColor(0.115f));

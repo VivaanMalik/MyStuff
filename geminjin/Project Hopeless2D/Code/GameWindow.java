@@ -1,13 +1,8 @@
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -109,10 +104,9 @@ public class GameWindow extends classes
         }
     }
 
-    public static void ShowWindow()
+    public static void ShowWindow(List<Entity> entityes)
     {
         float ratio = 16f/9f;
-        List<Entity> entityes = new ArrayList<Entity>();
         frame = new JFrame();
         frem = new JLayeredPane();
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -126,23 +120,29 @@ public class GameWindow extends classes
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
-        try
-        {
-            Color[][] pxldatabg = {{new Color(30, 40, 20)}, {new Color(30, 40, 20)}};
-            PixelImage bg = new PixelImage(pxldatabg);
-            BufferedImage[] imgs = {ImageIO.read(new File(path+"\\"+"TNT.jpg"))};
-            Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0);
-            Entity e3 = new Entity(imgs, new Vector2(400, 400), new Vector2(69, 69), 0);
-
-            entityes.add(e3);
-            entityes.add(beckground);            
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        Color[][] pxldatabg = {{new Color(30, 40, 20)}, {new Color(30, 40, 20)}};
+        PixelImage bg = new PixelImage(pxldatabg);
+        Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0);
+        entityes.add(beckground);
         
-        System.out.println(entityes.size());
+        for (int i =0; i < entityes.size(); i++)
+        {
+            Entity e = entityes.get(i);
+            JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
+            ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
+            frem.add(ee, i);
+        }
+        frame.add(frem);
+        utils.Repaint(frame);
+    }
+
+    public static void UpdateWindow(List<Entity> entityes)
+    {       
+        Color[][] pxldatabg = {{new Color(30, 40, 20)}, {new Color(30, 40, 20)}};
+        PixelImage bg = new PixelImage(pxldatabg);
+        Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0);
+        entityes.add(beckground);
+        
         for (int i =0; i < entityes.size(); i++)
         {
             Entity e = entityes.get(i);

@@ -156,7 +156,7 @@ public class windows extends classes
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
                 GameWindow.path = FILEPATH.getParent().toString();
-                GameWindow.ShowWindow();
+                GameWindow.ShowWindow(new ArrayList<Entity>());
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
             {
