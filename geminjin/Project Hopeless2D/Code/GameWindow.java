@@ -17,6 +17,16 @@ public class GameWindow extends classes
     JPanel gamewindow;
     static Entity[] ent=new Entity[1];
 
+    public void SetPath(String Path)
+    {
+        path = Path;
+    }
+
+    public String GetPath()
+    {
+        return path;
+    }
+
     public void AddToEntities(Entity e)
     {
         ent[0] = e;
@@ -104,7 +114,7 @@ public class GameWindow extends classes
         }
     }
 
-    public static void ShowWindow(List<Entity> entityes)
+    public void ShowWindow(List<Entity> entityes)
     {
         float ratio = 16f/9f;
         frame = new JFrame();
@@ -136,7 +146,7 @@ public class GameWindow extends classes
         utils.Repaint(frame);
     }
 
-    public static void UpdateWindow(List<Entity> entityes)
+    public void UpdateWindow(List<Entity> entityes)
     {       
         Color[][] pxldatabg = {{new Color(30, 40, 20)}, {new Color(30, 40, 20)}};
         PixelImage bg = new PixelImage(pxldatabg);

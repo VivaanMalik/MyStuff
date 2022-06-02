@@ -155,8 +155,16 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
-                GameWindow.path = FILEPATH.getParent().toString();
-                GameWindow.ShowWindow(new ArrayList<Entity>());
+                GameWindow gw= new GameWindow();
+                gw.SetPath(FILEPATH.getParent().toString());
+                gw.ShowWindow(new ArrayList<Entity>());
+                Hopeless hp = new Hopeless();
+                hp.gw = gw;
+                tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
+                hp.tmfftstit = tmfftstit;
+                tmfftstit.hp = hp;
+                tmfftstit.setup();
+                // TODO add hopeless.java to custom path
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
             {
