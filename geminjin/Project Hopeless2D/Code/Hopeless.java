@@ -39,8 +39,8 @@ public class Hopeless
                     //TODO CHNGE THE NAME BRUH
                     tmfftstit.Frame();
 
-
-                    gw.UpdateWindow(Entities);
+                    gw.entityes = Entities;
+                    gw.UpdateWindow();
 
                     long aftatime = System.currentTimeMillis();
                     long timedifference = aftatime-prevtime;

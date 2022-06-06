@@ -157,7 +157,8 @@ public class windows extends classes
             {
                 GameWindow gw= new GameWindow();
                 gw.SetPath(FILEPATH.getParent().toString());
-                gw.ShowWindow(new ArrayList<Entity>());
+                gw.entityes = new ArrayList<Entity>();
+                gw.ShowWindow();
                 Hopeless hp = new Hopeless();
                 hp.gw = gw;
                 tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();

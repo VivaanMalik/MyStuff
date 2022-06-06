@@ -1,20 +1,24 @@
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class GameWindow extends classes
 {
     static JFrame frame;
-    static JLayeredPane frem;
+    static JPanel frem;
     static String path;
     static JLabel bgg;
+    List<Entity> entityes;
     int Xsize;
     int Ysize;
     JPanel gamewindow;
@@ -43,11 +47,22 @@ public class GameWindow extends classes
         return e;
     }
 
-    public void ShowWindow(List<Entity> entityes)
+    public void ShowWindow()
     {
         float ratio = 16f/9f;
         frame = new JFrame();
-        frem = new JLayeredPane();
+        frem = new JPanel()
+        {
+            @Override
+            public void paintComponent(Graphics g) 
+            {
+                super.paintComponent(g);
+
+                RepaintScreen(g, entityes);
+                
+                Toolkit.getDefaultToolkit().sync();
+            }
+        };
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.setResizable(false);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,7 +72,7 @@ public class GameWindow extends classes
         frem.setLayout(null);
         frame.setSize(new Dimension(w, (int)Math.round((float)w/ratio)));
         frame.setLocationRelativeTo(null);
-        frame.setIgnoreRepaint(true);
+        // frame.setIgnoreRepaint(true);
         frame.addWindowListener(new WindowListener()
         {
 
@@ -99,13 +114,14 @@ public class GameWindow extends classes
         });
         frame.setVisible(true);
         
-        for (int i =0; i < entityes.size(); i++)
-        {
-            Entity e = entityes.get(i);
-            JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
-            ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
-            frem.add(ee, i);
-        }
+        // for (int i =0; i < entityes.size(); i++)
+        // {
+        //     Entity e = entityes.get(i);
+        //     JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
+        //     ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
+        //     frem.add(ee, i);
+        // }
+        frem.repaint(0, 0, frem.getWidth()+2, frem.getHeight()+2);
         color[][] pxldatabg = {{new color(30, 40, 20)}, {new color(30, 40, 20)}};
         PixelImage bg = new PixelImage(pxldatabg);
         Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0);
@@ -113,20 +129,34 @@ public class GameWindow extends classes
         bgg.setBounds(beckground.getposition().x, beckground.getposition().y, beckground.getSize().x, beckground.getSize().y);
         frame.add(frem);
         frame.add(bgg);
-        frame.setIgnoreRepaint(false);
+        // frame.setIgnoreRepaint(false);
     }
 
-    public void UpdateWindow(List<Entity> entityes)
+    public void UpdateWindow()
     {       
-        frame.setIgnoreRepaint(true);
-        frem.removeAll();        
+        // frame.setIgnoreRepaint(true);
+        // frem.removeAll();        
+        // for (int i =0; i < entityes.size(); i++)
+        // {
+        //     Entity e = entityes.get(i);
+        //     JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
+        //     ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
+        //     frem.add(ee, i);
+        // }
+        // frame.setIgnoreRepaint(false);
+        frem.repaint(0, 0, frem.getWidth()+2, frem.getHeight()+2);
+    }
+
+    private void RepaintScreen(Graphics g, List<Entity> entityes) 
+    {
+        
+        Graphics2D g2d = (Graphics2D) g;
         for (int i =0; i < entityes.size(); i++)
         {
             Entity e = entityes.get(i);
-            JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
-            ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
-            frem.add(ee, i);
+            Image img = e.GetImage(0);
+            img = img.getScaledInstance(e.getSize().x, e.getSize().y, BufferedImage.SCALE_DEFAULT);
+            System.out.println(g2d.drawImage(img, e.getposition().x, e.getposition().y, frem));
         }
-        frame.setIgnoreRepaint(false);
     }
 }

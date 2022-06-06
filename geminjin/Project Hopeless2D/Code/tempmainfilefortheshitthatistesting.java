@@ -23,8 +23,8 @@ public class tempmainfilefortheshitthatistesting
         {
             
         }
-        hp.Instantiate(tnt);
         hp.Instantiate(bg);
+        hp.Instantiate(tnt);
         hp.run(); // Start game ;)
     }
 
