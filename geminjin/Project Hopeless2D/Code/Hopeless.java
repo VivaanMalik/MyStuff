@@ -3,9 +3,10 @@ import java.util.List;
 
 public class Hopeless
 {
-    List<Entity> Entities = new ArrayList<Entity>();
+    static List<Entity> Entities = new ArrayList<Entity>();
     int FramesPerSecond = 30;
     GameWindow gw;
+    Thread run;
     boolean rungame=true;
     tempmainfilefortheshitthatistesting tmfftstit;
 
@@ -14,9 +15,19 @@ public class Hopeless
         Entities.add(e);
     }
 
+    public void stop()
+    {
+        rungame=false;
+    }
+
     public void run()
     {
-        Thread run = new Thread()
+        if (FramesPerSecond>30)
+        {
+            FramesPerSecond = 30;
+        }
+        gw.hp = this;
+        run = new Thread()
         {
             public void run()
             {

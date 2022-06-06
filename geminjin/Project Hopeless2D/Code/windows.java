@@ -1061,6 +1061,24 @@ public class windows extends classes
         FILEPATH=path;
         Lvl1ResizeWeight=Lvl1ResizeWeightparam;
         menuwindow.dispose();
+
+        String dirtocheck = FILEPATH.toFile().getParentFile().toPath().toString();
+        File testfile = new File(dirtocheck+"\\Main.java");
+        if (testfile.exists()==false)
+        {
+            try 
+            {
+                testfile.createNewFile();
+                FileWriter fw = new FileWriter(testfile);
+                fw.write("public class Main\n{\n    Hopeless hp;\n    public void setup()\n    {\n        hp.FramesPerSecond=30; // Define the amount of FPS\n        // Runs before the game loop ;)\n        hp.run(); // Start game ;)\n    }\n    public void Frame()\n    {\n        // Runs every frame ;)\n    }\n}");
+                fw.close();
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
+        }
+
         UIManager.put("MenuItem.selectionForeground", utils.DarkColor(0.25f));
         UIManager.put("MenuItem.selectionBackground", utils.highlight_color);
         UIManager.put("MenuItem.acceleratorForeground", utils.highlight_highlight_color);

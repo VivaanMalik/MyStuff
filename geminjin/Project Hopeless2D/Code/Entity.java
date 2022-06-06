@@ -38,7 +38,7 @@ public class Entity extends GameWindow
             {
                 for (int y = 0; y < images[i].getHeight(); y++)
                 {
-                    p.SetPixel(x, y, new Color(images[i].getRGB(x, y), false));
+                    p.SetPixel(x, y, new color(images[i].getRGB(x, y), false));
                 }
             }
             Sprites[i] = p;
@@ -60,15 +60,30 @@ public class Entity extends GameWindow
         return Size;
     }
 
+    public void setposition(Vector2 pos)
+    {
+        position = pos;
+    }
+    
+    public void setSprites(PixelImage[] pos)
+    {
+        Sprites = pos;
+    }
+
+    public void setSize(Vector2 size)
+    {
+        position = size;
+    }
+
     public Image GetImage(int index)
     {
-        Color[][] img = Sprites[index].PixelData;
+        color[][] img = Sprites[index].PixelData;
         BufferedImage BFIMAGE=new BufferedImage(img[0].length, img.length, BufferedImage.TYPE_INT_RGB);
         for (int yColors = 0; yColors < img.length; yColors++)
         {
             for (int xColor = 0; xColor < img[yColors].length; xColor++)
             {
-                Color color = img[yColors][xColor];
+                color color = img[yColors][xColor];
                 BFIMAGE.setRGB(xColor, yColors, 65536 * color.r + 256 * color.g + color.b);
             }
         }
