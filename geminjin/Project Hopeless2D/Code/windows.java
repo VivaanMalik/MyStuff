@@ -21,6 +21,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -161,10 +166,36 @@ public class windows extends classes
                 gw.ShowWindow();
                 Hopeless hp = new Hopeless();
                 hp.gw = gw;
-                tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
-                hp.FileClassObject = tmfftstit;
-                tmfftstit.hp = hp;
-                tmfftstit.setup();
+
+                try
+                {
+                    URLClassLoader loader = new URLClassLoader(new URL[] 
+                    {
+                        new URL("file://" + FILEPATH.toString())
+                    });
+                    Class<?> mainfile = loader.loadClass("Main");
+                    loader.close();
+
+                    // Class<?> mainfile = new tempmainfilefortheshitthatistesting().getClass();
+                    
+                    // tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
+                    Object tmfftstit = mainfile.getDeclaredConstructor().newInstance();
+                    
+                    hp.FileClassObject = tmfftstit;
+                    // tmfftstit.hp = hp;
+
+                    Field hpField = tmfftstit.getClass().getDeclaredField("hp");
+                    hpField.set(tmfftstit, hp);
+
+                    Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
+                    Setup.invoke(tmfftstit);
+                    // tmfftstit.setup();
+                }
+                catch (IOException | ClassNotFoundException | SecurityException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException | InvocationTargetException | InstantiationException e3)
+                {
+                    e3.printStackTrace();
+                }
+
                 // TODO add hopeless.java to custom path
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
