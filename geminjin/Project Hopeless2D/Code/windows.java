@@ -162,7 +162,7 @@ public class windows extends classes
                 Hopeless hp = new Hopeless();
                 hp.gw = gw;
                 tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
-                hp.tmfftstit = tmfftstit;
+                hp.FileClassObject = tmfftstit;
                 tmfftstit.hp = hp;
                 tmfftstit.setup();
                 // TODO add hopeless.java to custom path
