@@ -177,19 +177,16 @@ public class windows extends classes
                     loader.close();
 
                     // Class<?> mainfile = new tempmainfilefortheshitthatistesting().getClass();
-                    
                     // tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
-                    Object tmfftstit = mainfile.getDeclaredConstructor().newInstance();
-                    
-                    hp.FileClassObject = tmfftstit;
                     // tmfftstit.hp = hp;
+                    // tmfftstit.setup();
 
+                    Object tmfftstit = mainfile.getDeclaredConstructor().newInstance();
+                    hp.FileClassObject = tmfftstit;
                     Field hpField = tmfftstit.getClass().getDeclaredField("hp");
                     hpField.set(tmfftstit, hp);
-
                     Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
                     Setup.invoke(tmfftstit);
-                    // tmfftstit.setup();
                 }
                 catch (IOException | ClassNotFoundException | SecurityException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException | InvocationTargetException | InstantiationException e3)
                 {
