@@ -156,7 +156,7 @@ public class GameWindow extends classes
             Entity e = entityes.get(i);
             Image img = e.GetImage(0);
             img = img.getScaledInstance(e.getSize().x, e.getSize().y, BufferedImage.SCALE_DEFAULT);
-            System.out.println(g2d.drawImage(img, e.getposition().x, e.getposition().y, frem));
+            g2d.drawImage(img, e.getposition().x, e.getposition().y, frem);
         }
     }
 }

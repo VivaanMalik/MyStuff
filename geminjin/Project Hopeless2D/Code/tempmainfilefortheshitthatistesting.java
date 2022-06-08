@@ -30,8 +30,8 @@ public class tempmainfilefortheshitthatistesting
 
     public void Frame()
     {
-        int speed = 2;
-        tnt.setposition(new Vector2(tnt.getposition().x+speed, tnt.getposition().y));
+        int speed = 60;
+        tnt.setposition(new Vector2(tnt.getposition().x+Math.round(speed*hp.deltatime), tnt.getposition().y));
         // Runs every frame ;)
     }
 }
