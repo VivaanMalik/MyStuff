@@ -1,3 +1,5 @@
+package Hopeless2D;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,13 +10,13 @@ import java.util.TimerTask;
 public class Hopeless
 {
     static List<Entity> Entities = new ArrayList<Entity>();
-    int FramesPerSecond = 30;
+    public int FramesPerSecond = 30;
     int currentfps = 0;
-    GameWindow gw;
+    public GameWindow gw;
     Thread run;
-    float deltatime = 0;
-    boolean rungame=true;
-    Object FileClassObject;
+    public float deltatime = 0;
+    public boolean rungame=true;
+    public Object FileClassObject;
 
     public void Instantiate(Entity e)
     {

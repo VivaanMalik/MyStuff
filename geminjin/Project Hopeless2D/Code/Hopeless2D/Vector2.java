@@ -1,7 +1,9 @@
+package Hopeless2D;
+
 public class Vector2
 {
-    int x;
-    int y;
+    public int x;
+    public int y;
 
     public Vector2()
     {

@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
+
 import Hopeless2D.*;
 
 public class windows extends classes
@@ -172,44 +172,39 @@ public class windows extends classes
 
                 try
                 {
-                    URLClassLoader loader = new URLClassLoader(new URL[] 
-                    {
-                        new URL("file://" + FILEPATH.toString())
-                    });
-                    Class<?> mainfile = loader.loadClass("Main");
-                    loader.close();
-
+                    
                     // Class<?> mainfile = new tempmainfilefortheshitthatistesting().getClass();
                     // tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
                     // tmfftstit.hp = hp;
                     // tmfftstit.setup();
 
                     Runtime rt = Runtime.getRuntime();
-                    Process process = rt.exec(new String[]{"javac", "-sourcepath", FILEPATH.toString()+"\\Main.java"});
-
+                    Process process = rt.exec(new String[]{"javac", /*"-cp", ".\\Hopeless2D\\Hopeless2D", */FILEPATH.getParent().toString()+"\\*.java"});
+                    process.waitFor();
+                    System.out.println(FILEPATH.getParent().toString());
                     
-                    InputStream is = process.getInputStream();
-                    InputStreamReader isr = new InputStreamReader(is);
-                    BufferedReader br = new BufferedReader(isr);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                     String line;
-
-                    // System.out.printf("Output of running %s is:", 
-                    //     Arrays.toString(args));
-
-                    while ((line = br.readLine()) != null) {
-                        System.out.println(line);
+                    while ((line = in.readLine()) != null) {
+                        System.out.println("TEST: "+line);
                     }
 
-
+                    
+                    URLClassLoader loader = new URLClassLoader(new URL[] 
+                    {
+                        FILEPATH.getParent().toUri().toURL()
+                    });
+                    Class<?> mainfile = loader.loadClass("Main");
+                    loader.close();
+                    
                     Object tmfftstit = mainfile.getDeclaredConstructor().newInstance();
                     hp.FileClassObject = tmfftstit;
                     Field hpField = tmfftstit.getClass().getDeclaredField("hp");
                     hpField.set(tmfftstit, hp);
                     Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
                     Setup.invoke(tmfftstit);
-                    // TODO add hopeless.java to custom path
                 }
-                catch (IOException | ClassNotFoundException | SecurityException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException | InvocationTargetException | InstantiationException e3)
+                catch (InterruptedException | IOException | ClassNotFoundException | SecurityException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException | InvocationTargetException | InstantiationException e3)
                 {
                     e3.printStackTrace();
                 }
@@ -1119,7 +1114,7 @@ public class windows extends classes
             {
                 testfile.createNewFile();
                 FileWriter fw = new FileWriter(testfile);
-                fw.write("import Hopeless2D.*;\n\npublic class Main\n{\n    Hopeless hp;\n    public void setup()\n    {\n        hp.FramesPerSecond=30; // Define the amount of FPS\n        // Runs before the game loop ;)\n        hp.run(); // Start game ;)\n    }\n    public void Frame()\n    {\n        // Runs every frame ;)\n    }\n}");
+                fw.write("import Hopeless2D.*;\n\npublic class Main\n{\n    public Hopeless hp;\n    public void setup()\n    {\n        hp.FramesPerSecond=30; // Define the amount of FPS\n        // Runs before the game loop ;)\n        hp.run(); // Start game ;)\n    }\n    public void Frame()\n    {\n        // Runs every frame ;)\n    }\n}");
                 fw.close();
             } 
             catch (IOException e) 

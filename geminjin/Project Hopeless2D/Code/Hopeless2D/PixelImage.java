@@ -1,3 +1,5 @@
+package Hopeless2D;
+
 public class PixelImage
 {
     int PixelX;

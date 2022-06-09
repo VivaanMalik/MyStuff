@@ -1,3 +1,5 @@
+package Hopeless2D;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,13 +14,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-public class GameWindow extends classes
+public class GameWindow
 {
     static JFrame frame;
     static JPanel frem;
     static String path;
     static JLabel bgg;
-    List<Entity> entityes;
+    public List<Entity> entityes;
     int Xsize;
     int Ysize;
     JPanel gamewindow;
