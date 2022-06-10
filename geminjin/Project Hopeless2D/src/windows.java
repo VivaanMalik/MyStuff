@@ -181,7 +181,6 @@ public class windows extends classes
                     Runtime rt = Runtime.getRuntime();
                     Process process = rt.exec(new String[]{"javac", /*"-cp", ".\\Hopeless2D\\Hopeless2D", */FILEPATH.getParent().toString()+"\\*.java"});
                     process.waitFor();
-                    System.out.println(FILEPATH.getParent().toString());
                     
                     BufferedReader in = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                     String line;

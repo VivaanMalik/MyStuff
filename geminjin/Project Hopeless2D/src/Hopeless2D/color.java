@@ -40,4 +40,24 @@ public class color
         b=G;
         a=A;
     }
+
+    public int r()
+    {
+        return r;
+    }
+
+    public int g()
+    {
+        return g;
+    }
+
+    public int b()
+    {
+        return b;
+    }
+    
+    public int a()
+    {
+        return a;
+    }
 }

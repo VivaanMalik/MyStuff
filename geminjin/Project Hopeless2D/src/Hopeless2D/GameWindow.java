@@ -120,7 +120,7 @@ public class GameWindow
         // {
         //     Entity e = entityes.get(i);
         //     JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
-        //     ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
+        //     ee.setBounds(e.getposition().x(), e.getposition().y(), e.getSize().x(), e.getSize().y());
         //     frem.add(ee, i);
         // }
         frem.repaint(0, 0, frem.getWidth()+2, frem.getHeight()+2);
@@ -128,7 +128,7 @@ public class GameWindow
         PixelImage bg = new PixelImage(pxldatabg);
         Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0);
         bgg = new JLabel(new ImageIcon(beckground.GetImage(0)));
-        bgg.setBounds(beckground.getposition().x, beckground.getposition().y, beckground.getSize().x, beckground.getSize().y);
+        bgg.setBounds(beckground.getposition().x(), beckground.getposition().y(), beckground.getSize().x(), beckground.getSize().y());
         frame.add(frem);
         frame.add(bgg);
         // frame.setIgnoreRepaint(false);
@@ -142,7 +142,7 @@ public class GameWindow
         // {
         //     Entity e = entityes.get(i);
         //     JLabel ee = new JLabel(new ImageIcon(e.GetImage(0)));
-        //     ee.setBounds(e.getposition().x, e.getposition().y, e.getSize().x, e.getSize().y);
+        //     ee.setBounds(e.getposition().x(), e.getposition().y(), e.getSize().x(), e.getSize().y());
         //     frem.add(ee, i);
         // }
         // frame.setIgnoreRepaint(false);
@@ -157,8 +157,8 @@ public class GameWindow
         {
             Entity e = entityes.get(i);
             Image img = e.GetImage(0);
-            img = img.getScaledInstance(e.getSize().x, e.getSize().y, BufferedImage.SCALE_DEFAULT);
-            g2d.drawImage(img, e.getposition().x, e.getposition().y, frem);
+            img = img.getScaledInstance(e.getSize().x(), e.getSize().y(), BufferedImage.SCALE_DEFAULT);
+            g2d.drawImage(img, e.getposition().x(), e.getposition().y(), frem);
         }
     }
 }

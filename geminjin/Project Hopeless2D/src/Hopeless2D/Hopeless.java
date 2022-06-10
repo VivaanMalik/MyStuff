@@ -18,6 +18,26 @@ public class Hopeless
     public boolean rungame=true;
     public Object FileClassObject;
 
+    public String ProjectPath()
+    {
+        return gw.GetPath();
+    }
+
+    public float DeltaTime()
+    {
+        return deltatime;
+    }
+
+    public int getCurrentFps()
+    {
+        return currentfps;
+    }
+
+    public void SetFrameRate(int fps)
+    {
+        FramesPerSecond = fps;
+    }
+
     public void Instantiate(Entity e)
     {
         Entities.add(e);
@@ -69,6 +89,10 @@ public class Hopeless
                     long timedifference = aftatime-prevtime;
                     int mswait = (1000/FramesPerSecond) - (int)timedifference;
                     deltatime = (float) (mswait+(int)timedifference)/1000f;
+                    if (deltatime<0)
+                    {
+                        deltatime = 0f;
+                    }
                     if (mswait>0)
                     {
                         try 

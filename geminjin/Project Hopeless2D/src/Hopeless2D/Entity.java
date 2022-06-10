@@ -46,6 +46,11 @@ public class Entity
             Sprites[i] = p;
         }
     }
+
+    public int getRotation()
+    {
+        return rotation;
+    }
     
     public Vector2 getposition()
     {
@@ -89,7 +94,7 @@ public class Entity
                 BFIMAGE.setRGB(xColor, yColors, 65536 * color.r + 256 * color.g + color.b);
             }
         }
-        Image FinalImage = BFIMAGE.getScaledInstance(Size.x, Size.y, BufferedImage.SCALE_SMOOTH);
+        Image FinalImage = BFIMAGE.getScaledInstance(Size.x(), Size.y(), BufferedImage.SCALE_SMOOTH);
         return FinalImage;
     }
 }

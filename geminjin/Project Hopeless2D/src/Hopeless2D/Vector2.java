@@ -5,6 +5,16 @@ public class Vector2
     public int x;
     public int y;
 
+    public int x()
+    {
+        return x;
+    }
+
+    public int y()
+    {
+        return y;
+    }
+
     public Vector2()
     {
         x=0;

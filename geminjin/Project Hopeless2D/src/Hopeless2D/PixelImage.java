@@ -31,4 +31,14 @@ public class PixelImage
     {
         PixelData[y][x] = col;
     }
+
+    public color GetPixel(int x, int y)
+    {
+        return PixelData[y][x];
+    }
+
+    public Vector2 GetDimension()
+    {
+        return new Vector2(PixelX, PixelY);
+    }
 }
