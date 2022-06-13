@@ -21,12 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -163,51 +157,7 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
-                GameWindow gw= new GameWindow();
-                gw.SetPath(FILEPATH.getParent().toString());
-                gw.entityes = new ArrayList<Entity>();
-                gw.ShowWindow();
-                Hopeless hp = new Hopeless();
-                hp.gw = gw;
-
-                try
-                {
-                    
-                    // Class<?> mainfile = new tempmainfilefortheshitthatistesting().getClass();
-                    // tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
-                    // tmfftstit.hp = hp;
-                    // tmfftstit.setup();
-
-                    Runtime rt = Runtime.getRuntime();
-                    Process process = rt.exec(new String[]{"javac", /*"-cp", ".\\Hopeless2D\\Hopeless2D", */FILEPATH.getParent().toString()+"\\*.java"});
-                    process.waitFor();
-                    
-                    BufferedReader in = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-                    String line;
-                    while ((line = in.readLine()) != null) {
-                        System.out.println("TEST: "+line);
-                    }
-
-                    
-                    URLClassLoader loader = new URLClassLoader(new URL[] 
-                    {
-                        FILEPATH.getParent().toUri().toURL()
-                    });
-                    Class<?> mainfile = loader.loadClass("Main");
-                    loader.close();
-                    
-                    Object tmfftstit = mainfile.getDeclaredConstructor().newInstance();
-                    hp.FileClassObject = tmfftstit;
-                    Field hpField = tmfftstit.getClass().getDeclaredField("hp");
-                    hpField.set(tmfftstit, hp);
-                    Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
-                    Setup.invoke(tmfftstit);
-                }
-                catch (InterruptedException | IOException | ClassNotFoundException | SecurityException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException | InvocationTargetException | InstantiationException e3)
-                {
-                    e3.printStackTrace();
-                }
-
+                new Runner(FILEPATH);
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
             {
@@ -327,6 +277,10 @@ public class windows extends classes
     static int height;
     static JSplitPane CodeGameSplit;
 
+    // Gme Window
+    // public static Hopeless hp;
+    // static int hopelesses_count = 0;
+    // static GameWindow gw;
 
     public static void OpenMenuWindow()
     {

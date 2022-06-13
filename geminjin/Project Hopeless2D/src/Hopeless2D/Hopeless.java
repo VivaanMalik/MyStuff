@@ -18,6 +18,20 @@ public class Hopeless
     public boolean rungame=true;
     public Object FileClassObject;
 
+    // . . .
+    private static int counter;
+
+    public Hopeless() 
+    {
+        counter++;
+    }
+
+    public int getNumOfInstances() 
+    {
+        return counter;
+    }
+    // . . .
+
     public String ProjectPath()
     {
         return gw.GetPath();
@@ -45,6 +59,7 @@ public class Hopeless
 
     public void stop()
     {
+        gw = null;
         rungame=false;
     }
 
@@ -107,6 +122,7 @@ public class Hopeless
                 }
                 timer.cancel();
                 timer.purge();
+                run=null;
             }    
         };
         run.start();

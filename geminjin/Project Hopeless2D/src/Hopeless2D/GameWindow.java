@@ -27,6 +27,20 @@ public class GameWindow
     Hopeless hp;
     static Entity[] ent=new Entity[1];
 
+    // . . .
+    private static int counter;
+
+    public GameWindow() 
+    {
+        counter++;
+    }
+
+    public int getNumOfInstances() 
+    {
+        return counter;
+    }
+    // . . .
+
     public void SetPath(String Path)
     {
         path = Path;
