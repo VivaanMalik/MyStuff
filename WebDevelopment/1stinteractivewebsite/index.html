@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html onscroll="OnScroll()">
+    <head>
+        <script src="js/script.js"></script>
+        <style>
+            html {
+                height: 100vh;
+            }
+
+            body {
+                height: 300vh;
+                background: #000;
+                color: #0f0;
+            }
+
+            .parallax {
+                /* Full height */
+                height: 100%; 
+                /* Create the parallax scrolling effect */
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        </style>
+    </head>
+
+    <body>
+        <button onclick="RevealMsg()">Touch me 😏</button>
+        <p id="HiddenMsg" style="display: none">Fun Fact: 69% of the people find something wrong in every sentence 😏</p>
+        <!-- <img id="HiddenImg" src="https://www.apple.com/105/media/us/airpods-pro/2019/1299e2f5_9206_4470_b28e_08307a42f19b/anim/sequence/large/01-hero-lightpass/0001.jpg" style="display:none"> -->
+        <div id="HiddenImg" class="parallax" style="display: none; background-image: url('https://www.apple.com/105/media/us/airpods-pro/2019/1299e2f5_9206_4470_b28e_08307a42f19b/anim/sequence/large/01-hero-lightpass/0001.jpg');"></div>
+    </body>
+</html>
