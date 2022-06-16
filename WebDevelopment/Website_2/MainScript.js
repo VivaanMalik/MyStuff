@@ -1,3 +1,19 @@
+function Ripple (event, e)
+{
+    let rippleeffect = document.createElement("span");
+    rippleeffect.classList.add("ripple");
+    e.appendChild(rippleeffect);
+    let x = event.clientX - e.offsetLeft;
+    let y = event.clientY - e.offsetHeight;
+    rippleeffect.style.left = `${x}px`;
+    rippleeffect.style.top = `${y}px`;
+    console.log(x, y);
+    setTimeout(() => 
+    {
+        rippleeffect.remove();
+    }, 300);
+}
+
 let SlideClasses = ["Slideshow1", 'Slideshow2'];
 SlideIndexes = [0, 0];
 
@@ -7,7 +23,6 @@ window.onload = function showSlides()
     {        
         let slides = document.getElementsByClassName(SlideClasses[SlideSet]);
         // let slides = [document.getElementById("Runestone")];
-        console.log(slides.length)
         for (let i = 0; i < slides.length; i++) 
         {
             slides[i].style.display = "none";  
@@ -21,19 +36,4 @@ window.onload = function showSlides()
     }
 
     setTimeout(showSlides, 3000); // Change image every 2 seconds
-}
-
-function Ripple (event, e)
-{
-    let rippleeffect = document.createElement("span");
-    rippleeffect.classList.add("ripple");
-    e.appendChild(rippleeffect);
-    let x = event.clientX - e.offsetLeft;
-    let y = event.clientY - e.offsetTop;
-    rippleeffect.style.left = `${x}px`;
-    rippleeffect.style.top = `${y}px`;
-    setTimeout(() => 
-    {
-        rippleeffect.remove();
-    }, 300);
 }
