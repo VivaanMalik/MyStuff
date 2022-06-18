@@ -23,7 +23,6 @@ public class GameWindow
     public List<Entity> entityes;
     int Xsize;
     int Ysize;
-    JPanel gamewindow;
     Hopeless hp;
     static Entity[] ent=new Entity[1];
 
@@ -99,7 +98,10 @@ public class GameWindow
 
             @Override
             public void windowClosing(WindowEvent e) {
-                hp.stop();         
+                frame = null;
+                frem = null;
+                entityes=null;
+                hp.stop(); 
             }
 
             @Override

@@ -17,12 +17,14 @@ public class Hopeless
     public float deltatime = 0;
     public boolean rungame=true;
     public Object FileClassObject;
+    Runner r;
 
     // . . .
     private static int counter;
 
-    public Hopeless() 
+    public Hopeless(Runner rr) 
     {
+        r = rr;
         counter++;
     }
 
@@ -59,10 +61,9 @@ public class Hopeless
 
     public void stop()
     {
-        gw = null;
         rungame=false;
     }
-
+    
     public void run()
     {
         gw.hp = this;
@@ -82,11 +83,11 @@ public class Hopeless
                 {
                     e.printStackTrace();
                 }
-
+                
                 while (rungame==true)
                 {
                     long prevtime = System.currentTimeMillis();
-
+                    
                     try 
                     {
                         Frame.invoke(FileClassObject);
@@ -95,11 +96,11 @@ public class Hopeless
                     {
                         e1.printStackTrace();
                     }
-
+                    
                     gw.entityes = Entities;
                     gw.UpdateWindow();
                     currentfps+=1;
-
+                    
                     long aftatime = System.currentTimeMillis();
                     long timedifference = aftatime-prevtime;
                     int mswait = (1000/FramesPerSecond) - (int)timedifference;
@@ -120,9 +121,14 @@ public class Hopeless
                         }
                     }
                 }
+                gw.hp=null;
+                gw = null;
                 timer.cancel();
                 timer.purge();
+                timer=null;
                 run=null;
+                FileClassObject = null;
+                r.close();
             }    
         };
         run.start();

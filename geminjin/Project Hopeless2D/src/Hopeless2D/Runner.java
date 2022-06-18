@@ -11,15 +11,16 @@ import java.util.ArrayList;
 
 public class Runner 
 {
+    Object tmfftstit;
+    Field hpField;
     public Runner(Path FILEPATH)
     {
         GameWindow gw= new GameWindow();
         gw.SetPath(FILEPATH.getParent().toString());
         gw.entityes = new ArrayList<Entity>();
         gw.ShowWindow();
-        Hopeless hp = new Hopeless();
+        Hopeless hp = new Hopeless(this);
         hp.gw = gw;
-
         try
         {
             
@@ -46,9 +47,9 @@ public class Runner
             Class<?> mainfile = loader.loadClass("Main");
             loader.close();
             
-            Object tmfftstit = mainfile.getDeclaredConstructor().newInstance();
+            tmfftstit = mainfile.getDeclaredConstructor().newInstance();
             hp.FileClassObject = tmfftstit;
-            Field hpField = tmfftstit.getClass().getDeclaredField("hp");
+            hpField = tmfftstit.getClass().getDeclaredField("hp");
             hpField.set(tmfftstit, hp);
             Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
             Setup.invoke(tmfftstit);
@@ -59,5 +60,18 @@ public class Runner
         {
             e3.printStackTrace();
         }
+    }
+
+    public void close()
+    {
+        try 
+        {
+            hpField.set(tmfftstit, null);
+        } 
+        catch (IllegalArgumentException | IllegalAccessException e) 
+        {
+            e.printStackTrace();
+        }
+        tmfftstit=null;        
     }
 }
