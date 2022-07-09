@@ -17,14 +17,12 @@ public class Hopeless
     public float deltatime = 0;
     public boolean rungame=true;
     public Object FileClassObject;
-    Runner r;
 
     // . . .
     private static int counter;
 
-    public Hopeless(Runner rr) 
+    public Hopeless() 
     {
-        r = rr;
         counter++;
     }
 
@@ -128,7 +126,7 @@ public class Hopeless
                 timer=null;
                 run=null;
                 FileClassObject = null;
-                r.close();
+                Runner.close();
             }    
         };
         run.start();

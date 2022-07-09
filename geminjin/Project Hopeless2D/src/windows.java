@@ -27,8 +27,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
 
-import Hopeless2D.*;
-
 public class windows extends classes
 {
     private enum ActionList
@@ -157,7 +155,18 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
-                new Runner(FILEPATH);
+                // new Runner(FILEPATH);
+
+                Runtime rt = Runtime.getRuntime();
+                try {
+                    rt.exec(new String[]{"java", ".\\Hopeless2D\\Runner.java", FILEPATH.toString()});
+                    // process.waitFor();
+
+
+                } catch (IOException e1) 
+                {
+                    e1.printStackTrace();
+                }
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())
             {

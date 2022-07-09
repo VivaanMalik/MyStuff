@@ -2,6 +2,7 @@ package Hopeless2D;
 
 import java.io.BufferedReader;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -11,15 +12,33 @@ import java.util.ArrayList;
 
 public class Runner 
 {
-    Object tmfftstit;
-    Field hpField;
-    public Runner(Path FILEPATH)
+    static Object tmfftstit;
+    static Field hpField;
+    static Hopeless hp;
+
+    public static void main(String[] args)
+    {
+        Path FILEPATH = Paths.get(args[0]);
+        runner(FILEPATH);
+    }
+
+    public Runner()
+    {
+
+    }
+
+    public Runner(Path fILEPath)
+    {
+        runner(fILEPath);
+    }
+
+    public static void runner(Path FILEPATH)
     {
         GameWindow gw= new GameWindow();
         gw.SetPath(FILEPATH.getParent().toString());
         gw.entityes = new ArrayList<Entity>();
         gw.ShowWindow();
-        Hopeless hp = new Hopeless(this);
+        hp = new Hopeless();
         hp.gw = gw;
         try
         {
@@ -62,16 +81,19 @@ public class Runner
         }
     }
 
-    public void close()
+    public static void close()
     {
         try 
         {
             hpField.set(tmfftstit, null);
+            hp=null;
         } 
         catch (IllegalArgumentException | IllegalAccessException e) 
         {
             e.printStackTrace();
         }
-        tmfftstit=null;        
+        tmfftstit=null;  
+        // System.exit(0);  
+        // Runtime.getRuntime().halt(0);    
     }
 }
