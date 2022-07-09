@@ -95,7 +95,7 @@ public class Hopeless
                         e1.printStackTrace();
                     }
                     
-                    gw.entityes = Entities;
+                    gw.entityes = Physics.PhysicsOhFy(Entities);
                     gw.UpdateWindow();
                     currentfps+=1;
                     
