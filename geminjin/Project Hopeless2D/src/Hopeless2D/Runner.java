@@ -10,6 +10,15 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Runner 
 {
     static Object tmfftstit;
@@ -51,27 +60,57 @@ public class Runner
             Runtime rt = Runtime.getRuntime();
             Process process = rt.exec(new String[]{"javac", /*"-cp", ".\\Hopeless2D\\Hopeless2D", */FILEPATH.getParent().toString()+"\\*.java"});
             process.waitFor();
-            
-            BufferedReader in = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String line;
-            while ((line = in.readLine()) != null) {
-                System.out.println("TEST: "+line);
-            }
-
-            
-            URLClassLoader loader = new URLClassLoader(new URL[] 
+            if (process.exitValue()!=0)
             {
-                FILEPATH.getParent().toUri().toURL()
-            });
-            Class<?> mainfile = loader.loadClass("Main");
-            loader.close();
-            
-            tmfftstit = mainfile.getDeclaredConstructor().newInstance();
-            hp.FileClassObject = tmfftstit;
-            hpField = tmfftstit.getClass().getDeclaredField("hp");
-            hpField.set(tmfftstit, hp);
-            Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
-            Setup.invoke(tmfftstit);
+                String msg="";
+                try (final BufferedReader b = new BufferedReader(new InputStreamReader(process.getErrorStream()))) 
+                {
+                    String line;
+                    if ((line = b.readLine()) != null)
+                    {
+                        msg+=line+"\n";
+                    }
+                }
+                UIManager.put("OptionPane.background", new Color(.1f, .1f, .1f));
+                UIManager.put("Panel.background", new Color(.1f, .1f, .1f));
+                UIManager.put("OptionPane.messageForeground", new Color(255, 0, 94));
+                JOptionPane err= new JOptionPane(msg, JOptionPane.OK_OPTION);
+                err.setMessageType(JOptionPane.ERROR_MESSAGE);
+                JPanel buttonPanel = (JPanel)err.getComponent(1);
+                JButton buttonOk = (JButton)buttonPanel.getComponent(0);
+                buttonOk.setBackground(new Color(255, 0, 94));
+                buttonOk.setForeground(new Color(.1f, .1f, .1f));
+                buttonOk.setBorderPainted(false);
+                buttonOk.setFocusPainted(false);
+                buttonOk.addActionListener(new ActionListener()
+                {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) 
+                    {
+                        System.exit(0);
+                    }
+                    
+                });
+                JDialog d=err.createDialog(null, "Are you dumb??");
+                d.setVisible(true);
+            }
+            else
+            {
+                URLClassLoader loader = new URLClassLoader(new URL[] 
+                {
+                    FILEPATH.getParent().toUri().toURL()
+                });
+                Class<?> mainfile = loader.loadClass("Main");
+                loader.close();
+                
+                tmfftstit = mainfile.getDeclaredConstructor().newInstance();
+                hp.FileClassObject = tmfftstit;
+                hpField = tmfftstit.getClass().getDeclaredField("hp");
+                hpField.set(tmfftstit, hp);
+                Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
+                Setup.invoke(tmfftstit);
+            }
             // Method numinstance = tmfftstit.getClass().getDeclaredMethod("getNumOfInstances");
             // System.out.println("GameWindow Instances: "+ String.valueOf(gw.getNumOfInstances())+"\nHopeless Instances: "+String.valueOf(hp.getNumOfInstances())+"\nMain Instances: "+String.valueOf(numinstance.invoke(tmfftstit)));
         }
