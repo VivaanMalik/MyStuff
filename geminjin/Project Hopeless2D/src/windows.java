@@ -10,6 +10,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
+
+import Hopeless2D.Runner;
+import Hopeless2D.Test;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -155,17 +159,23 @@ public class windows extends classes
             }
             else if (e.getActionCommand()==ActionList.SHOWGAMEWINDOW.name())
             {
-                // new Runner(FILEPATH);
-
-                Runtime rt = Runtime.getRuntime();
-                try {
-                    rt.exec(new String[]{"java", ".\\Hopeless2D\\Runner.java", FILEPATH.toString()});
-                    // process.waitFor();
-
-
-                } catch (IOException e1) 
+                boolean test = false;
+                if (test == true)
                 {
-                    e1.printStackTrace();
+                    new Runner(FILEPATH);
+                }
+                else
+                {
+                    Test.Log("===NewLog===");
+                    Runtime rt = Runtime.getRuntime();
+                    try 
+                    {
+                        rt.exec(new String[]{"java", ".\\Hopeless2D\\Runner.java", FILEPATH.toString()});
+                        // process.waitFor();
+                    } catch (IOException e1) 
+                    {
+                        e1.printStackTrace();
+                    }
                 }
             }
             else if (e.getActionCommand()==ActionList.PIXELART.name())

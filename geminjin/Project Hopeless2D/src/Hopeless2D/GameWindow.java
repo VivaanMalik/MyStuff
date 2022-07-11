@@ -55,9 +55,9 @@ public class GameWindow
         ent[0] = e;
     }
 
-    public Entity CreateEntity(color[][] colorz, Vector2 size, Vector2 pos, int rot)
+    public Entity CreateEntity(color[][] colorz, Vector2 size, Vector2 pos, int rot, boolean enablecollision)
     {
-        Entity e = new Entity(new PixelImage(colorz), size, pos, rot);
+        Entity e = new Entity(new PixelImage(colorz), size, pos, rot, enablecollision);
         AddToEntities(e);
         return e;
     }
@@ -142,7 +142,7 @@ public class GameWindow
         frem.repaint(0, 0, frem.getWidth()+2, frem.getHeight()+2);
         color[][] pxldatabg = {{new color(30, 40, 20)}, {new color(30, 40, 20)}};
         PixelImage bg = new PixelImage(pxldatabg);
-        Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0);
+        Entity beckground = new Entity(bg, new Vector2(frem.getWidth(), frem.getHeight()), new Vector2(0, 0), 0, false);
         bgg = new JLabel(new ImageIcon(beckground.GetImage(0)));
         bgg.setBounds(beckground.getposition().x(), beckground.getposition().y(), beckground.getSize().x(), beckground.getSize().y());
         frame.add(frem);

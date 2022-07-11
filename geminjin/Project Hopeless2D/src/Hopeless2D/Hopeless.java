@@ -17,6 +17,7 @@ public class Hopeless
     public float deltatime = 0;
     public boolean rungame=true;
     public Object FileClassObject;
+    Physics P;
 
     // . . .
     private static int counter;
@@ -31,6 +32,17 @@ public class Hopeless
         return counter;
     }
     // . . .
+
+    public void SetPhysics()
+    {
+        P = new Physics();
+        P.SetOriginalCode(FileClassObject);
+    }
+
+    public void Destroy(Object o)
+    {
+        Entities.remove(o);
+    }
 
     public String ProjectPath()
     {
@@ -61,6 +73,11 @@ public class Hopeless
     {
         rungame=false;
     }
+
+    public void Log(String s)
+    {
+        Test.Log(s);
+    }
     
     public void run()
     {
@@ -79,23 +96,21 @@ public class Hopeless
                 }
                 catch (NoSuchMethodException | SecurityException e)
                 {
-                    e.printStackTrace();
+                    Test.Log(e.getMessage());
                 }
                 
                 while (rungame==true)
                 {
                     long prevtime = System.currentTimeMillis();
-                    
                     try 
                     {
                         Frame.invoke(FileClassObject);
                     } 
                     catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) 
                     {
-                        e1.printStackTrace();
+                        Test.Log(e1.getMessage());
                     }
-                    
-                    gw.entityes = Physics.PhysicsOhFy(Entities);
+                    gw.entityes = P.PhysicsOhFy(Entities);
                     gw.UpdateWindow();
                     currentfps+=1;
                     
@@ -115,7 +130,7 @@ public class Hopeless
                         } 
                         catch (InterruptedException e) 
                         {
-                            e.printStackTrace();
+                            Test.Log(e.getMessage());
                         }
                     }
                 }

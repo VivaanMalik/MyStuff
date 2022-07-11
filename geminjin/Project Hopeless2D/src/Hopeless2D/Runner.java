@@ -56,44 +56,30 @@ public class Runner
             // tempmainfilefortheshitthatistesting tmfftstit = new tempmainfilefortheshitthatistesting();
             // tmfftstit.hp = hp;
             // tmfftstit.setup();
-
+            String msg="";
             Runtime rt = Runtime.getRuntime();
             Process process = rt.exec(new String[]{"javac", /*"-cp", ".\\Hopeless2D\\Hopeless2D", */FILEPATH.getParent().toString()+"\\*.java"});
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null) 
+            {
+                msg+=line;
+            }
+
+            
+            try (final BufferedReader b = new BufferedReader(new InputStreamReader(process.getErrorStream()))) 
+            {
+                if ((line = b.readLine()) != null)
+                {
+                    msg+="\n"+line;
+                }
+            }
+
             process.waitFor();
             if (process.exitValue()!=0)
             {
-                String msg="";
-                try (final BufferedReader b = new BufferedReader(new InputStreamReader(process.getErrorStream()))) 
-                {
-                    String line;
-                    if ((line = b.readLine()) != null)
-                    {
-                        msg+=line+"\n";
-                    }
-                }
-                UIManager.put("OptionPane.background", new Color(.1f, .1f, .1f));
-                UIManager.put("Panel.background", new Color(.1f, .1f, .1f));
-                UIManager.put("OptionPane.messageForeground", new Color(255, 0, 94));
-                JOptionPane err= new JOptionPane(msg, JOptionPane.OK_OPTION);
-                err.setMessageType(JOptionPane.ERROR_MESSAGE);
-                JPanel buttonPanel = (JPanel)err.getComponent(1);
-                JButton buttonOk = (JButton)buttonPanel.getComponent(0);
-                buttonOk.setBackground(new Color(255, 0, 94));
-                buttonOk.setForeground(new Color(.1f, .1f, .1f));
-                buttonOk.setBorderPainted(false);
-                buttonOk.setFocusPainted(false);
-                buttonOk.addActionListener(new ActionListener()
-                {
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) 
-                    {
-                        System.exit(0);
-                    }
-                    
-                });
-                JDialog d=err.createDialog(null, "Are you dumb??");
-                d.setVisible(true);
+                Error(msg);
             }
             else
             {
@@ -106,6 +92,7 @@ public class Runner
                 
                 tmfftstit = mainfile.getDeclaredConstructor().newInstance();
                 hp.FileClassObject = tmfftstit;
+                hp.SetPhysics();
                 hpField = tmfftstit.getClass().getDeclaredField("hp");
                 hpField.set(tmfftstit, hp);
                 Method Setup = tmfftstit.getClass().getDeclaredMethod("setup");
@@ -116,7 +103,7 @@ public class Runner
         }
         catch (Exception e3)
         {
-            e3.printStackTrace();
+            Test.Log(e3.getMessage());
         }
     }
 
@@ -129,10 +116,37 @@ public class Runner
         } 
         catch (IllegalArgumentException | IllegalAccessException e) 
         {
-            e.printStackTrace();
+            Test.Log(e.getMessage());
         }
         tmfftstit=null;  
         // System.exit(0);  
         // Runtime.getRuntime().halt(0);    
+    }
+
+    public static void Error(String message)
+    {
+        UIManager.put("OptionPane.background", new Color(.1f, .1f, .1f));
+        UIManager.put("Panel.background", new Color(.1f, .1f, .1f));
+        UIManager.put("OptionPane.messageForeground", new Color(255, 0, 94));
+        JOptionPane err= new JOptionPane(message, JOptionPane.OK_OPTION);
+        err.setMessageType(JOptionPane.ERROR_MESSAGE);
+        JPanel buttonPanel = (JPanel)err.getComponent(1);
+        JButton buttonOk = (JButton)buttonPanel.getComponent(0);
+        buttonOk.setBackground(new Color(255, 0, 94));
+        buttonOk.setForeground(new Color(.1f, .1f, .1f));
+        buttonOk.setBorderPainted(false);
+        buttonOk.setFocusPainted(false);
+        buttonOk.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e) 
+            {
+                System.exit(0);
+            }
+            
+        });
+        JDialog d=err.createDialog(null, "Are you dumb??");
+        d.setVisible(true);
     }
 }
