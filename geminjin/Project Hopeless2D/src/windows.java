@@ -1086,7 +1086,7 @@ public class windows extends classes
             {
                 testfile.createNewFile();
                 FileWriter fw = new FileWriter(testfile);
-                fw.write("import Hopeless2D.*;\n\npublic class Main\n{\n    public Hopeless hp;\n    public void setup()\n    {\n        hp.FramesPerSecond=30; // Define the amount of FPS\n        // Runs before the game loop ;)\n        hp.run(); // Start game ;)\n    }\n    public void Frame()\n    {\n        // Runs every frame ;)\n    }\n}");
+                fw.write("import Hopeless2D.*;\nimport java.awt.event.KeyEvent;\n\npublic class Main\n{\n    public Hopeless hp;\n    public void setup()\n    {\n        hp.FramesPerSecond=30; // Define the amount of FPS\n        // Runs before the game loop ;)\n        hp.run(); // Start game ;)\n    }\n    public void Frame()\n    {\n        // Runs every frame ;)\n    }\n    public void keyPressed(KeyEvent e)\n    {\n        // Code When a key is pressed\n    }\n    public void keyReleased(KeyEvent e)\n    {\n        // Code When a key is released\n    }\n    public void keyTyped(KeyEvent e)\n    {\n        // Code When a key is typed\n    }\n}");
                 fw.close();
             } 
             catch (IOException e) 

@@ -1,5 +1,6 @@
 package Hopeless2D;
 
+import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class Hopeless
     public float deltatime = 0;
     public boolean rungame=true;
     public Object FileClassObject;
+    Method KeyPressed;
+    Method KeyReleased;
+    Method KeyTyped;
     Physics P;
 
     // . . .
@@ -90,14 +94,21 @@ public class Hopeless
                 timer.schedule(new PrintFPS(), 1000, 1000);
                 
                 Method Frame = null;
+                KeyPressed=null;
+                KeyReleased=null;
+                KeyTyped=null;
                 try
                 {
                     Frame = FileClassObject.getClass().getDeclaredMethod("Frame");
+                    KeyPressed = FileClassObject.getClass().getDeclaredMethod("keyPressed", new Class[]{KeyEvent.class});
+                    KeyReleased = FileClassObject.getClass().getDeclaredMethod("keyReleased", new Class[]{KeyEvent.class});
+                    KeyTyped = FileClassObject.getClass().getDeclaredMethod("keyTyped", new Class[]{KeyEvent.class});
                 }
                 catch (NoSuchMethodException | SecurityException e)
                 {
                     Test.Log(e.getMessage());
                 }
+                
                 
                 while (rungame==true)
                 {
@@ -154,6 +165,51 @@ public class Hopeless
         {
             // System.out.println(currentfps);
             currentfps=0;
+        }
+    }
+
+    public void keyTyped(KeyEvent e) 
+    {
+        if (KeyTyped!=null)
+        {
+            try 
+            {
+                KeyTyped.invoke(FileClassObject, e);
+            } 
+            catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) 
+            {
+                Test.Log(e1.getMessage());
+            }
+        }
+    }
+
+    public void keyPressed(KeyEvent e) 
+    {
+        if (KeyPressed!=null)
+        {
+            try 
+            {
+                KeyPressed.invoke(FileClassObject, e);
+            } 
+            catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) 
+            {
+                Test.Log(e1.getMessage());
+            }
+        }
+    }
+
+    public void keyReleased(KeyEvent e) 
+    {
+        if (KeyReleased!=null)
+        {
+            try 
+            {
+                KeyReleased.invoke(FileClassObject, e);
+            } 
+            catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) 
+            {
+                Test.Log(e1.getMessage());
+            }
         }
     }
 }

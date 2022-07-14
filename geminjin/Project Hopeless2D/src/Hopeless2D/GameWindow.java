@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -127,6 +129,28 @@ public class GameWindow
             @Override
             public void windowDeactivated(WindowEvent e) {
                 
+            }
+
+        });
+        frame.addKeyListener(new KeyListener()
+        {
+
+            @Override
+            public void keyTyped(KeyEvent e) 
+            {
+                hp.keyTyped(e);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) 
+            {
+                hp.keyPressed(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) 
+            {
+                hp.keyReleased(e);
             }
 
         });
