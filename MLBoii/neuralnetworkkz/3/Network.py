@@ -1,4 +1,7 @@
 import numpy as np
+import json
+
+np.set_printoptions(suppress=True)
 
 class ActivationFunctionCode():
     def __init__(self):
@@ -10,9 +13,15 @@ class ActivationFunctionCode():
         self.HyperbolicTangentFunction = 5
 
 class Network(): # Just 2 layers for now
-    def __init__(self, inputnum, outputnum, ACode):
-        self.weights = np.random.rand(inputnum, outputnum)
-        self.biases = np.random.rand(outputnum)
+    def __init__(self, inputnum, outputnum, ACode, MakeNewWeightsBiases, filename):
+        if MakeNewWeightsBiases:
+            self.weights = np.random.rand(inputnum, outputnum)
+            self.biases = np.random.rand(outputnum)
+        else:
+            data = json.load(open(filename, encoding='utf-8'))
+            self.weights = data[len(data)-1]["Weights"]
+            self.biases = data[len(data)-1]["Biases"]
+        self.name = filename
         self.ACode = ACode
         self.NodeValues = np.zeros(outputnum)
 
@@ -64,18 +73,23 @@ class Network(): # Just 2 layers for now
             self.CalculateNodeValues(inputs)
             Errors = outputs - self.NodeValues
             self.GradientDescent(Errors, inputs, outputs, Learnrate)
+    
+    def SaveData(self):
+        data = json.load(open(self.name, encoding='utf-8'))
+        data.append({"Weights":self.weights.tolist(), "Biases":self.biases.tolist()})
+        with open(self.name, 'w') as f:
+            json.dump(data, f, indent=4, sort_keys=False)
 
 TrainingInput=np.array([[0, 0, 1, 1],
                        [1, 1, 0, 1],
                        [1, 0, 1, 0],
-                       [0, 1, 1, 1], 
-                       [0, 0, 0, 0]])    
-TrainingOutput=np.array([[0, 1, 1, 0, 0]]).T # Transpose
+                       [0, 1, 1, 1]])    
+TrainingOutput=np.array([[0, 1, 1, 0]]).T # Transpose
 
 iter = int(input("Iterations: "))
 lr = float(input("Learn rate: "))
 
-N = Network(4, 1, ActivationFunctionCode().SigmoidFunction)
+N = Network(4, 1, ActivationFunctionCode().SigmoidFunction, False, "WeightsBiasesData.json")
 N.Train(TrainingInput, TrainingOutput, iter, lr)
 
 while True:
@@ -85,5 +99,9 @@ while True:
     I4 = str(input("Input 3: "))
     N.CalculateNodeValues(np.array([I1, I2, I3, I4]))
     print(N.NodeValues)
-    if input("> ")=="exit":
+    x=input("> ")
+    if x=="exit":
         break
+    elif x == "add":
+        N.SaveData()
+    
