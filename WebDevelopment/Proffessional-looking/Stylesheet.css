@@ -5,6 +5,28 @@ p, h1, h2, h3, h4, h5, h6, table, td, th
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+#HomeButton
+{
+    border: 1px solid #1e1e1e;
+    border-radius: 2vh;
+    height:40vh;
+    width:40vh;
+    cursor:pointer;
+    background-size: 20vh 20vh;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-color:aqua;
+    background-image: url("house.png");
+    transition: background-color 0.2s ease-out, background-size 0.2s ease-out;
+}
+
+#HomeButton:hover
+{
+    background-size: 30vh 30vh;
+    background-color:aquamarine;
+}
+
 #Math
 {
     color: azure;
@@ -21,10 +43,7 @@ h1
 {
     background-size: 100% 66vh;
     background-repeat: no-repeat;
-    background-color: #1e1e1e;
     background-attachment:fixed;
-    transition: background-image 3s ease;
-    -webkit-transition: background-image 3s ease;
     margin: 0px;
 }
 
@@ -145,4 +164,9 @@ h1
 #BGWebsiteColors
 {
     background-image: url("color.png");
+}
+
+#BGWebsiteScroll
+{
+    background-image: url("scrolling.png");
 }

@@ -5,39 +5,88 @@
         <link rel="stylesheet" href="Stylesheet.css">
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
         <style>
-            .color-a
+            .color-1
             {
-                background-image: linear-gradient(rgb(12, 178, 175), #1e1e1e);
+                background-color:rgb(12, 178, 175);
+                /* Firefox */
+                -moz-transition: all 0.5s ease-in;
+                /* WebKit */
+                -webkit-transition: all 0.5s ease-in;
+                /* Opera */
+                -o-transition: all 0.5s ease-in;
+                /* Standard */
+                transition: all 0.5s ease-in;
             }
 
-            .color-b
+            .color-2
             {
-                background-image: linear-gradient(rgb(161, 198, 93), #1e1e1e);
+                background-color:rgb(161, 198, 93);
+                /* Firefox */
+                -moz-transition: all 0.5s ease-in;
+                /* WebKit */
+                -webkit-transition: all 0.5s ease-in;
+                /* Opera */
+                -o-transition: all 0.5s ease-in;
+                /* Standard */
+                transition: all 0.5s ease-in;
             }
 
-            .color-c
+            .color-3
             {
-                background-image: linear-gradient(rgb(250, 199, 35), #1e1e1e);
+                background-color:rgb(250, 199, 35);
+                /* Firefox */
+                -moz-transition: all 0.5s ease-in;
+                /* WebKit */
+                -webkit-transition: all 0.5s ease-in;
+                /* Opera */
+                -o-transition: all 0.5s ease-in;
+                /* Standard */
+                transition: all 0.5s ease-in;
             }
 
-            .color-d
+            .color-4
             {
-                background-image: linear-gradient(rgb(242, 146, 34), #1e1e1e);
+                background-color:rgb(242, 146, 34);
+                /* Firefox */
+                -moz-transition: all 0.5s ease-in;
+                /* WebKit */
+                -webkit-transition: all 0.5s ease-in;
+                /* Opera */
+                -o-transition: all 0.5s ease-in;
+                /* Standard */
+                transition: all 0.5s ease-in;
             }
 
-            .color-e
+            .color-5
             {
-                background-image: linear-gradient(rgb(233, 94, 80), #1e1e1e);
+                background-color:rgb(233, 94, 80);
+                /* Firefox */
+                -moz-transition: all 0.5s ease-in;
+                /* WebKit */
+                -webkit-transition: all 0.5s ease-in;
+                /* Opera */
+                -o-transition: all 0.5s ease-in;
+                /* Standard */
+                transition: all 0.5s ease-in;
             }
 
-            .color-f
+            .color-6
             {
-                background-image: linear-gradient(rgb(147, 111, 172), #1e1e1e);
+                background-color:rgb(147, 111, 172);
+                /* Firefox */
+                -moz-transition: all 0.5s ease-in;
+                /* WebKit */
+                -webkit-transition: all 0.5s ease-in;
+                /* Opera */
+                -o-transition: all 0.5s ease-in;
+                /* Standard */
+                transition: all 0.5s ease-in;
             }
         </style>
         <script>
             window.onload=() =>
             {
+                // var cols = [[12, 178, 175], [161, 198, 93], [250, 199, 35], [242, 146, 34], [233, 94, 80], [147, 111, 172]];
                 window.addEventListener('scroll', () => 
                 {
                     var $window = $("window");
@@ -48,32 +97,34 @@
                     {
                         var $this = $(this);
                         if ($this.position().top <= scroll && $this.position().top + $this.height() > scroll) 
-                        {
+                        { 
                             $body.removeClass(function (index, css) 
                             {
                                 return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
                             });
-                            $body.addClass('color-' + $(this).data('color'));    
+                            $body.addClass('color-' + $(this).data('color')); 
                         }
                     })
                 });
             }
         </script>
     </head>
-    <body class="color-a" id="bodyStyle" style="transition: background-image 3s ease;">
+    <body id="bodyStyle" class="color-1" style="text-align: center;">
         <div id="Container-1">
             <div style="height: 50vh;"></div>
-            <div id="Title" class="COLOR" data-color="a">Color 1</div>
+            <div id="Title" class="COLOR" data-color="1">Color 1</div>
             <div style="height: 100vh;"></div>
-            <div id="Title" class="COLOR" data-color="b">Color 2</div>
+            <div id="Title" class="COLOR" data-color="2">Color 2</div>
             <div style="height: 100vh;"></div>
-            <div id="Title" class="COLOR" data-color="c">Color 3</div>
+            <div id="Title" class="COLOR" data-color="3">Color 3</div>
             <div style="height: 100vh;"></div>
-            <div id="Title" class="COLOR" data-color="d">Color 4</div>
+            <div id="Title" class="COLOR" data-color="4">Color 4</div>
             <div style="height: 100vh;"></div>
-            <div id="Title" class="COLOR" data-color="e">Color 5</div>
+            <div id="Title" class="COLOR" data-color="5">Color 5</div>
             <div style="height: 100vh;"></div>
-            <div id="Title" class="COLOR" data-color="f">Color 6</div>
+            <div id="Title" class="COLOR" data-color="6">Color 6</div>
             <div style="height: 50vh;"></div>
+            <a href=".\index.html"><input id="HomeButton" type="button" value=""></input></a>
+        </div>
     </body>
 </html>
