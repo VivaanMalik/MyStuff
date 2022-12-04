@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Stylesheet.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <style>
+            .color-a
+            {
+                background-image: linear-gradient(rgb(12, 178, 175), #1e1e1e);
+            }
+
+            .color-b
+            {
+                background-image: linear-gradient(rgb(161, 198, 93), #1e1e1e);
+            }
+
+            .color-c
+            {
+                background-image: linear-gradient(rgb(250, 199, 35), #1e1e1e);
+            }
+
+            .color-d
+            {
+                background-image: linear-gradient(rgb(242, 146, 34), #1e1e1e);
+            }
+
+            .color-e
+            {
+                background-image: linear-gradient(rgb(233, 94, 80), #1e1e1e);
+            }
+
+            .color-f
+            {
+                background-image: linear-gradient(rgb(147, 111, 172), #1e1e1e);
+            }
+        </style>
+        <script>
+            window.onload=() =>
+            {
+                window.addEventListener('scroll', () => 
+                {
+                    var $window = $("window");
+                    var scroll = (window.pageYOffset || window.scrollY) + (window.innerHeight / 3);
+                    var elements = $(".COLOR");
+                    var $body = $('body');
+                    elements.each(function()
+                    {
+                        var $this = $(this);
+                        if ($this.position().top <= scroll && $this.position().top + $this.height() > scroll) 
+                        {
+                            $body.removeClass(function (index, css) 
+                            {
+                                return (css.match (/(^|\s)color-\S+/g) || []).join(' ');
+                            });
+                            $body.addClass('color-' + $(this).data('color'));    
+                        }
+                    })
+                });
+            }
+        </script>
+    </head>
+    <body class="color-a" id="bodyStyle" style="-webkit-transition: background-image 3s ease;">
+        <div id="Container-1">
+            <div style="height: 50vh;"></div>
+            <div id="Title" class="COLOR" data-color="a">Color 1</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" class="COLOR" data-color="b">Color 2</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" class="COLOR" data-color="c">Color 3</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" class="COLOR" data-color="d">Color 4</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" class="COLOR" data-color="e">Color 5</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" class="COLOR" data-color="f">Color 6</div>
+            <div style="height: 50vh;"></div>
+    </body>
+</html>

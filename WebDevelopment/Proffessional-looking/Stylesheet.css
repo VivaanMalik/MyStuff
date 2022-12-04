@@ -1,0 +1,148 @@
+p, h1, h2, h3, h4, h5, h6, table, td, th
+{
+    color: azure;
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#Math
+{
+    color: azure;
+    font-family:sans-serif;
+    font-size: 2vh;
+}
+
+h1
+{
+    font-size: 5vh;
+}
+
+#bodyStyle
+{
+    background-size: 100% 66vh;
+    background-repeat: no-repeat;
+    background-color: #1e1e1e;
+    background-attachment:fixed;
+    transition: background-image 3s ease;
+    -webkit-transition: background-image 3s ease;
+    margin: 0px;
+}
+
+#Container-1
+{
+    margin-left: 10vh;
+    margin-right: 10vh;
+    margin-top: 0px;
+    padding: 5vh;
+    background-color: #1e1e1e8a;
+}
+
+#Title
+{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: 15vh;
+    color: azure;
+    font-weight: bold;
+    text-align: center;
+}
+
+.Button1
+{
+    border: 1px solid #1e1e1e;
+    border-radius: 2vh;
+    height:20vh;
+    width:20vh;
+    cursor:pointer;
+    background-size: 10vh 10vh;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-color:aqua;
+    transition: background-color 0.2s ease-out, background-size 0.2s ease-out;
+}
+
+.Button1:hover
+{
+    background-size: 15vh 15vh;
+    background-color:aquamarine;
+}
+
+.scroller 
+{
+    height: 1.2em;
+    line-height: 1.2em;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.scroller > span
+{
+    position: absolute;
+    top: 0;
+    animation: slide 5s infinite;
+    font-weight: bold;
+}
+
+@keyframes slide 
+{
+    0% 
+    {
+      top: 0;
+    }
+    25% 
+    {
+      top: -1.2em;
+    }
+    50% 
+    {
+      top: -2.4em;
+    }
+    75% 
+    {
+      top: -3.6em;
+    }
+}
+
+.scrollerF 
+{
+    text-align: left;
+    height: 2em;
+    line-height: 2em;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.scrollerF > span
+{
+    position: absolute;
+    top: 0;
+    font-weight: bold;
+}
+
+@keyframes SlideOutFormula
+{
+    100%
+    {
+      top: 0;
+    }
+}
+
+@keyframes SlideInFormula
+{
+    100%
+    {
+      top: -2em;
+    }
+}
+
+#BGAreaOfSegmentOfSemicircle
+{
+    background-image: url("semicircle.png");
+}
+
+#BGWebsiteColors
+{
+    background-image: url("color.png");
+}

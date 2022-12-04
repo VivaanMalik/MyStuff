@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Stylesheet.css">
+        <script defer>
+            window.onload=() =>
+            {
+                var rects=[]
+                var elements = document.getElementsByName("COLOR");
+                elements.forEach(element => 
+                {
+                    var rect = element.getBoundingClientRect();
+                    rects.push(rect);
+                });
+                const colors = [[12, 178, 175], [161, 198, 93], [250, 199, 35], [242, 146, 34], [233, 94, 80], [147, 111, 172]]
+                window.addEventListener('scroll', () => 
+                {
+                    var indexPos=0;
+                    var bottom = window.scrollY;
+                    elements.forEach(element => 
+                    {
+                        var index = Array.prototype.indexOf.call(elements, element)
+                        var rect = element.getBoundingClientRect();
+                        rects.push(rect);
+                        if (rect.top<bottom)
+                        {
+                            indexPos=index;
+                        }
+                    });
+                    // console.log(indexPos);
+                    if (indexPos!=elements.length-1 && indexPos != null)
+                    {
+                        // console.log(Math.round(window.scrollY), Math.round(rects[indexPos].bottom), Math.round(rects[indexPos+1].bottom));
+                        var d1 = Math.abs(bottom-rects[indexPos].top);
+                        var d2 = Math.abs(bottom-rects[indexPos+1].top);
+                        var p1 = Math.round(d1/(d1+d2)*10)/10;
+                        var p2 = Math.round(d2/(d1+d2)*10)/10;
+                        console.log(p1, p2)
+                        var c1 = colors[indexPos];
+                        var c2 = colors[indexPos+1];
+                        var c = [Math.round((p1*c2[0])+(p2*c1[0])), Math.round((p1*c2[1])+(p2*c1[1])), Math.round((p1*c2[2])+(p2*c1[2]))];
+                        document.body.style.backgroundImage =  `linear-gradient(rgb(${c[0]}, ${c[1]}, ${c[2]}), #1e1e1e)`;
+                    }
+                    else
+                    {
+                        var c = colors[colors.length-1]
+                        document.body.style.backgroundImage =  `linear-gradient(rgb(${c[0]}, ${c[1]}, ${c[2]}), #1e1e1e)`;
+                    }
+                })
+            }
+        </script>
+    </head>
+    <body  id="bodyStyle" style="background-image: linear-gradient(rgb(35, 54, 43), #1e1e1e)">
+        <div id="Container-1">
+            <div style="height: 50vh;"></div>
+            <div id="Title" name="COLOR">Color 1</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" name="COLOR">Color 2</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" name="COLOR">Color 3</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" name="COLOR">Color 4</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" name="COLOR">Color 5</div>
+            <div style="height: 100vh;"></div>
+            <div id="Title" name="COLOR">Color 6</div>
+            <div style="height: 50vh;"></div>
+    </body>
+</html>
