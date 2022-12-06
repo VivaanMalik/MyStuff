@@ -5,15 +5,46 @@
         <link rel="stylesheet" href="Stylesheet.css">
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
         <style>
-            /* Style */
+            html
+            {
+                scroll-behavior: smooth;
+                scroll-snap-type: y mandatory;
+            }
+            #Container_1
+            {
+                margin-left: 10vh;
+                margin-right: 10vh;
+                margin-top: 0px;
+                padding: 5vh;
+                perspective: 1px;
+                transform-style: preserve-3d;
+            }
+
+            #Container_2
+            {
+                position: absolute;
+                top:0px;
+                bottom:0px;
+                left:-10px;
+                margin: 0px;
+                padding: 0px;
+                right:0px;
+                transform: translateZ(-1px) scale(2);
+            }
         </style>
         <script>
-            // Script
+
         </script>
     </head>
-    <body id="bodyStyle" style="text-align: center;">
-        <div id="Container-1">
-            <a href=".\index.html"><input id="HomeButton" type="button" value=""></input></a>
+    <body id="bodyStyle" style="text-align: center; background-color: #453C67;">
+        <div id="Container_1">
+            <div id="Container_2">
+                <div class="rectangle" style="scroll-snap-align: center; min-height: 100vh; background-color: #1C0C5B; margin: 0px; vertical-align: middle;"><br><br><span id="Title">Title 1</span><br><br><span style="font-size: 3vh; color: azure; line-height: 200%;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst quisque sagittis. Mollis nunc sed id semper risus in hendrerit gravida rutrum. Egestas erat imperdiet sed euismod nisi porta. Ut enim blandit volutpat maecenas. Condimentum id venenatis a condimentum. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant. Tellus mauris a diam maecenas sed enim ut sem viverra. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Morbi tristique senectus et netus et malesuada fames. Sem fringilla ut morbi tincidunt augue interdum. Maecenas pharetra convallis posuere morbi leo urna molestie at. Nam libero justo laoreet sit amet cursus sit amet dictum. Et netus et malesuada fames ac turpis egestas integer. Sociis natoque penatibus et magnis dis parturient montes nascetur. Tortor dignissim convallis aenean et tortor at risus. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Faucibus pulvinar elementum integer enim neque volutpat ac. Mi ipsum faucibus vitae aliquet.</span></div>
+                <div class="rectangle" style="scroll-snap-align: center; min-height: 100vh; background-color: #3D2C8D; margin: 0px; vertical-align: middle;"><br><br><span id="Title">Title 2</span><br><br><span style="font-size: 3vh; color: azure; line-height: 200%;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst quisque sagittis. Mollis nunc sed id semper risus in hendrerit gravida rutrum. Egestas erat imperdiet sed euismod nisi porta. Ut enim blandit volutpat maecenas. Condimentum id venenatis a condimentum. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant. Tellus mauris a diam maecenas sed enim ut sem viverra. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Morbi tristique senectus et netus et malesuada fames. Sem fringilla ut morbi tincidunt augue interdum. Maecenas pharetra convallis posuere morbi leo urna molestie at. Nam libero justo laoreet sit amet cursus sit amet dictum. Et netus et malesuada fames ac turpis egestas integer. Sociis natoque penatibus et magnis dis parturient montes nascetur. Tortor dignissim convallis aenean et tortor at risus. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Faucibus pulvinar elementum integer enim neque volutpat ac. Mi ipsum faucibus vitae aliquet.</span></div>
+                <div class="rectangle" style="scroll-snap-align: center; min-height: 100vh; background-color: #916BBF; margin: 0px; vertical-align: middle;"><br><br><span id="Title">Title 3</span><br><br><span style="font-size: 3vh; color: azure; line-height: 200%;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst quisque sagittis. Mollis nunc sed id semper risus in hendrerit gravida rutrum. Egestas erat imperdiet sed euismod nisi porta. Ut enim blandit volutpat maecenas. Condimentum id venenatis a condimentum. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant. Tellus mauris a diam maecenas sed enim ut sem viverra. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Morbi tristique senectus et netus et malesuada fames. Sem fringilla ut morbi tincidunt augue interdum. Maecenas pharetra convallis posuere morbi leo urna molestie at. Nam libero justo laoreet sit amet cursus sit amet dictum. Et netus et malesuada fames ac turpis egestas integer. Sociis natoque penatibus et magnis dis parturient montes nascetur. Tortor dignissim convallis aenean et tortor at risus. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Faucibus pulvinar elementum integer enim neque volutpat ac. Mi ipsum faucibus vitae aliquet.</span></div>
+                <div class="rectangle" style="scroll-snap-align: center; min-height: 100vh; background-color: #C996CC; margin: 0px; vertical-align: middle;"><br><br><span id="Title">Title 4</span><br><br><span style="font-size: 3vh; color: azure; line-height: 200%;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In hac habitasse platea dictumst quisque sagittis. Mollis nunc sed id semper risus in hendrerit gravida rutrum. Egestas erat imperdiet sed euismod nisi porta. Ut enim blandit volutpat maecenas. Condimentum id venenatis a condimentum. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant. Tellus mauris a diam maecenas sed enim ut sem viverra. Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Morbi tristique senectus et netus et malesuada fames. Sem fringilla ut morbi tincidunt augue interdum. Maecenas pharetra convallis posuere morbi leo urna molestie at. Nam libero justo laoreet sit amet cursus sit amet dictum. Et netus et malesuada fames ac turpis egestas integer. Sociis natoque penatibus et magnis dis parturient montes nascetur. Tortor dignissim convallis aenean et tortor at risus. Cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam. Faucibus pulvinar elementum integer enim neque volutpat ac. Mi ipsum faucibus vitae aliquet.</span></div>
+                <a href=".\index.html" style="scroll-snap-align: center; "><input id="HomeButton" type="button" value=""></input></a>
+            </div>    
         </div>
     </body>
 </html>
