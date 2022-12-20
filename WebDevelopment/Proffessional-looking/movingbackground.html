@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Moving background</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Stylesheet.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <style>
+            #Container_1
+            {
+                margin-left: 10vh;
+                margin-right: 10vh;
+                margin-top: 0px;
+                min-height: 100vh;
+                padding: 1vh;
+                background-color: #4D96FF;
+            }
+            
+            .triangle3
+            {
+                margin-left: 70vh;
+                margin-top:39vh;
+                position: absolute;
+                border-left: 27vh solid #00000000;
+                border-right: 27vh solid #00000000;
+                border-top: 0vh solid #00000000;
+                border-bottom: 37.5vh solid #3D8361;
+                border:1;
+                width: 0;
+                height: 0;
+                z-index: 0;
+            }
+            .triangle4
+            {
+                margin-left:70vh;
+                margin-top:42.9vh;
+                position: absolute;
+                border-left: 24.1vh solid #00000000;
+                border-right: 24.1vh solid #00000000;
+                border-top: 0vh solid #00000000;
+                border-bottom: 33.75vh solid #1C6758;
+                width: 0;
+                height: 0;
+                z-index: 1;
+            }
+            .triangle
+            {
+                margin-left: 10vh;
+                position: absolute;
+                border-left: 45vh solid #00000000;
+                border-right: 45vh solid #00000000;
+                border-top: 1.5vh solid #00000000;
+                border-bottom: 75vh solid #A8E890;
+                width: 0;
+                height: 0;
+                z-index: 3;
+            }
+            .triangle2
+            {
+                margin-top:7.5vh;
+                margin-left:10vh;
+                position: absolute;
+                border-left: 40.5vh solid #00000000;
+                border-right: 40.5vh solid #00000000;
+                border-top: 1.35vh solid #00000000;
+                border-bottom: 67.5vh solid #6BCB77;
+                width: 0;
+                height: 0;
+                z-index: 4;
+            }
+            .sun
+            {
+                height: 25vh;
+                width: 25vh;
+                background-color: #FFD93D;
+                border-radius: 50%;
+                position: absolute;
+                margin-left:100vh;
+            }
+            .photo
+            {
+                position: absolute;
+                border: 10vh solid black;
+                z-index:5;
+                width:75vw;
+                height: 90vh;
+                margin: auto;
+                right:0; left:0;
+                box-shadow: 4px 13px 59px 8px rgba(0,0,0,0.75);
+            }
+            .photo2
+            {
+                position: absolute;
+                border: 10vh solid azure;
+                z-index:5;
+                width:70vw;
+                height: 80vh;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 5vh;
+                right:0; left:0;
+            }
+            .container
+            {
+                width:70vw;
+                height: 75vh;
+                padding-top: 5vh;
+                padding-bottom: 0;
+                margin-top: 15vh;
+                margin-left: auto;
+                margin-right: auto;
+                right:0; left:0;
+            }
+        </style>
+        <script>
+            window.onload=()=>
+            {
+                const el = document.querySelector("body");
+                rect = document.querySelector('.photo').getBoundingClientRect();
+                m1 = $("#Mountain1");
+                m2 = $("#Mountain2");
+                s1=$('.sun')
+                L1=parseFloat(m1.css("margin-left").slice(0, -2));
+                T1=parseFloat(m1.css("margin-top").slice(0, -2));
+                L2=parseFloat(m2.css("margin-left").slice(0, -2));
+                T2=parseFloat(m2.css("margin-top").slice(0, -2));
+                L3=parseFloat(s1.css("margin-left").slice(0, -2));
+                T3=parseFloat(s1.css("margin-top").slice(0, -2));
+                el.addEventListener("mousemove", (e) => 
+                {
+                    console.log(rect.bottom, e.offsetY);
+                    if (rect.bottom*1.5>e.offsetY)
+                    {
+                        m1.css("margin-left", L1+e.offsetX/15 + "px");
+                        m1.css("margin-top", T1+e.offsetY/15 + "px");
+                        m2.css("margin-left", L2-e.offsetX/25 + "px");
+                        m2.css("margin-top", 20+T2-e.offsetY/25 + "px");
+                        s1.css("margin-left", L3-e.offsetX/30 + "px");
+                        s1.css("margin-top", T3-e.offsetY/30 + "px");
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body id="bodyStyle" style="text-align: center; background-color: #1e1e1e;">
+        <div id="Container_1">
+            <div class="photo"></div>
+            <div class="photo2"></div>
+            <div class="container">
+                <div class="sun"></div>
+                <div id="Mountain2">
+                    <div class="triangle3"></div>
+                    <div class="triangle4"></div>
+                </div>
+                <div id="Mountain1">
+                    <div class="triangle"></div>
+                    <div class="triangle2"></div>
+                </div>
+            </div>
+            <div style="margin-top: 20vh;">
+                <a href=".\index.html"><input id="HomeButton" type="button" value=""></input></a>
+            </div>
+        </div>
+    </body>
+</html>

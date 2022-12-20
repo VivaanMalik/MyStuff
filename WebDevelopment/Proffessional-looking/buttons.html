@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Buttons</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Stylesheet.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <style>
+            #Container_1
+            {
+                margin-left: 10vh;
+                margin-right: 10vh;
+                margin-top: 0px;
+                padding: 5vh;
+                background-color: #1e1e1e8a;
+            }
+
+            div
+            {
+                margin: 0;
+            }
+
+            .buttonStyle1div
+            {
+                width: 100%;
+                position: relative;
+                background-color: #749F82;
+                padding: 1vh;
+            }
+            .buttonStyle1
+            {
+                border: 0;
+                height: 10vh;
+                font-size: 5vh;
+                color: #CFFF8D;
+                transition:all 0.5s;
+                background-color: #749F82;
+                position: relative;
+                font-family: sans-serif;
+                text-decoration: none;
+                letter-spacing: 2px;
+                transition: all .3s;
+            }
+            .buttonStyle1:after
+            {
+                position: absolute;
+                content: "";
+                top:0;
+                left:0;
+                width: 0;
+                height: 100%;
+                background-color: #425F57;
+                transition: .3s;
+            }
+            .buttonStyle1:hover:after
+            {
+                width: 100%;
+            }
+            .buttonStyle1 span
+            {
+                position: relative;
+                z-index: 1;
+            }
+
+            .buttonStyle2div
+            {
+                width: 100%;
+                position: relative;
+                background-color:cornflowerblue;
+                padding: 1vh;
+            }
+            .buttonStyle2
+            {
+                font-size: 5vh;
+                padding: 1vh;
+                min-width: 40vh;
+                position: relative;
+                font-family: sans-serif;
+                text-decoration: none;
+                letter-spacing: 5px;
+                transition: all .3s;
+                color:azure;
+                text-align: center;
+            }
+            .buttonStyle2:before
+            {
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 100%;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                border-top: azure 1px solid;
+                border-bottom: azure 1px solid;
+                transition: all .3s;
+            }
+            .buttonStyle2:after
+            {
+                position: absolute;
+                content: "";
+                width: 100%;
+                height: 100%;
+                background-color: #ffffff30;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                transition: all .3s;
+            }
+            .buttonStyle2:hover
+            {
+                letter-spacing: 2px;
+            }
+            .buttonStyle2:hover:after
+            {
+                content: "";
+                width: 0;
+                height: 0;
+            }
+            .buttonStyle2:hover:before
+            {
+                width: 100%;
+                height: 100%;
+            }
+            .buttonStyle2 span
+            {
+                text-align: center;
+                position: relative;
+                z-index: 1;
+            }
+        </style>
+        <script>
+            // Script
+        </script>
+    </head>
+    <body id="bodyStyle" style="text-align: left; background-color: #2a2a2a;">
+        <div id="Container_1">
+
+            <div class="buttonStyle1div">
+                <a class="buttonStyle1" href="#" type="button"><span>Button Style 1</span></a>
+            </div>
+            <div class="buttonStyle2div">
+                <a class="buttonStyle2" href="#" type="button"><span>Button Style 2</span></a>
+            </div>
+
+            <br>
+            <a href=".\index.html"><input id="HomeButton" type="button" value=""></input></a>
+        </div>
+    </body>
+</html>

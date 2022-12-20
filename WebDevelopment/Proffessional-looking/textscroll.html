@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Text Scroll</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Stylesheet.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <style>
+            #Title2
+            {
+                font-family:Georgia, 'Times New Roman', Times, serif;
+                font-size: 10vh;
+                color: azure;
+                font-weight: bold;
+                text-align: center;
+
+            }
+
+            #Container_1
+            {
+                margin-left: 10vh;
+                margin-right: 10vh;
+                margin-top: 0px;
+                padding-top: 2vh;
+                padding-left: 5vh;
+                padding-right: 5vh;
+                background-color: #1e1e1e8a;
+                min-height: 98vh;
+            }
+
+            .scroller2 
+            {
+                height: 1.2em;
+                line-height: 1.2em;
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .scroller2 > span
+            {
+                position: absolute;
+                right: 0;
+                top: 0;
+                animation: slide2 8s infinite;
+                font-weight: bold;
+            }
+
+            @keyframes slide2
+            {
+                0% 
+                {
+                top: 0;
+                }
+                16.7% 
+                {
+                top: -1.2em;
+                }
+                33.3% 
+                {
+                top: -2.4em;
+                }
+                50% 
+                {
+                top: -3.6em;
+                }
+                66.7% 
+                {
+                top: -2.4em;
+                }
+                83.3% 
+                {
+                top: -1.2em;
+                }
+            }
+
+            .scroller3
+            {
+                height: 1.2em;
+                line-height: 1.2em;
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .scroller3 > span
+            {
+                left: 0;
+                position: absolute;
+                top: 0;
+                animation: slide3 5.3s infinite;
+                font-weight: bold;
+            }
+
+            @keyframes slide3 
+            {
+                0% 
+                {
+                top: 0;
+                }
+                25% 
+                {
+                top: -1.2em;
+                }
+                50% 
+                {
+                top: -2.4em;
+                }
+                75% 
+                {
+                top: -3.6em;
+                }
+            }
+        
+            .scroller4
+            {
+                height: 1.2em;
+                line-height: 1.2em;
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .scroller4 > span
+            {
+                right: 0;
+                position: absolute;
+                top: 0;
+                animation: slide4 5.3s infinite;
+                font-weight: bold;
+            }
+
+            @keyframes slide4 
+            {
+                0% 
+                {
+                top: 0;
+                }
+                25% 
+                {
+                top: -1.2em;
+                }
+                50% 
+                {
+                top: -2.4em;
+                }
+                75% 
+                {
+                top: -3.6em;
+                }
+                100%
+                {
+                top: -4.8em;
+                }
+            }
+
+            .scroller5
+            {
+                height: 1.2em;
+                line-height: 1.2em;
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .scroller5 > span
+            {
+                left: 0;
+                position: absolute;
+                top: 0;
+                animation: slide5 5.3s infinite step-start;
+                font-weight: bold;
+            }
+
+            @keyframes slide5
+            {
+                0% 
+                {
+                top: 0;
+                }
+                25% 
+                {
+                top: -1.2em;
+                }
+                50% 
+                {
+                top: -2.4em;
+                }
+                75% 
+                {
+                top: -3.6em;
+                }
+            }
+
+            td
+            {
+                text-align: center;
+                font-size: 3vh;
+            }
+        </style>
+        <script>
+            // script
+        </script>
+    </head>
+    <body id="bodyStyle" style="text-align: left; background-color: #10A19D; min-height: 100vh;">
+        <div id="Container_1">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <div id="Title2" style="text-align: left;">This do be a:</div>
+                        <div id = "Title2" style="text-align: left;" class="scroller5">
+                            <span>
+                                <span style="color: #A5F1E9">title</span><br>
+                                <span style="color: #FFF6BF">example</span><br>
+                                <span style="color: #7FE9DE">style</span><br>
+                                <span style="color: #FFEBAD">weee!</span>
+                            </span>
+                        </div>
+                    </td>
+                    <td style="width: 10%">
+                        1/10
+                    </td>
+                    <td style="width: 10%">
+                        7/10
+                    </td>
+                    <td>
+                        <div id="Title2" style="text-align: right;">This do be a:</div>
+                        <div id = "Title2" style="text-align: right;" class="scroller2">
+                            <span>
+                                <span style="color: #A5F1E9">title</span><br>
+                                <span style="color: #FFF6BF">example</span><br>
+                                <span style="color: #7FE9DE">style</span><br>
+                                <span style="color: #FFEBAD">weee!</span>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="Title2" style="text-align: left;">This do be a:</div>
+                        <div id = "Title2" style="text-align: left;" class="scroller3">
+                            <span>
+                                <span style="color: #A5F1E9">title</span><br>
+                                <span style="color: #FFF6BF">example</span><br>
+                                <span style="color: #7FE9DE">style</span><br>
+                                <span style="color: #FFEBAD">weee!</span>
+                            </span>
+                        </div>
+                    </td>
+                    <td style="width: 10%">
+                        3/10
+                    </td>
+                    <td style="width: 10%">
+                        10/10
+                    </td>
+                    <td>
+                        <div id="Title2" style="text-align: right;">This do be a:</div>
+                        <div id = "Title2" style="text-align: right;" class="scroller4">
+                            <span>
+                                <span style="color: #A5F1E9">title</span><br>
+                                <span style="color: #FFF6BF">example</span><br>
+                                <span style="color: #7FE9DE">style</span><br>
+                                <span style="color: #FFEBAD">weee!</span><br>
+                                <span style="color: #A5F1E9">title</span>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div style="text-align: center; vertical-align: center;">
+                <a href=".\index.html"><input id="HomeButton" type="button" value=""></input></a>
+            </div>
+        </div>
+    </body>
+</html>

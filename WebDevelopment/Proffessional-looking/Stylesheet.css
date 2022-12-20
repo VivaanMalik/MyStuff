@@ -78,6 +78,7 @@ h1
     background-position-y: center;
     background-color:aqua;
     transition: background-color 0.2s ease-out, background-size 0.2s ease-out;
+    margin: 1vh;
 }
 
 .Button1:hover
@@ -174,4 +175,29 @@ h1
 #BGWebsiteTrash
 {
     background-image: url("trash.png");
+}
+
+#BGWebsitePlay
+{
+    background-image: url("play.png");
+}
+
+#BGWebsiteTextScroll
+{
+    background-image: url("textscroll.png");
+}
+
+#BGWebsiteButtons
+{
+    background-image: url("buttons.png");
+}
+
+#BGWebsiteBackground
+{
+    background-image: url("background.png");
+}
+
+#BGWebsiteTextFormatting
+{
+    background-image: url("text.png");
 }

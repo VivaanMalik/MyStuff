@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Splash Screen</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="Stylesheet.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <style>
+            *
+            {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .Container_1
+            {
+                height: 100vh;
+                background-color: #453C67;
+                position: fixed;
+                z-index: 1;
+                left:0;
+                right:0;
+                width: 100%;
+                top: 0;
+                transition: top 1s ease-in-out;
+            }
+
+            .flytext_container
+            {
+                position: absolute;
+                top:40%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .flytext
+            {
+                position: relative;
+                display: inline-block;
+                bottom: -50px;
+                opacity: 0;
+                color:#F2F7A1;
+            }
+
+            .flytext.active
+            {
+                color:#F2F7A1;
+                bottom: 0;
+                opacity: 1;
+                transition: all 0.5s ease-in-out;
+            }
+
+            .flytext.fade
+            {
+                color:#F2F7A1;
+                bottom: 150px;
+                opacity: 0;
+                transition: all 0.5s ease-in-out;
+            }
+
+            header
+            {
+                position: relative;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 80px;
+            }
+
+            header p
+            {
+                color: #453C67;
+                position: relative;
+                margin-left: 10vh;
+                margin-right: 10vh;
+                text-align: justify;
+                bottom: 1rem;
+                font-size: 1.6rem;
+            }
+        </style>
+        <script>
+            window.onload=()=>
+            {
+                let container = document.querySelector('.Container_1');
+                let textbox = document.querySelector('.flytext_container')
+                let text = document.querySelectorAll('.flytext')
+
+                setTimeout(() =>
+                {
+                    text.forEach((span, index)=>
+                    {
+                        setTimeout(() =>
+                        {
+                            span.classList.add('active');
+                        }, (index+1)*50);
+                    });
+
+                    setTimeout(() =>
+                    {
+                        text.forEach((span, index)=>
+                        {
+                            setTimeout(() =>
+                            {
+                                span.classList.remove('active');
+                                span.classList.add('fade');
+                            }, (index+1)*50);
+                        });
+                    }, 1750);
+
+                    setTimeout(() =>
+                    {
+                        container.style.top = '-100vh';
+                    }, 2000);
+                });
+            };
+        </script>
+    </head>
+    <body style="background-color: #6D67E4; scroll-behavior: smooth;">
+        <div class="Container_1">
+            <div class="flytext_container">
+                <h1><span class="flytext">This</span> <span class="flytext">is</span> <span class="flytext">a</span> <span class="flytext">Splash</span> <span class="flytext">Screen</span></h1>
+            </div>
+        </div>
+        <header>
+            <div id="Title" style="color: #453C67;">HELLOO</div>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel perspiciatis quod ipsam repellendus dolore deleniti officia accusamus non eaque placeat quae modi accusantium mollitia dolorum exercitationem, quaerat sint, alias debitis. Excepturi ipsa aut expedita commodi possimus nam facere illo, temporibus qui dignissimos ea voluptas sunt consequuntur sequi corrupti aperiam! Repudiandae sunt aperiam laborum quas eaque, veritatis repellendus. Nam quis magnam eaque ducimus fuga quasi expedita delectus adipisci tenetur magni illo modi deserunt, omnis nemo mollitia nisi id vel iusto. Earum culpa enim itaque autem laboriosam totam eveniet dolorem. Quo ipsa culpa mollitia cum tempora ducimus, assumenda repudiandae vel ut, blanditiis id quis ipsum fuga sunt porro voluptates. Iure id maxime cupiditate dolor provident ducimus, aut cumque ut in unde saepe deserunt voluptate! Tenetur rerum praesentium, sapiente, magnam labore mollitia illum facere dolorem sit cupiditate eum, minima tempore? Adipisci beatae placeat veritatis deserunt. Nemo, itaque porro adipisci facilis at modi fuga architecto nam tempora eius ratione, ex exercitationem suscipit esse voluptas excepturi natus aspernatur, praesentium alias autem! Aut quas dolor debitis iste deserunt quidem recusandae earum reiciendis? Officia, rem. Unde odio enim voluptatum iure a vel perspiciatis facilis aliquid, libero cumque quisquam reiciendis excepturi? Quis reprehenderit id aperiam corporis aut perspiciatis soluta voluptates, blanditiis nesciunt rerum eum tenetur modi sunt provident minima, quasi enim omnis hic itaque quam libero. Repudiandae corrupti fugit sequi quam porro excepturi, beatae, officiis blanditiis dignissimos quia tempore provident? Omnis quaerat laudantium alias autem ipsa! Qui, inventore reiciendis impedit voluptatibus magnam amet incidunt magni dolorem officia! Cum itaque nihil odit eos! Eligendi corporis quibusdam sint quod iusto, repellendus maxime illo, esse nulla numquam tenetur nesciunt, suscipit quaerat itaque! Optio vero voluptas, ad beatae hic placeat ea tempora natus? Magnam vitae culpa suscipit eius ad cum id itaque? Eveniet deleniti voluptates laborum, amet facilis delectus pariatur iure iste?
+            </p>
+            <div style="text-align: center;"><a href=".\index.html"><input id="HomeButton" type="button" value=""></input></a></div>
+        </header>
+    </body>
+</html>
