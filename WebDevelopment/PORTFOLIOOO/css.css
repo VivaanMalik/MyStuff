@@ -361,6 +361,7 @@ body
 }
 .Work
 {
+    z-index: -1;
     display: block;
     font-size: 5vh;
     padding: 0vh;
@@ -370,10 +371,22 @@ body
     transition: all .3s;
     color:transparent;
     text-align: center;
-    background-position: 0, 0;
-    background-size: 100%, 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     border: 0;
     background-color: #0c0c0c;
+    transform-origin: center bottom;
+}
+.Work.focus,
+.Work.active:focus,
+.Work.focus, 
+.Work:active.focus, 
+.Work:active:focus, 
+.Work:focus 
+{
+  outline: none;
+  box-shadow: none;    
 }
 .Work:before
 {
@@ -401,7 +414,7 @@ body
     top:50%;
     left:50%;
     transform: translate(-50%, -50%);
-    transition: all .3s;
+    transition: all .5s;
 }
 .Work:hover
 {
@@ -415,6 +428,26 @@ body
 {
     width: 100%;
 }
+.Work.click.c1
+{
+    color:transparent;
+}
+.Work.click.c2
+{
+    color:transparent;
+}
+.Work.click.c3
+{
+    color:transparent;
+}
+.Work.click:after
+{
+    width: 0;
+}
+.Work.click:before
+{
+    width: 0;
+}
 .Work span
 {
     display: flex;
@@ -427,10 +460,62 @@ body
     padding: 0;
     z-index: 10;
 }
+.initripple
+{
+    position: absolute;
+    border-radius: 50%;
+    width: 100vw;
+    height: 100vw;
+    left:50vw;
+    top:50vh;
+    /* margin-top: -50px;
+    margin-left: -50px; */
+    z-index:20;
+    background-color: #b15dff;
+    animation: initripple 1s forwards;
+    /* transform-origin: center center; */
+}
+@keyframes initripple 
+{
+    0%
+    {
+        transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+    }
+    100%
+    {
+        transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+    }
+}
+.ripple
+{
+    position: absolute;
+    border-radius: 50%;
+    width: 100vw;
+    height: 100vw;
+    margin-top: -50px;
+    margin-left: -50px;
+    z-index:20;
+    background-color: #b15dff;
+    animation: ripple 1s forwards;
+    /* transform-origin: center center; */
+}
+@keyframes ripple 
+{
+    0%
+    {
+        transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+    }
+    100%
+    {
+        transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+    }
+}
+
 .WorkContainer
 {
     position: relative;
     width: fit-content;
     margin: auto;
     margin-top: 0;
+    perspective: 600px;
 }

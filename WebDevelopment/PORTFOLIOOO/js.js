@@ -1,5 +1,59 @@
-window.addEventListener("load", (event) => 
+window.onload = function()
 {
+    var x, y
+    
+    var firstTime = localStorage.getItem("first_time");
+    t = 0 // 32
+    if(!firstTime) 
+    {
+        
+        document.getElementById("ripple").classList.remove("initripple");
+        t=32
+    }
+    localStorage.setItem("first_time","1");
+    localStorage.removeItem("first_time")
+
+    document.onmousemove = move;
+    function move(event)
+    {
+        if (window.event)
+        {
+            x = event.x; // there are other values depending on your needs
+            y = event.y; // one is clientX. Can't remember the others offhand
+        }
+        else
+        {
+            x = evt.x;
+            y = evt.y;
+        }
+    }
+    function ripple(element)
+    {
+        let r = document.getElementById("ripple");
+        r.classList.add('ripple');
+        r.style.left = `${(element.getBoundingClientRect().left + element.getBoundingClientRect().right)/2}px`;
+        r.style.top = `${(element.getBoundingClientRect().top + element.getBoundingClientRect().bottom)/2 + window.scrollY}px`;
+        setTimeout(function(){r.classList.remove("ripple");}, 2000);
+        console.log(r);
+    }
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    elementss = document.getElementsByClassName('Work');
+
+    [...elementss].forEach(element => 
+    {
+        element.addEventListener('click', function()
+        {
+            console.log('click');
+            [...elementss].forEach(element => 
+            {
+                element.classList.remove('click');
+            });
+            element.classList.add('click');
+            ripple(element);
+            setTimeout(function(){window.location.href=document.querySelector('.click').dataset.link;element.classList.remove('click');}, 1000);
+        });
+    });
+
     elements = document.getElementsByClassName('Skill');
     [...elements].forEach(element => 
     {
@@ -9,7 +63,6 @@ window.addEventListener("load", (event) =>
         });
     });
 
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
     function stopscroll()
     {
         document.body.classList.add("StopScroll");
@@ -20,7 +73,11 @@ window.addEventListener("load", (event) =>
         document.body.classList.remove("StopScroll");
     }
 
-    t = 0 // 32
+    function sett(val)
+    {
+        t = val;
+    }
+    
     var i = 0;
     var i2 = 0;
     varitxt = "C:\\Users\\Vivaan Malik\\Young Developer\\Portfolio>";
@@ -36,11 +93,11 @@ window.addEventListener("load", (event) =>
             document.getElementsByClassName("cmd")[0].innerHTML += txt.charAt(i);
             document.getElementsByClassName("cmd")[0].innerHTML += "_";
             i++;
-            setTimeout(tw, t);
+            setTimeout(tw, t );
         }
         else
         {
-            setTimeout(twe, t*20);
+            setTimeout(twe, t *20);
         }
     }
 
@@ -57,7 +114,7 @@ window.addEventListener("load", (event) =>
                 document.getElementsByClassName("cmd")[0].innerHTML+="_";
             }
             i2++;
-            setTimeout(twe, t*20)
+            setTimeout(twe, t *20)
         }
         else
         {
@@ -172,4 +229,4 @@ window.addEventListener("load", (event) =>
             }
         });
     });
-});
+};

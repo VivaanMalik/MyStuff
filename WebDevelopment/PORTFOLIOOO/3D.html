@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vivaan Malik | Portfolio | 3D</title>
+        <script type="text/javascript" src="js.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <link rel="icon" href="me2_logo.png">
+        <script>
+            window.onload = function()
+            {
+                let b = document.getElementsByClassName('button')[0];
+                b.addEventListener('click', function()
+                {
+                    ripple(b);
+                    localStorage.setItem("first_time","1");
+                    setTimeout(function(){window.location.href=b.dataset.link;}, 1000);
+                });
+
+                function ripple(element)
+                {
+                    let r = document.getElementById("ripple");
+                    r.classList.remove('inittransition');
+                    r.classList.add('ripple');
+                    r.style.left = `${(element.getBoundingClientRect().left + element.getBoundingClientRect().right)/2}px`;
+                    r.style.top = `${(element.getBoundingClientRect().top + element.getBoundingClientRect().bottom)/2 + window.scrollY}px`;
+                    setTimeout(function(){r.classList.remove("ripple");}, 2000);
+                    console.log(r);
+                }
+            };
+        </script>
+        <style>
+            .ripple
+            {
+                position: absolute;
+                border-radius: 50%;
+                width: 100vw;
+                height: 100vw;
+                margin-top: -50px;
+                margin-left: -50px;
+                z-index:20;
+                background-color: #b15dff;
+                animation: ripple 1s forwards;
+                /* transform-origin: center center; */
+            }
+            @keyframes ripple 
+            {
+                0%
+                {
+                    transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+                }
+                100%
+                {
+                    transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+                }
+            }
+            .inittransition
+            {
+                position: absolute;
+                border-radius: 50%;
+                width: 100vw;
+                height: 100vw;
+                margin-top: -50px;
+                margin-left: -50px;
+                z-index:20;
+                background-color: #b15dff;
+                animation: ripple2 1s forwards;
+                content: "";
+                left:50vw;
+                top:50vh;
+            }
+            @keyframes ripple2
+            {
+                0%
+                {
+                    transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+                }
+                100%
+                {
+                    transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+                }
+            }
+            .title
+            {
+                white-space: nowrap;
+                margin-left: 5vw;
+                margin-top: 0;
+                background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                user-select: none;
+                font-size: 5vw;
+                width: min-content;
+            }
+            .hr
+            {
+                margin-top: 2.5vh;
+                margin-bottom: 2.5vh;
+                margin-left: 5vw;
+                margin-right: 5vw;
+                user-select: none;
+                height: .5vw;
+                background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+                content:"";
+            }
+            .flex
+            {
+                position: absolute;
+                flex-wrap: wrap;
+                display: flex;
+                align-content: flex-start;
+                justify-content: center;
+                gap:5px;
+            }
+            .video
+            {
+                object-fit: cover;
+            }
+            .vid-container
+            {
+                z-index: 0;
+                --x:50%;
+                --y:50%;
+                border: 5px solid transparent;
+                background: linear-gradient(#000, #000) padding-box, radial-gradient(farthest-corner at var(--x) var(--y), #00C9A7, #845EC2) border-box;
+            }
+            .buttoncontainer
+            {
+                margin-top:10px;
+                width: fit-content;
+                white-space: nowrap;
+                position: relative;
+                background-color: transparent;
+                padding: 0;
+                margin-left: auto;
+                margin-right: auto;
+                border-radius: 10px;
+            }
+            .button
+            {
+                border-radius: 10px;
+                border: 0;
+                height: 10vh;
+                font-size: 5vh;
+                color: #000;
+                transition:all 0.5s;
+                background-color: #450073;
+                position: relative;
+                font-family: sans-serif;
+                text-decoration: none;
+                letter-spacing: 2px;
+                transition: all .3s;
+                padding: 1vh;
+            }
+            .button:after
+            {
+                border-radius: 10px;
+                position: absolute;
+                content: "";
+                top:0;
+                left:0;
+                width: 0;
+                height: 100%;
+                background-color: #9900ff;
+                transition: .3s;
+                border: 0;
+                /* padding: 1vh; */
+            }
+            .button:hover:after
+            {
+                width: 100%;
+            }
+            .button span
+            {
+                position: relative;
+                z-index: 1;
+            }
+        </style>
+    </head>
+    <body style="background-color: #171717; overflow-x: hidden;">
+        <div class="inittransition" id="ripple"></div>
+        <div class="title">3D projects</div>
+        <div class="hr"></div>
+        <div class="flex">
+            <img class="vid-container" src="3D/1_Runestone.png"  width="683" height="384">
+            <img class="vid-container" src="3D/AMAJINGFES.png"  width="683" height="384">
+            <img class="vid-container" src="3D/CuteMonstah10.png"  width="683" height="384">
+            <div class="vid-container">
+                <video playsinline autoplay muted loop width="683" height="384">
+                    <source src="3D/factory.mp4" type="video/mp4">
+                    Extension error
+                </video>
+            </div>
+            <div class="vid-container">
+                <video playsinline autoplay muted loop  width="683" height="384">
+                    <source src="3D/fantasyppl.mp4" type="video/mp4">
+                    Extension error
+                </video>
+            </div>
+            <div class="vid-container">
+                <video playsinline autoplay muted loop  width="683" height="384">
+                    <source src="3D/forestelfperson.mp4" type="video/mp4">
+                    Extension error
+                </video>
+            </div>
+            <div class="vid-container">
+                <video playsinline autoplay muted loop width="683" height="384">
+                    <source src="3D/goblin.mp4" type="video/mp4">
+                    Extension error
+                </video>
+            </div>
+            <div class="vid-container">
+                <video playsinline autoplay muted loop  width="683" height="384">
+                    <source src="3D/scifichar.mp4" type="video/mp4">
+                    Extension error
+                </video>
+            </div>
+            <div class="vid-container">
+                <video playsinline autoplay muted loop width="683" height="384">
+                    <source src="3D/suitup.mp4" type="video/mp4">
+                    Extension error
+                </video>
+            </div>
+        </div>
+        <div class="buttoncontainer">
+            <a class="button" data-link="./index.html#MyWorks" href="javascript:void(0)" type="button"><span>< Go back</span></a>
+        </div>
+    </body>
+</html>
