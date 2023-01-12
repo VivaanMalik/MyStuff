@@ -1,5 +1,7 @@
 window.onload = function()
 {
+    let r = document.getElementById("ripple");
+    r.style.top=window.scrollY + "50vh";
     var x, y
     
     var firstTime = localStorage.getItem("first_time");

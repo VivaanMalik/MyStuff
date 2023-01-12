@@ -13,6 +13,7 @@
                 {
                     ripple(b);
                     localStorage.setItem("first_time","1");
+                    setTimeout(function(){document.getElementsByClassName("flex")[0].style.opacity="0";document.getElementsByClassName("hr")[0].style.opacity="0";document.getElementsByClassName("button")[0].style.opacity="0";console.log("hehe");}, 200);
                     setTimeout(function(){window.location.href=b.dataset.link;}, 1000);
                 });
 
@@ -90,6 +91,24 @@
                 user-select: none;
                 font-size: 5vw;
                 width: min-content;
+                margin-bottom: 1vh;
+            }
+            a 
+            {
+                color: inherit; /* blue colors for links too */
+                text-decoration: inherit; /* no underline */
+            }
+            .title2
+            {
+                border-radius: 10px;
+                white-space: nowrap;
+                margin-left: 5vw;
+                margin-top: 0;
+                background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+                color: #171717;
+                user-select: none;
+                font-size: 2vw;
+                width: min-content;
             }
             .hr
             {
@@ -104,7 +123,6 @@
             }
             .flex
             {
-                position: absolute;
                 flex-wrap: wrap;
                 display: flex;
                 align-content: flex-start;
@@ -117,11 +135,110 @@
             }
             .vid-container
             {
-                z-index: 0;
+                z-index: -1;
                 --x:50%;
                 --y:50%;
-                border: 5px solid transparent;
                 background: linear-gradient(#000, #000) padding-box, radial-gradient(farthest-corner at var(--x) var(--y), #00C9A7, #845EC2) border-box;
+                display: block;
+                font-size: 3vh;
+                padding: 0vh;
+                transition: all .3s;
+                color:transparent;
+                text-align: center;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                border: 0;
+                background-color: #0c0c0c;
+                transform-origin: center bottom;
+                min-width: 50vh;
+                min-height: 50vh;
+            }
+            .vid-container.focus,
+            .vid-container.active:focus,
+            .vid-container.focus, 
+            .vid-container:active.focus, 
+            .vid-container:active:focus, 
+            .vid-container:focus 
+            {
+                outline: none;
+                box-shadow: none;    
+            }
+            .vid-container:before
+            {
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 100%;
+                border-top: azure 1px solid;
+                border-bottom: azure 1px solid;
+                border-left: 0;
+                border-right: 0;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                transition: all .3s;
+            }
+            .vid-container:after
+            {
+                position: absolute;
+                border: 0;
+                content: "";
+                width: 0;
+                height: 100%;
+                background-color: #0c0c0c8a;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                transition: all .5s;
+            }
+            .vid-container:hover
+            {
+                color:rgb(255, 255, 255);
+            }
+            .vid-container:hover:after
+            {
+                width: 100%;
+            }
+            .vid-container:hover:before
+            {
+                width: 100%;
+            }
+            .vid-container.click
+            {
+                color:transparent;
+            }
+            .vid-container.click:after
+            {
+                width: 0;
+            }
+            .vid-container.click:before
+            {
+                width: 0;
+            }
+            .vid-container span
+            {
+                font-style: normal;
+                position: absolute;
+                /* justify-content:center;
+                align-items:center; */
+                width:100%;
+                height: 100%;
+                padding: 0;
+                z-index: 10;
+                transform: translate(-50%, 0%);
+            }
+            .vid-container span p
+            {
+                font-size: 5vh;
+            }
+            .vid-container-container
+            {
+                position: relative;
+                width: fit-content;
+                margin: auto;
+                margin-top: 0;
+                perspective: 600px;
             }
             .buttoncontainer
             {
@@ -174,18 +291,231 @@
                 position: relative;
                 z-index: 1;
             }
+            .text
+            {
+                margin-left: 5vw;
+                margin-right: 5vw;
+                color: #f0b5ff;
+                font-family: 'Times New Roman', Times, serif;
+                letter-spacing: 2px;
+                font-size: 3vh;
+                text-align:justify;
+            }
         </style>
     </head>
     <body style="background-color: #171717; overflow-x: hidden;">
-        <div class="inittransition" id="ripple"></div>
         <div class="title">Programming projects</div>
+        <div style="display: inline-block;">
+        <div class="title2"><a href="https://github.com/VivaanMalik" target="_blank">Github</a></div>
+        <div class="title2"><a href="https://vivaanlolz.itch.io" target="_blank">Itch.io</a></div>
+        </div>
+        <div class="text">Since my github profile and repo are very messy (I have not updated them in a long time). Here are some of my favourite complete and incomplete projects. The images below are links to the project on github.</div>
         <div class="hr"></div>
         <div class="flex">
-            <img class="vid-container" src="2D/drstrenge.png"  width="384" height="384">
-            <img class="vid-container" src="2D/zombiestrange_3.png"  width="683" height="384">
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Terrain Generator
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            VTGBot
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Terrain Generator
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Neural Network
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            3D render
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            2D game engine
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Neural Network
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Malicious program
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Neural Network
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Cellular Automata
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Rust game
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Steganography
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Keyboard character distorter
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Wave function collapse
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Cellular Automata
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Wattpad book downloader
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Insanity
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            DaMazeOfDoom
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Dragons the game
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
+            <div class="vid-container-container">
+                <a href="3D.html" target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Text based Monopoly
+                        </p>
+                        Description
+                    </span>
+                </a>
+            </div>
         </div>
         <div class="buttoncontainer">
             <a class="button" data-link="./index.html#MyWorks" href="javascript:void(0)" type="button"><span>< Go back</span></a>
         </div>
+        <div class="inittransition" id="ripple"></div>
     </body>
 </html>

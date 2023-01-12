@@ -14,6 +14,7 @@
                     ripple(b);
                     localStorage.setItem("first_time","1");
                     setTimeout(function(){window.location.href=b.dataset.link;}, 1000);
+                    setTimeout(function(){document.getElementsByClassName("flex")[0].style.opacity="0";document.getElementsByClassName("hr")[0].style.opacity="0";document.getElementsByClassName("button")[0].style.opacity="0"}, 200);
                 });
 
                 function ripple(element)
@@ -104,7 +105,6 @@
             }
             .flex
             {
-                position: absolute;
                 flex-wrap: wrap;
                 display: flex;
                 align-content: flex-start;
@@ -117,7 +117,7 @@
             }
             .vid-container
             {
-                z-index: 0;
+                z-index: -1;
                 --x:50%;
                 --y:50%;
                 border: 5px solid transparent;
@@ -177,7 +177,6 @@
         </style>
     </head>
     <body style="background-color: #171717; overflow-x: hidden;">
-        <div class="inittransition" id="ripple"></div>
         <div class="title">2D projects</div>
         <div class="hr"></div>
         <div class="flex">
@@ -187,5 +186,6 @@
         <div class="buttoncontainer">
             <a class="button" data-link="./index.html#MyWorks" href="javascript:void(0)" type="button"><span>< Go back</span></a>
         </div>
+        <div class="inittransition" id="ripple"></div>
     </body>
-</html>
+    </html>

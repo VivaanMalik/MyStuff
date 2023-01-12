@@ -4,6 +4,7 @@ This discord bot of mine (@Rory#6513) is meant for bringing communities together
 Start with a Marvel Character and level them up. Collect them all for extra benefits.   
 Unlock them from shards form boxes, a range of 9 rarities and 120 heroes.   
 ## Usage
+Invite link: https://discord.com/api/oauth2/authorize?client_id=893340597908299807&permissions=413726604369&scope=bot
 ### Prefix
 For now it is '-' , planning to add to slash ('/') commands   
 Prefix used in front of every commmand...   
