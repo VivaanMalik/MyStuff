@@ -3,7 +3,7 @@ BotBoii/Program/VTGBot
 *.json
 REFERENCES
 ZoomBoii
-3DBoii/Terrain/Model
+# 3DBoii/Terrain/Model
 3DBoii/Terrain/Blender
 geminjin/Project Hopeless2D
 target

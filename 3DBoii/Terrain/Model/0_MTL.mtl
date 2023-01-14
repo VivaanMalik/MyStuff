@@ -1,0 +1,27 @@
+newmtl ghass
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.1 0.1 0.1
+Ns 96.078431
+Ni 1.000000
+d 1.000000
+illum 0
+map_Kd .\ghass.jpg
+newmtl snow
+Ka 0 0 0
+Kd 0.640000 0.640000 0.640000
+Ks 0.1 0.1 0.1
+Ns 96.078431
+Ni 1.000000
+d 1.000000
+illum 0
+map_Kd .\snow.jpg
+newmtl water
+Ka 0 0 0
+Kd 0.640000 0.640000 0.640000
+Ks 0.1 0.1 0.1
+Ns 96.078431
+Ni 1.000000
+d 0.75
+illum 0
+map_Kd .\water.jpg
