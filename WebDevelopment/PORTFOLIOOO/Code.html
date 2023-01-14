@@ -5,15 +5,28 @@
         <script type="text/javascript" src="js.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <link rel="icon" href="me2_logo.png">
+        <script defer src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         <script>
-            
             window.onload = function()
             {
+                
                 var popups = document.getElementsByClassName("popupdisplay");
                 var vids=document.getElementsByClassName("vid-container");
                 var closes = document.getElementsByClassName("popup_close_button");
                 var fade = document.getElementById("fadebg");
 
+                function popupdisplaynone()
+                {
+                    for (i = 0; i < popups.length; i++)
+                    {
+                        popups[i].style.display="none";
+
+                    }
+                }
+                function popupdisplaynone2(ei)
+                {
+                    popups[ei].style.display="none";
+                }
                 window.onclick = function(event) 
                 {
                     console.log(event.target);
@@ -21,11 +34,26 @@
                     {
                         for (i = 0; i < popups.length; i++)
                         {
-                            popups[i].style.display="none"
+                            setTimeout(function(){popupdisplaynone();}, 500);
+                            popups[i].style.animation = "fadeout ease .5s forwards";
+
+                        }
+                        fade.style.display="none";
+                        
+                    }
+                };
+                document.body.addEventListener('keydown', function(e)
+                {
+                    if (e.key==="Escape"||e.key==="Esc"||e.keyCode===27)
+                    {
+                        for (i = 0; i < popups.length; i++)
+                        {
+                            setTimeout(function(){popupdisplaynone();}, 500);
+                            popups[i].style.animation = "fadeout ease .5s forwards";
                         }
                         fade.style.display="none";
                     }
-                };
+                });
                 
                 for (i = 0; i < popups.length; i++)
                 {
@@ -42,13 +70,15 @@
                     {
                         var ElementIndex = this.getAttribute('data-index');
                         popups[ElementIndex].style.display = "block";
+                        popups[ElementIndex].style.animation = "fadein ease .5s forwards";
                         fade.style.display="block";
                     };
 
                     closes[i].onclick = function() 
                     {
                         var ElementIndex = this.getAttribute('data-index');
-                        popups[ElementIndex].style.display = "none";
+                        setTimeout(function(){popupdisplaynone2(ElementIndex);}, 500);
+                        popups[ElementIndex].style.animation = "fadeout ease .5s forwards";
                         fade.style.display="none";
                     };
 
@@ -366,19 +396,42 @@
                 border-radius: 10px;
                 color:#01ecff;
                 border: 1px solid #e800e4;
+                overflow-wrap: break-word;
+            }
+            @keyframes fadeout
+            {
+                from
+                {
+                    opacity: 1;
+                }
+                to
+                {
+                    opacity: 0;
+                }
+            }
+            @keyframes fadein
+            {
+                from
+                {
+                    opacity: 0;
+                }
+                to
+                {
+                    opacity: 1;
+                }
             }
             .popup_close_button 
             {
                 color: #aaaaaa;
+                font-size: 8vh;
                 float: right;
-                font-size: 5vh;
                 font-weight: bold;
-                transform: translateX(4vh);
+                transform: translateX(3vh);
             }
             .popup_close_button:hover,
             .popup_close_button:focus 
             {
-                color: #01ecff;
+                color: #ef2d2d;
                 text-decoration: none;
                 cursor: pointer;
             }
@@ -393,6 +446,10 @@
                 background-color: #00000080;
                 z-index: 10;
             }
+            img
+            {
+                width:50%;
+            }
         </style>
     </head>
     <body style="background-color: #171717; overflow-x: hidden;">
@@ -406,12 +463,12 @@
         <div class="fadebg" id="fadebg"></div>
         <div class="flex">
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/Terrain500.png);" class="vid-container">
                     <span>
                         <p>
                             Terrain Generator
                         </p>
-                        Description
+                        A program that generates a textured .obj file of an n-by-n meter terrain using perline noise
                     </span>
                 </a>
             </div>
@@ -419,19 +476,118 @@
                 <span class="popup_close_button">&times;</span>
                 <h1>Terrain Generator</h1>
                 <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain">LINK</a></div>
-                <p></p>
+                <h2>Details</h2>
+                <p>This small program creates an n-by-n meter terrain by using perlin noise. It uses a few external files for the textures, but, this helps it create visually beautiful images.<br><br>
+                   No. of squares in model:<span>$$n^2 + 1$$</span>
+                   No. of triangles in model:<span>$$2n^2 + 2$$</span>
+                </p>
+                <h2>Images</h2>
+                <p>50m by 50m terrain:</p>
+                <img src="Code/Terrain50.png">
+                <p>100m by 100m terrain:</p>
+                <img src="Code/Terrain100.png">
+                <p>250m by 250m terrain:</p>
+                <img src="Code/Terrain250.png">
+                <p>500m by 500m terrain:</p>
+                <img src="Code/Terrain500.png">
+                <p>1000m by 1000m terrain:</p>
+                <img src="Code/Terrain1000.png">
             </div>
 
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/PFP.png);" class="vid-container">
                     <span>
                         <p>
                             VTGBot
                         </p>
-                        Description
+                        A discord bot meant for entertainment (discontinued)
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Terrain Generator</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain">LINK</a></div>
+                <h2>Details</h2>
+                <p>This is an entertainment bot (now discontinued) has a total of 23 commands. It uses the prefix '-'. It has 120 heroes, 3 types of boxes, 10 rarities of heroes, a shop, a minigame and live memes powered by some subreddits.</p>
+                <p>List of commands:<br><br>
+                -meme<br><br>
+                -kat<br><br>
+                -lolkat<br><br>
+                -rickroll<br><br>
+                -invite<br><br>
+                -start<br><br>
+                -help<br><br>
+                -shop<br><br>
+                -buy<br><br>
+                -balance<br><br>
+                -smallbox<br><br>
+                -bigbox<br><br>
+                -megabox<br><br>
+                -levelup<br><br>
+                -shards<br><br>
+                -boxes<br><br>
+                -shard<br><br>
+                -rename<br><br>
+                -herodb<br><br>
+                -hero<br><br>
+                -select<br><br>
+                -tokens<br><br>
+                -blackjack
+                </p>
+                <h2>Images</h2>
+                -meme<br><br>
+                <img src="Code/meme.png"><br><br>
+                -kat<br><br>
+                <img src="Code/kat.png"><br><br>
+                -lolkat<br><br>
+                <img src="Code/lolkat.png"><br><br>
+                -rickroll<br><br>
+                <img src="Code/rickroll.png"><br><br>
+                -invite<br><br>
+                <img src="Code/invite.png"><br><br>
+                -start<br><br>
+                <img src="Code/start.png"><br><br>
+                -help<br><br>
+                <img src="Code/help1.png"><br><br>
+                <img src="Code/help2.png"><br><br>
+                <img src="Code/help3.png"><br><br>
+                <img src="Code/help4.png"><br><br>
+                -shop<br><br>
+                <img src="Code/shop.png"><br><br>
+                -buy<br><br>
+                <img src="Code/buy.png"><br><br>
+                -balance<br><br>
+                <img src="Code/balance.png"><br><br>
+                -smallbox<br><br>
+                <img src="Code/smallbox.png"><br><br>
+                -bigbox<br><br>
+                <img src="Code/bigbox.png"><br><br>
+                -megabox<br><br>
+                <img src="Code/megabox.png"><br><br>
+                -levelup<br><br>
+                <img src="Code/levelup.png"><br><br>
+                -shards<br><br>
+                <img src="Code/shards.png"><br><br>
+                -boxes<br><br>
+                <img src="Code/boxes.png"><br><br>
+                -shard<br><br>
+                <img src="Code/shard.png"><br><br>
+                -rename<br><br>
+                <img src="Code/rename.png"><br><br>
+                -herodb<br><br>
+                <img src="Code/herodb1.png"><br><br>
+                <img src="Code/herodb2.png"><br><br>
+                -hero<br><br>
+                <img src="Code/hero.png"><br><br>
+                -select<br><br>
+                <img src="Code/select.png"><br><br>
+                -tokens<br><br>
+                <img src="Code/tokens.png"><br><br>
+                -blackjack<br><br>
+                <img src="Code/blackjack.png">
+            </div>
+
             <div class="vid-container-container">
                 <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
                     <span>
