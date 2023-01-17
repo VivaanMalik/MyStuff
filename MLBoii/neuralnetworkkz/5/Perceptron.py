@@ -1,4 +1,5 @@
 from random import random
+import matplotlib.pyplot as plt
 import numpy as np
 
 class Perceptron():
@@ -50,10 +51,51 @@ class Perceptron():
             self.backwards(error)
             self.descent(LearningRate)
 
+    def plot(self):
+        # plt.tick_params(left = False, right = False , labelleft = False ,
+        # labelbottom = False, bottom = False)
+        # plt.axis('off')
+        x=[]
+        y=[]
+        l=0
+        for i in range(self.LayerCount):
+            if l<len(self.LayerNodeValues[i]):
+                l=len(self.LayerNodeValues[i])
+        plt.plot(-1, 0, 'o', markersize=0)
+        plt.plot(self.LayerCount, l+1, 'o', markersize=0)
+        for i in range(self.LayerCount-1):
+            layerlength = len(self.LayerNodeValues[i])
+            margin = l-(layerlength)/2
+            for j in range(layerlength):
+                layerlength2=len(self.LayerNodeValues[i+1])
+                margin2 = l-(layerlength2)/2
+                for k in range(layerlength2):
+                    plt.plot([i, i+1], [margin+j-1, margin2+k-1], "k-")
+        for i in range(self.LayerCount):
+            layerlength = len(self.LayerNodeValues[i])
+            margin = l-(layerlength)/2
+            for j in range(layerlength):
+                x.append(i)
+                y.append(margin + j - 1)
+            col="black"
+            if i==0:
+                col = "limegreen"
+            elif i == self.LayerCount-1:
+                col = "steelblue"
+            else: 
+                col = "mediumturquoise"
+            plt.plot(x, y, 'o', markersize=5, color=col)
+            x =[]
+            y=[]
+            
+
+        plt.show()
 x_train = np.array([[1, 0, 0, 1], [0, 1, 0, 0], [0, 1, 1, 1], [1, 0, 1, 0], [0, 0, 0, 1], [1, 0, 1, 1], [0, 1, 1, 0]], dtype=float)
 y_train2 = np.array([[1], [0], [0], [1], [0], [1], [0]], dtype=float)
 
-p = Perceptron([4, 3, 1])
+p = Perceptron([4, 12, 8, 4, 1])
+p.plot()
+
 epochs = int(input("Epochs:\n"))
 lr = float(input("Learn rate:\n"))
 p.train(x_train, y_train2, epochs, lr)
