@@ -36,7 +36,7 @@ class NeuralNetwork:
 
     def activate_derivative(self, x, activation):
         if activation == "sigmoid":
-            return 1 / (1 + np.exp(-x)) * (1 - (1 / (1 + np.exp(-x))))
+            return x * (1.0 - x)
         elif activation == "relu":
             for i in range(0, len(x)):
                 if isinstance(x[i], int):
@@ -60,18 +60,12 @@ class NeuralNetwork:
         for i in reversed(range(len(self.layers)-1)):
             error = error * self.activate_derivative(self.values[i+1], self.activations[i])
 
-            error_re = error.reshape(error.shape[0], -1).T
-            current_activations = self.values[i]
-            current_activations=current_activations.reshape(current_activations.shape[0],-1)
+            grad_weights2=[]
+            for j in range(len(error)):
+                grad_weights2.append(np.dot(np.array([self.values[i][j]]), np.array([error[j]])))
+            grad_weights[i]=np.array(grad_weights2)
 
-            self.derivatives[i] = np.dot(error_re, current_activations)
-
-            # grad_weights2=[]
-            # for j in range(len(error_re)):
-            #     grad_weights2.append(np.dot(np.array([current_activations[j]]), np.array([error_re[j]])))
-            # grad_weights[i]=np.array(grad_weights2)
-
-            # self.derivatives[i]=grad_weights[i]
+            self.derivatives[i]=grad_weights[i]
 
             error2 = []
             for j in error:
@@ -89,7 +83,7 @@ class NeuralNetwork:
     
 
 
-nn = NeuralNetwork([4, 3, 1], ["relu", "sigmoid"])
+nn = NeuralNetwork([4, 3, 1], ["sigmoid", "sigmoid"])
 
 # Train the network using gradient descent
 num_epochs=int(input("Number of epochs:\n"))

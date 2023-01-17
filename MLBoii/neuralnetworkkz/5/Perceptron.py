@@ -93,7 +93,7 @@ class Perceptron():
 x_train = np.array([[1, 0, 0, 1], [0, 1, 0, 0], [0, 1, 1, 1], [1, 0, 1, 0], [0, 0, 0, 1], [1, 0, 1, 1], [0, 1, 1, 0]], dtype=float)
 y_train2 = np.array([[1], [0], [0], [1], [0], [1], [0]], dtype=float)
 
-p = Perceptron([4, 12, 8, 4, 1])
+p = Perceptron([4, 3, 1])
 p.plot()
 
 epochs = int(input("Epochs:\n"))
