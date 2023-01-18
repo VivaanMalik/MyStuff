@@ -463,12 +463,12 @@
         <div class="fadebg" id="fadebg"></div>
         <div class="flex">
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(Code/Terrain500.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/terrain.png);" class="vid-container">
                     <span>
                         <p>
                             Terrain Generator
                         </p>
-                        A program that generates a textured .obj file of an n-by-n meter terrain using perline noise
+                        A program that generates a textured .obj file of an n-by-n meter terrain using perlin noise
                     </span>
                 </a>
             </div>
@@ -507,7 +507,7 @@
             <div class="popupdisplay">
                 <span class="popup_close_button">&times;</span>
                 <h1>VTGBot</h1>
-                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain">LINK</a></div>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program/VTG">LINK</a></div>
                 <h2>Details</h2>
                 <p>This is an entertainment bot (now discontinued) has a total of 23 commands. It uses the prefix '-'. It has 120 heroes, 3 types of boxes, 10 rarities of heroes, a shop, a minigame and live memes powered by some subreddits.</p>
                 <h3>List of commands:</h3>
@@ -611,65 +611,367 @@
             </div>
 
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/NeuralNetwork.png);" class="vid-container">
                     <span>
                         <p>
                             Neural Network
                         </p>
-                        Description
+                        A program with custom input, output and epochs to give an output
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Neural Network</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/MLBoii/neuralnetworkkz/5">LINK</a></div>
+                <h2>Details</h2>
+                <p>This specefic design is called a perceptron. This consists of multiple layers: 
+                    an input layer, an output layer and n number of hidden layers. each layer contains 
+                    some number of nodes. Each node performs a simple calculation: multiplying the every 
+                    input with a different weight and adding them all up. This particular program forces 
+                    you to only work with a sigmoid activation function:
+                    <span>$${1\over1+e^{-x} }$$</span>
+                    The default program in the link gives a dataset of 4 numbers (1 or 0) with the outputs 
+                    being the first digit of the four. Example: [0, 1, 0, 1] has an output of 0.
+                </p>
+                <p>
+                    To create multilayered perceptrons, the challenging part was the back propogation or the
+                    derivative calculation. It took me quite a bit of time... but I am proud to say I 
+                    figured it out.
+                </p>
+                <h2>Images</h2>
+                <p>Network with the current setup (4, 3, 1)</p>
+                <img src="Code/NeuralNetwork2.png">
+            </div>
+
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/cube_alt.png);" class="vid-container">
                     <span>
                         <p>
-                            3D render
+                            3D renderer
                         </p>
-                        Description
+                        A program that uses an opengl wrapper (pygame) for rendering a cube.
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>3D renderer</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/geminjin/3D%20(failed)">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    Currently it cannot work with a light source properly, but other than that it can 
+                    'render' an ever-rotating cube. I might start working on this project again in the coming 
+                    future...
+                </p>
+                <p>
+                    The vertices of an object are stored in a list. Each vertex is stored as a column vector:
+                    <span>$$\begin{bmatrix} X\ position \\ Y\ position \\ Z\ position \\ 1 \end{bmatrix}$$</span>
+                </p>
+                <p>
+                    Each edge of an object is a column vector consisting of the indices of the 2 vertices 
+                    it connects:
+                    <span>$$\begin{bmatrix} Index\ 1 \\ Index\ 2 \end{bmatrix}$$</span>
+                </p>
+                <p>
+                    Similiar to the edges, each face is a column vector of n indexes:
+                    <span>$$\begin{bmatrix} Index\ 1 \\ Index\ 2 \\ ... \\ Index\ n \end{bmatrix}$$</span>
+                </p>
+                <p>
+                    But before rendering anything, each verticex is multiplied with each of the following 
+                    matrices (in the same specific order):
+                    <br><br>
+                    Rotate Z (angle z in radians)
+                    <span>$$\begin{bmatrix} 
+                        cos(z) & -sin(z) & 0 & 0 \\
+                        sin(z) & cos(z) & 0 & 0 \\
+                        0 & 0 & 1 & 0 \\
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Rotate Y (angle y in radians)
+                    <span>$$\begin{bmatrix} 
+                        cos(y) & 0 & sin(y) & 0\\
+                        0 & 1 & 0 & 0\\
+                        -sin(y) & 0 & cos(y) & 0\\
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Rotate X (angle x in radians)
+                    <span>$$\begin{bmatrix} 
+                        1 & 0 & 0 & 0\\
+                        0 & cos(x) & -sin(x) & 0\\
+                        0 & sin(x) & cos(x) & 0\\
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Position (relative to camera)
+                    <span>$$\begin{bmatrix} 
+                        1 & 0 & 0 & -X\ position \\ 
+                        0 & 1 & 0 & -Y\ position \\ 
+                        0 & 0 & 1 & -Z\ position \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Perspective Matrix (f = focal length, IR = (ImageResolution<sub>x</sub>, ImageResolution<sub>y</sub>), SS=(SensorSize<sub>x</sub>, SensorSize<sub>y</sub>), s=skew):
+                    <span>$$\begin{bmatrix} 
+                        {f \cdot IR_x \over 2 \cdot SS_x} & s & 0 & 0 \\ 
+                        0 & {f \cdot IR_y \over 2 \cdot SS_y} & 0 & 0 \\ 
+                        0 & 0 & -1 & 0 \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Projection matrix (z = z value of vertx):
+                    <span>$$\begin{bmatrix} 
+                        {1 \over z} & 0 & 0 & 0 \\ 
+                        0 & {1 \over z} & 0 & 0 \\ 
+                        0 & 0 & 1 & 0 \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Offset matrix (unitary matrix for now):
+                    <span>$$\begin{bmatrix} 
+                        1 & 0 & 0 & 0 \\ 
+                        0 & 1 & 0 & 0 \\ 
+                        0 & 0 & 1 & 0 \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    As you may notice, the 3<sup>rd</sup> index or the 'w' value of a vertex does not change 
+                    at all, the reason for that is so that i can use the same program for 4D objects later 
+                    on. 
+                </p>
+                <h2>Images</h2>
+                <p>Plain Cube</p>
+                <img src="Code/cube1.png">
+                <p>Cube (points highlighted)</p>
+                <img src="Code/cube2.png">
+                <p>Cube (centers highlighted)</p>
+                <img src="Code/cube3.png">
+                <p>Cube (centers z-value)</p>
+                <img src="Code/cube4.png">
+                <p>Cube (numbered vertices)</p>
+                <img src="Code/cube5.png">
+            </div>
+
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/Hopeless2DLogoSymbol.png);" class="vid-container">
                     <span>
                         <p>
-                            2D game engine
+                            Hopeless2D
                         </p>
-                        Description
+                        A 2D game engine with some basic features.
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Hopeless2D</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/Hopeless2D">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    Little backstory about this project:
+                    <br>
+                    I love making games. I even wanted to do this in school, however, my school (which 
+                    shall remain unnamed) had computers with only 4GB ram and a snail for a processor. 
+                    So, I did what anyone would do... Build one myself.
+                    <br><br>
+                    This game engine also has a built-in pixel art engine, code editor, runtime handler, 
+                    collision system, and its own java package (This is my first java project). 
+                    <br><br>
+                    This engine, obviously, has its own classes:
+                    <br><br>
+                    Vector2(int x, int y)
+                    <br><br>
+                    color(int r, int g, int b, int a)
+                    <br><br>
+                    PixelImage(color[][] PixelColorData)
+                    <br><br>
+                    Entity(BufferedImage/PixelImage[] images, Vector2 size, Vector2 pos, int rot, boolean enable_collision)
+                    <br><br>
+                    A horrible website with some information and documentation about the engine: <i><a href="https://vivaanmalik.github.io/Hopeless2D/" style="color:rgb(255, 0, 94)">Hopeless2D</a></i>
+                    <br><br>
+                    To run the program, you have to download all the files (keeping the same file structure) in 'src' folder. 
+                    Then open a terminal and navigate to where you downloaded the files. Run it using 'javac .\MainFile.java' 
+                    followed by 'java .\Mainfile.java'. If you dont already have java install it.
+                </p>
+                <h2>Images</h2>
+                <p>Code Editor</p>
+                <img src="Code/Hopeless2DCode.png">
+                <p>Game Window</p>
+                <img src="Code/Hopeless2DGame.png">
+                <p>File Managing</p>
+                <img src="Code/Hopeless2DSave.png">
+                <p>Pixelart Engine</p>
+                <img src="Code/Hopeless2DPixelArtEngine.png">
+            </div>
+
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/malprog1.jpg);" class="vid-container">
                     <span>
                         <p>
                             Malicious program
                         </p>
-                        Description
+                        A very random python program that if run on your device, can be deadly.
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>A Malicious Program</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk/Evil_progs/TYPE1-Windows">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This program is very evil.
+                    <br>
+                    It first 'steals' your saved passwords (if you use chrome, brave or edge). It is 
+                    not a good idea to save passwords on your browser, anyone without root access can 
+                    easily decrypt and steal the data.
+                    <br><br>
+                    After that, it starts a keylogger, which uploads the data after every 50 characters.
+                    <br><br>
+                    Next, it tries to add the program in registry to runn on startup. But, for this, it 
+                    needs root access, which is why it asks the user to make changes on the device.
+                    <br><br>
+                    It then gains general device info: OS, Node, Release, Version and Machine.
+                    <br><br>
+                    Then it 'steals' the Wifi names and passwords the device has ever connected to.
+                    It also replicates the program on other .py and .pyw programs.
+                </p>
+                <h2>Images</h2>
+                <p>General Data</p>
+                <img src="Code/malprog1.jpg">
+                <p>WiFi names and passwords (sorry I cant reveal anything)</p>
+                <img src="Code/malprog2.jpg">
+                <p>Every password kept differently (I had 100+ before this project)</p>
+                <img src="Code/malprog3.png">
+                <p>Inside each numbered folder of browser data</p>
+                <img src="Code/malprog4.jpg">
+            </div>
+
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/CA30_2.png);" class="vid-container">
                     <span>
                         <p>
                             Cellular Automata
                         </p>
-                        Description
+                        4 programs that if you put a good rule can produce mathematically fascinatig patterns.
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Cellular Automata</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    Here I wrote 4 programs, 2 are 1 dimensional and 2 are 2 dimensional. What cellular 
+                    automata basically does is pass the last generation of line(s) through a rule set. 
+                    For example, a 3-term, 1-dimensional cellular automata, for a new cell will check the 
+                    3 cells (left, center right) on the previous generation return the number (1 or 0) from 
+                    a 2<sup>3</sup> bit string using the index of the parents in their possible cases.
+                    <br><br>
+                    Visual example:
+                    <br><br>
+                    Rule = 30
+                    <br><br>
+                    Rule = "00011110" (30 in binary)
+                    <br><br>
+                    Possible_parent_cases = ['111', '110', '101', '100', '011', '010', '001', '000'] (2<sup>term</sup> numbers)
+                    <br><br>
+                    Let's say, for a new cell the parent case is '100' (left cell = 1, center cell = 0, right cell = 0)
+                    <br><br>
+                    index = Possible_parent_cases.indexOf('110') (3, starts from 0)
+                    cell = Rule[3] (1, starts from 0)
+                    <br><br>
+                    Now the new cell has a value for 1
+                    <br><br>
+                    The 1-dimensional 5-term cellular automata is Similiar to this but has a bit string of 
+                    2<sup>5</sup> = 32. 2<sup>32</sup> possible rules. And instead 3 parents, it takes 5. 
+                    2D cellular automata is not unlinke Conway's game of life. The 5-term 2-dimensional 
+                    cellular automata is like 1-dimensional 5-terms cellular automata but it checks the 
+                    surrounding 5 cells (2D grid). The 9-term 2-dimensional takes the sum instead of the 
+                    actual values. This is exactly how Conway's game of life works. For the images I just 
+                    feature the 3-term 1-dimensional outputs as it is the one I know best, and I don't have 
+                    the patience to hunt for good 5-term rules or 2-dimensional rules.
+                </p>
+                <h2>Images</h2>
+                <p>Rule 18 (00010010)</p>
+                <img src="Code/CA18.png">
+                <p>Rule 30 (00011110)</p>
+                <img src="Code/CA30.png">
+                <p>Rule 45 (00101101)</p>
+                <img src="Code/CA45.png">
+                <p>Rule 60 (00111100)</p>
+                <img src="Code/CA60.png">
+                <p>Rule 73 (01001001)</p>
+                <img src="Code/CA73.png">
+                <p>Rule 60 (01101110)</p>
+                <img src="Code/CA110.png">
+            </div>
+
             <div class="vid-container-container">
-                <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
+                <a target="_blank" style="background-image: url(Code/RustHuntFull.png);" class="vid-container">
                     <span>
                         <p>
                             Rust game
                         </p>
-                        Description
+                        A quick, rough, introduction program for me to rust.
                     </span>
                 </a>
             </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>A text-based rust game</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/rust/MaFurstRustApp/src">LINK</a></div>
+                <h2>My first attempt at a rust program</h2>
+                <p>
+                    I have never used a programming language like rust before this, not even c/c++. This my 
+                    first and most likely only time I use rust. This game was made purely as an introduction 
+                    to rust: It is not a good game, it is not optimised and prints a lot of unnessecary 
+                    debugging material. At least it is multiplayer!
+                    <br><br>
+                    This game consists of 2 parts:
+                    <br>
+                    The main game loop and the hunting functionality.
+                    <br><br>
+                    The hunting functionality goes off the main loop, so with, say, 5 players, when 1 goes 
+                    to 'hunt', the other 4 players take turns to carry out a command in the main loop, while 
+                    the player that is 'hunting' has a seperate loop.
+                    <br><br>
+                    Main loop commands:
+                    <br><br>
+                    +        - Increase your money by 50; Buy powerups/items with money<br>
+                    eco      - Increase your eco by 100; Eco gives you money every time its your turn<br>
+                    info     - Get this list<br>
+                    hunt     - Go on a hunt to collect loot<br>
+                    weapons  - Get list of weapons along with its info
+                    <br><br>
+                    Weapons list:
+                    <br><br>
+                    Basic Sword       1    Damage    10   Endurance    50  Cost    The Start to your journey to become the devil...<br>
+                    Blazefury         1K   Damage    15K  Endurance    1K  Cost    FFFIIIRREE!!!<br>
+                    Nirvana           20K  Damage    1M   Endurance    50K Cost    Champion Of Chaos<br>
+                    Unholy Might      350K Damage    1B   Endurance    2M  Cost    Buthcer of the serpent
+                    <br><br>
+                    Hunt commands:
+                    <br><br>
+                    end hunt   - Go back to main game<br>
+                    items      - Get info on all your items and their name<br>
+                    use [Item] - Use an item to your advantage or the enemies disadvantage<br>
+                    info       - Get this list
+                </p>
+                <h2>Images</h2>
+                <p>Room Entry</p>
+                <img src="Code/RustEntry.png">
+                <p>Info (Main)</p>
+                <img src="Code/RustInfo.png">
+                <p>Weapons (Main)</p>
+                <img src="Code/RustWeapons.png">
+                <p>Turn-based</p>
+                <img src="Code/RustTurnChange.png">
+                <p>Hunt</p>
+                <img src="Code/RustHunt.png">
+                <img src="Code/RustHuntFull.png">
+                <p>Info (Hunt)</p>
+                <img src="Code/RustHuntInfo.png">
+                <p>Items (Hunt)</p>
+                <img src="Code/RustItems.png">
+            </div>
+
             <div class="vid-container-container">
                 <a target="_blank" style="background-image: url(3d/1_Runestone.png);" class="vid-container">
                     <span>
