@@ -29,6 +29,9 @@ def FindNewGen(rule, oldgen:str):
     return(newgen)
 
 while True:
+    if (gen[0]=="1"):
+        gen=gen[1:]+"1"
     gen=FindNewGen(Rule, gen)
-    print(gen.replace('1', '█').replace('0', ' '))
+    print(gen.replace('1', '█').replace('0', ' ')[1:-1])
+    i+=1
     time.sleep(0.25)
