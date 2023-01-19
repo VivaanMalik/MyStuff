@@ -8,6 +8,7 @@
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         <script type="text/javascript" src="js.js"></script>
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
     </head>
     <body style="background-color: #171717; overflow-x: hidden;" class="StopScroll">
         <div class="MainContent">
@@ -128,7 +129,7 @@
                     <p class="subhead_subtitle"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time to flex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
                     <div style="position:relative; display: flex; flex-wrap: wrap; gap:3vw; align-content: center; margin-left: auto; margin-right: auto;text-align: center; padding-left: 5vw; padding-right: 5vw; perspective: 600px;">
                         <div class="WorkContainer">
-                            <a class="Work c1" data-link="Code.html" href="javascript:void(0)" type="button" style="background-image: url('me2_logo.png');";><span>Code Projects</span></a>
+                            <a class="Work c1" data-link="Code.html" href="javascript:void(0)" type="button" style="background-image: url('Code/CA30.png');";><span>Code Projects</span></a>
                         </div>
                         <div class="WorkContainer">
                             <a class="Work c2" data-link="3D.html" href="javascript:void(0)" type="button" style="background-image: url('3d/1_Runestone.png')";><span>3D Graphics</span></a>
@@ -144,7 +145,26 @@
                         <<span>contact</span>>
                     </p>
                     <p class="subhead_subtitle"><span>My friends call me Vivaan<br>but you can call me anytime</span></p>
-                    <br>
+                    <div class="ContactMeContainer">
+                        <div>
+
+                        </div>
+                        <form onsubmit="sendmsg();">
+                            <label for="Name">Name:</label>
+                            <br>
+                            <input type="text" id="Name" placeholder="John Doe">
+                            <br><br>
+                            <label for="Email">E-mail:</label>
+                            <br>
+                            <input type="email" id="Email" placeholder="john.doe@gmail.com">
+                            <br><br>
+                            <label for="Message">Message:</label>
+                            <br>
+                            <textarea name="Message" id="Message" placeholder="Type your message here..."></textarea>
+                            <br><br>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
                     <br>
                     <br>
                     <br>
