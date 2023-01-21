@@ -21,18 +21,18 @@ body
 }
 .cmd_container
 {
+    position: absolute;
     top:5vh;
     bottom:5vh;
     left: 5vw;
     right: 5vw;
-    position: absolute;
+    margin: auto;
     background-color: #0c0c0c;
     font-family: Consolas, 'Fira Mono';
     font-size: 2vh;
-    width: 90vw;
-    height: 90vh;
+    width: auto;
+    height: auto;
     box-sizing: border-box;
-    margin: auto;
     border-radius: 10px;
     padding: 20px;
     overflow: scroll;
