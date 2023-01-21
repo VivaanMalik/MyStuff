@@ -58,8 +58,8 @@ body
     margin-left: 5vw;
     margin-top: 0;
     background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
-    background-clip: text;
-    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     user-select: none;
     font-size: 5vw;
 }
@@ -67,8 +67,8 @@ body
 {
     margin-left: 5vw;
     background-image: linear-gradient(to right, #00ff87, #00ff87, #60efff);
-    background-clip: text;
-    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     user-select: none;
     font-weight: bold;
     font-size: 6vw;
@@ -557,8 +557,8 @@ form input, textarea
 form label
 {
     background-image: linear-gradient(to right, #01ecff, #00ff87);
-    color:transparent;
-    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     width: fit-content;
     font-size: 20px;
 }
