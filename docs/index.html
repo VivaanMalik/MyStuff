@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vivaan Malik | Portfolio</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="css.css">
+        <link rel="icon" href="me2_logo.png">
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script type="text/javascript" src="js.js"></script>
+        <script src="https://kit.fontawesome.com/42b5b2d484.js" crossorigin="anonymous"></script>
+    </head>
+    <body style="background-color: #171717; overflow-x: hidden;" class="StopScroll">
+        <div class="MainContent">
+            <!-- <div class="navbarbg"></div> -->
+            <div class="navbar">
+                <ul>
+                    <li class="list active">
+                        <a href="#">
+                            <span class="navicon"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="navtext">Home</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="#AboutMe">
+                            <span class="navicon"><ion-icon name="person-outline"></ion-icon></span>
+                            <span class="navtext">About me</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="#Skills">
+                            <span class="navicon"><ion-icon name="desktop-outline"></ion-icon></span>
+                            <span class="navtext">Skills</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="#MyWorks">
+                            <span class="navicon"><ion-icon name="code-download-outline"></ion-icon></span>
+                            <span class="navtext">My Works</span>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="#Contact">
+                            <span class="navicon"><ion-icon name="call-outline"></ion-icon></span>
+                            <span class="navtext">Contact</span>
+                        </a>
+                    </li>
+                    <div class="navindicator"></div>
+                </ul>
+            </div>
+            <div class="Content">
+                <div style="height: 15vh"></div>
+                <div class = "slidetitle">
+                    <div class="slidetitletext title2"><span style="-webkit-text-fill-color:azure; font-weight: normal;">Create something</span> Awesome</div>
+                </div>
+                <p class="title t1" style="text-align: left; top:0">_</p>
+                <p class="title t2" style="text-align: left; top:0">_</p>
+                <!-- MAIN CONTENT -->
+                <div class="mainmaincontent">
+                    <p class="seperator"></p>
+                    <br>
+                    <p style="height:16vh;" id="AboutMe"></p>
+                    <p class="subhead">
+                        <<span>about-me</span>>
+                    </p>
+                    <p class="subhead_subtitle"><span>me, a name, I call myself</span></p>
+                    <div style="display:flex; margin-right: 5vw; gap:2vw; overflow: hidden;">
+                        <p class="text" style="margin-right: 0; min-width: 50%; text-align: left;">
+                            I'm Vivaan Malik: a colorful developer from India, with a burning passion 
+                            for programming. I prefer quality over quantity; I am a perfectionist. 
+                            <br>
+                            <br>
+                            Other than web delveloping, I create unique projects to gain a deeper 
+                            understanding of a particular concept, and when I'm not coding, I play 
+                            drums or render my creations. I'm 15 and keen on continue exploring this 
+                            wonderful aspect of coding.
+                            <img src="cheezuschrist.jpeg" style="width: 100%">
+                        </p>
+                        <img src="classicme.jpeg" style="height:60vw">
+                    </div>
+                    <div class="SkillContainerContainer">
+                        <p class="seperator"></p>
+                        <br>
+                        <p style="height:16vh;" id="Skills"></p>
+                        <p class="subhead">
+                            <<span>key-skills</span>>
+                        </p>
+                        <p class="subhead_subtitle"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a jack of all trades&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+
+                        <div class="SkillContainer">
+                            <p class="SkillName">HTML/CSS/Javascript</p>
+                            <div class="Skill">
+                                <div class="Skillbox1"></div>
+                                <div class="Skillbox2"></div>
+                                <div class="Skillbox3"></div>
+                            </div>
+                        </div>
+                        <div class="SkillContainer">
+                            <p class="SkillName">Other Languages (Python, C#, Java)</p>
+                            <div class="Skill">
+                                <div class="Skillbox1"></div>
+                                <div class="Skillbox2"></div>
+                                <div class="Skillbox3"></div>
+                            </div>
+                        </div>
+                        <div class="SkillContainer">
+                            <p class="SkillName">Illustration</p>
+                            <div class="Skill">
+                                <div class="Skillbox1"></div>
+                                <div class="Skillbox2"></div>
+                                <div class="Skillbox3"></div>
+                            </div>
+                        </div>
+                        <div class="SkillContainer">
+                            <p class="SkillName">3D designing</p>
+                            <div class="Skill">
+                                <div class="Skillbox1"></div>
+                                <div class="Skillbox2"></div>
+                                <div class="Skillbox3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="seperator"></p>
+                    <br>
+                    <p style="height:16vh;" id="MyWorks"></p>
+                    <p class="subhead">
+                        <<span>my-works</span>>
+                    </p>
+                    <p class="subhead_subtitle"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time to flex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+                    <div style="position:relative; display: flex; flex-wrap: wrap; gap:3vw; align-content: center; margin-left: auto; margin-right: auto;text-align: center; padding-left: 5vw; padding-right: 5vw; perspective: 600px;">
+                        <div class="WorkContainer">
+                            <a class="Work c1" data-link="Code.html" href="javascript:void(0)" type="button" style="background-image: url('Code/CA30.png');";><span>Code Projects</span></a>
+                        </div>
+                        <div class="WorkContainer">
+                            <a class="Work c2" data-link="3D.html" href="javascript:void(0)" type="button" style="background-image: url('3d/1_Runestone.png')";><span>3D Graphics</span></a>
+                        </div>
+                        <div class="WorkContainer">
+                            <a class="Work c3" data-link="2D.html" href="javascript:void(0)" type="button" style="background-image: url('2d/zombiestrange_3.png')";><span>2D Graphics</span></a>
+                        </div>
+                    </div>
+                    <p class="seperator"></p>
+                    <br>
+                    <p style="height:16vh;" id="Contact"></p>
+                    <p class="subhead">
+                        <<span>contact</span>>
+                    </p>
+                    <p class="subhead_subtitle"><span>My friends call me Vivaan<br>but you can call me anytime</span></p>
+                    <br>
+                    <br>
+                    <div class="ContactMeContainer" style="margin-bottom: 10vh;">
+                        <div class="ContactDetails">
+                            <i class="fa-regular fa-envelope"></i>
+                            <div>&nbsp;</div>
+                            malikvivaan@gmail.com
+                            <div>&nbsp;</div>
+                            <div>&nbsp;</div>
+                            <i class="fa-brands fa-instagram"></i>
+                            <div>&nbsp;</div>
+                            @webbdevvguyy
+                        </div>
+                        <form action="https://formsubmit.co/malikvivaan@gmail.com" method="POST">
+                            <input type="hidden" name="_captcha" value="false">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" placeholder="John Doe" name="name" required>
+                            <div>&nbsp;</div>
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" placeholder="john.doe@gmail.com" name="email" required>
+                            <div>&nbsp;</div>
+                            <label for="message">Message:</label>
+                            <textarea name="message" id="message" placeholder="Type your message here..." required></textarea>
+                            <div>&nbsp;</div>
+                            <button type="submit" href="javascript:void(0)" name="submit" id="submit" class="left">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cmd_container">
+            <p class="cmd"></p>
+        </div>
+        <div id="ripple" class="initripple"></div>
+    </body>
+</html>

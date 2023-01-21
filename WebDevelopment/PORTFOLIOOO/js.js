@@ -5,12 +5,12 @@ window.onload = function()
     var x, y
     
     var firstTime = localStorage.getItem("first_time");
-    t = 0 // 32
+    t = 0
     if(!firstTime) 
     {
         
         document.getElementById("ripple").classList.remove("initripple");
-        t=32
+        t=32 //32
     }
     localStorage.setItem("first_time","1");
     localStorage.removeItem("first_time")
@@ -232,4 +232,51 @@ window.onload = function()
         });
     });
 
+    document.getElementById("submit").addEventListener("mouseover", function()
+    {
+        if (document.getElementById("name").value.length==0 || document.getElementById("email").value.length==0 || document.getElementById("message").value.length==0)
+        {
+            if(!document.getElementById("submit").style.marginLeft || document.getElementById("submit").style.marginLeft=="0px")
+            {
+                if (Math.floor(Math.random()*2)==1)
+                {
+
+                    document.getElementById("submit").style.marginLeft="auto";
+                    document.getElementById("submit").style.marginRight="0";
+                }
+                else
+                {
+                    document.getElementById("submit").style.marginLeft="auto";
+                    document.getElementById("submit").style.marginRight="auto";
+                }
+            }
+            else if(!document.getElementById("submit").style.marginRight || document.getElementById("submit").style.marginRight == "0px")
+            {
+                if (Math.floor(Math.random()*2)==1)
+                {
+                    document.getElementById("submit").style.marginLeft="0";
+                    document.getElementById("submit").style.marginRight="auto";
+                }
+                else
+                {
+                    document.getElementById("submit").style.marginLeft="auto";
+                    document.getElementById("submit").style.marginRight="auto";
+                }
+            }
+            else if(document.getElementById("submit").style.marginRight=="auto" &&  document.getElementById("submit").style.marginLeft=="auto")
+            {
+                console.log("what.")
+                if (Math.floor(Math.random()*2)==1)
+                {
+                    document.getElementById("submit").style.marginLeft="auto";
+                    document.getElementById("submit").style.marginRight="0";
+                }
+                else
+                {
+                    document.getElementById("submit").style.marginLeft="0";
+                    document.getElementById("submit").style.marginRight="auto";
+                }
+            }
+        }
+    });
 };

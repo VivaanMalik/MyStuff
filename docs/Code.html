@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vivaan Malik | Portfolio | Programming</title>
+        <script type="text/javascript" src="js.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <link rel="icon" href="me2_logo.png">
+        <script defer src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script>
+            window.onload = function()
+            {
+                
+                var popups = document.getElementsByClassName("popupdisplay");
+                var vids=document.getElementsByClassName("vid-container");
+                var closes = document.getElementsByClassName("popup_close_button");
+                var fade = document.getElementById("fadebg");
+
+                function popupdisplaynone()
+                {
+                    for (i = 0; i < popups.length; i++)
+                    {
+                        popups[i].style.display="none";
+
+                    }
+                }
+                function popupdisplaynone2(ei)
+                {
+                    popups[ei].style.display="none";
+                }
+                window.onclick = function(event) 
+                {
+                    console.log(event.target);
+                    if (event.target === fade) 
+                    {
+                        for (i = 0; i < popups.length; i++)
+                        {
+                            setTimeout(function(){popupdisplaynone();}, 500);
+                            popups[i].style.animation = "fadeout ease .5s forwards";
+
+                        }
+                        fade.style.display="none";
+                        
+                    }
+                };
+                document.body.addEventListener('keydown', function(e)
+                {
+                    if (e.key==="Escape"||e.key==="Esc"||e.keyCode===27)
+                    {
+                        for (i = 0; i < popups.length; i++)
+                        {
+                            setTimeout(function(){popupdisplaynone();}, 500);
+                            popups[i].style.animation = "fadeout ease .5s forwards";
+                        }
+                        fade.style.display="none";
+                    }
+                });
+                
+                for (i = 0; i < popups.length; i++)
+                {
+                    vids[i].setAttribute('data-index', i);
+                    popups[i].setAttribute('data-index', i);
+                    closes[i].setAttribute('data-index', i);
+                }
+
+
+
+                for (i = 0; i < popups.length; i++)
+                {
+                    vids[i].onclick = function() 
+                    {
+                        var ElementIndex = this.getAttribute('data-index');
+                        popups[ElementIndex].style.display = "block";
+                        popups[ElementIndex].style.animation = "fadein ease .5s forwards";
+                        fade.style.display="block";
+                    };
+
+                    closes[i].onclick = function() 
+                    {
+                        var ElementIndex = this.getAttribute('data-index');
+                        setTimeout(function(){popupdisplaynone2(ElementIndex);}, 500);
+                        popups[ElementIndex].style.animation = "fadeout ease .5s forwards";
+                        fade.style.display="none";
+                    };
+
+                }
+
+                let b = document.getElementsByClassName('button')[0];
+                b.addEventListener('click', function()
+                {
+                    ripple(b);
+                    localStorage.setItem("first_time","1");
+                    setTimeout(function(){document.getElementsByClassName("flex")[0].style.opacity="0";document.getElementsByClassName("hr")[0].style.opacity="0";document.getElementsByClassName("button")[0].style.opacity="0";console.log("hehe");}, 200);
+                    setTimeout(function(){window.location.href=b.dataset.link;}, 1000);
+                });
+
+                function ripple(element)
+                {
+                    let r = document.getElementById("ripple");
+                    r.classList.remove('inittransition');
+                    r.classList.add('ripple');
+                    r.style.left = `${(element.getBoundingClientRect().left + element.getBoundingClientRect().right)/2}px`;
+                    r.style.top = `${(element.getBoundingClientRect().top + element.getBoundingClientRect().bottom)/2 + window.scrollY}px`;
+                    setTimeout(function(){r.classList.remove("ripple");}, 2000);
+                    console.log(r);
+                }
+            };
+        </script>
+        <style>
+            .ripple
+            {
+                position: absolute;
+                border-radius: 50%;
+                width: 100vw;
+                height: 100vw;
+                margin-top: -50px;
+                margin-left: -50px;
+                z-index:20;
+                background-color: #b15dff;
+                animation: ripple 1s forwards;
+                /* transform-origin: center center; */
+            }
+            @keyframes ripple 
+            {
+                0%
+                {
+                    transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+                }
+                100%
+                {
+                    transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+                }
+            }
+            .inittransition
+            {
+                position: absolute;
+                border-radius: 50%;
+                width: 100vw;
+                height: 100vw;
+                margin-top: -50px;
+                margin-left: -50px;
+                z-index:20;
+                background-color: #b15dff;
+                animation: ripple2 1s forwards;
+                content: "";
+                left:50vw;
+                top:50vh;
+            }
+            @keyframes ripple2
+            {
+                0%
+                {
+                    transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+                }
+                100%
+                {
+                    transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+                }
+            }
+            .title
+            {
+                white-space: nowrap;
+                margin-left: 5vw;
+                margin-top: 0;
+                background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+                background-clip: text;
+                color: transparent;
+                user-select: none;
+                font-size: 5vw;
+                width: min-content;
+                margin-bottom: 1vh;
+            }
+            a 
+            {
+                color: inherit; /* blue colors for links too */
+                text-decoration: inherit; /* no underline */
+            }
+            .title2
+            {
+                border-radius: 10px;
+                white-space: nowrap;
+                margin-top: 0;
+                background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+                color: #171717;
+                user-select: none;
+                font-size: 2vw;
+                width: min-content;
+            }
+            .hr
+            {
+                margin-top: 2.5vh;
+                margin-bottom: 2.5vh;
+                margin-left: 5vw;
+                margin-right: 5vw;
+                user-select: none;
+                height: .5vw;
+                background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+                content:"";
+            }
+            .flex
+            {
+                flex-wrap: wrap;
+                display: flex;
+                align-content: flex-start;
+                justify-content: center;
+                gap:5px;
+            }
+            .video
+            {
+                object-fit: cover;
+            }
+            .vid-container
+            {
+                z-index: -1;
+                --x:50%;
+                --y:50%;
+                background: linear-gradient(#000, #000) padding-box, radial-gradient(farthest-corner at var(--x) var(--y), #00C9A7, #845EC2) border-box;
+                display: block;
+                font-size: 3vh;
+                padding: 0vh;
+                transition: all .3s;
+                color:transparent;
+                text-align: center;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                border: 0;
+                background-color: #0c0c0c;
+                transform-origin: center bottom;
+                min-width: 50vh;
+                min-height: 50vh;
+            }
+            .vid-container.focus,
+            .vid-container.active:focus,
+            .vid-container.focus, 
+            .vid-container:active.focus, 
+            .vid-container:active:focus, 
+            .vid-container:focus 
+            {
+                outline: none;
+                box-shadow: none;    
+            }
+            .vid-container:before
+            {
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 100%;
+                border-top: azure 1px solid;
+                border-bottom: azure 1px solid;
+                border-left: 0;
+                border-right: 0;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                transition: all .3s;
+            }
+            .vid-container:after
+            {
+                position: absolute;
+                border: 0;
+                content: "";
+                width: 0;
+                height: 100%;
+                background-color: #0c0c0cba;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+                transition: all .5s;
+            }
+            .vid-container:hover
+            {
+                color:rgb(255, 255, 255);
+            }
+            .vid-container:hover:after
+            {
+                width: 100%;
+            }
+            .vid-container:hover:before
+            {
+                width: 100%;
+            }
+            .vid-container.click
+            {
+                color:transparent;
+            }
+            .vid-container.click:after
+            {
+                width: 0;
+            }
+            .vid-container.click:before
+            {
+                width: 0;
+            }
+            .vid-container span
+            {
+                font-style: normal;
+                position: absolute;
+                /* justify-content:center;
+                align-items:center; */
+                width:100%;
+                height: 100%;
+                padding: 0;
+                z-index: 10;
+                transform: translate(-50%, 0%);
+            }
+            .vid-container span p
+            {
+                font-size: 5vh;
+            }
+            .vid-container-container
+            {
+                position: relative;
+                width: fit-content;
+                margin: auto;
+                margin-top: 0;
+                perspective: 600px;
+            }
+            .buttoncontainer
+            {
+                margin-top:10px;
+                width: fit-content;
+                white-space: nowrap;
+                position: relative;
+                background-color: transparent;
+                padding: 0;
+                margin-left: auto;
+                margin-right: auto;
+                border-radius: 10px;
+            }
+            .button
+            {
+                border-radius: 10px;
+                border: 0;
+                height: 10vh;
+                font-size: 5vh;
+                color: #000;
+                transition:all 0.5s;
+                background-color: #450073;
+                position: relative;
+                font-family: sans-serif;
+                text-decoration: none;
+                letter-spacing: 2px;
+                transition: all .3s;
+                padding: 1vh;
+            }
+            .button:after
+            {
+                border-radius: 10px;
+                position: absolute;
+                content: "";
+                top:0;
+                left:0;
+                width: 0;
+                height: 100%;
+                background-color: #9900ff;
+                transition: .3s;
+                border: 0;
+            }
+            .button:hover:after
+            {
+                width: 100%;
+            }
+            .button span
+            {
+                position: relative;
+                z-index: 1;
+            }
+            .text
+            {
+                margin-left: 5vw;
+                margin-right: 5vw;
+                color: #f0b5ff;
+                font-family: 'Times New Roman', Times, serif;
+                letter-spacing: 2px;
+                font-size: 3vh;
+                text-align:justify;
+            }
+            .popupdisplay 
+            {
+                display: none;
+                position: fixed;
+                z-index: 15;
+                margin-top: 10vh;
+                margin-left: 7vw;
+                margin-right: 10vw;
+                margin-bottom: 10vh;
+                padding-top: 0;
+                padding-left:5vh;
+                padding-right: 5vh;
+                left: 0;
+                top: 0;
+                width: 80vw;
+                height: 80vh;
+                overflow: auto;
+                background-color: #101010;
+                border-radius: 10px;
+                color:#01ecff;
+                border: 1px solid #e800e4;
+                overflow-wrap: break-word;
+            }
+            @keyframes fadeout
+            {
+                from
+                {
+                    opacity: 1;
+                }
+                to
+                {
+                    opacity: 0;
+                }
+            }
+            @keyframes fadein
+            {
+                from
+                {
+                    opacity: 0;
+                }
+                to
+                {
+                    opacity: 1;
+                }
+            }
+            .popup_close_button 
+            {
+                color: #aaaaaa;
+                font-size: 8vh;
+                float: right;
+                font-weight: bold;
+                transform: translateX(3vh);
+            }
+            .popup_close_button:hover,
+            .popup_close_button:focus 
+            {
+                color: #ef2d2d;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .fadebg
+            {
+                display: none;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                left:0;
+                top:0;
+                background-color: #00000080;
+                z-index: 10;
+            }
+            img
+            {
+                width:50%;
+            }
+        </style>
+    </head>
+    <body style="background-color: #171717; overflow-x: hidden;">
+        <div class="title">Programming projects</div>
+        <div style="display: inline-block;">
+        <span class="title2" style="margin-left:5vw;"><a href="https://github.com/VivaanMalik" target="_blank">Github</a></span> 
+        <span class="title2"><a href="https://vivaanlolz.itch.io" target="_blank">Itch.io</a></span>
+        </div>
+        <div class="text">Since my github profile and repo are very messy (I have not updated them in a long time). Here are some of my favourite complete and incomplete projects. The images below are links to the project on github.</div>
+        <div class="hr"></div>
+        <div class="fadebg" id="fadebg"></div>
+        <div class="flex">
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/terrain.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Terrain Generator
+                        </p>
+                        A program that generates a textured .obj file of an n-by-n meter terrain using perlin noise
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Terrain Generator</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain">LINK</a></div>
+                <h2>Details</h2>
+                <p>This small program creates an n-by-n meter terrain by using perlin noise. It uses a few external files for the textures, but, this helps it create visually beautiful images.<br><br>
+                   No. of squares in model:<span>$$n^2 + 1$$</span>
+                   No. of triangles in model:<span>$$2n^2 + 2$$</span>
+                </p>
+                <h2>Media</h2>
+                <p>50m by 50m terrain:</p>
+                <img src="Code/Terrain50.png">
+                <p>100m by 100m terrain:</p>
+                <img src="Code/Terrain100.png">
+                <p>250m by 250m terrain:</p>
+                <img src="Code/Terrain250.png">
+                <p>500m by 500m terrain:</p>
+                <img src="Code/Terrain500.png">
+                <p>1000m by 1000m terrain:</p>
+                <img src="Code/Terrain1000.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/PFP.png);" class="vid-container">
+                    <span>
+                        <p>
+                            VTGBot
+                        </p>
+                        A discord bot meant for entertainment (discontinued)
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>VTGBot</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/BotBoii/Program/VTG">LINK</a></div>
+                <h2>Details</h2>
+                <p>This is an entertainment bot (now discontinued) has a total of 23 commands. It uses the prefix '-'. It has 120 heroes, 3 types of boxes, 10 rarities of heroes, a shop, a minigame and live memes powered by some subreddits.</p>
+                <h3>List of commands:</h3>
+                <p>-meme<br>
+                -kat<br>
+                -lolkat<br>
+                -rickroll<br>
+                -invite<br>
+                -start<br>
+                -help<br>
+                -shop<br>
+                -buy<br>
+                -balance<br>
+                -smallbox<br>
+                -bigbox<br>
+                -megabox<br>
+                -levelup<br>
+                -shards<br>
+                -boxes<br>
+                -shard<br>
+                -rename<br>
+                -herodb<br>
+                -hero<br>
+                -select<br>
+                -tokens<br>
+                -blackjack
+                </p>
+                <h3>All Heroes:</h3>
+                <p>Starter Heroes:<br>
+                Iron Man, Captain America (Age of ultron), Bucky, Black Panther, Black Widow<br><br>
+                Common:<br>
+                Pepper Pots, Obadiah Stane, Trevor Slattery, Miek, Dr. Eric Selvig, Baby Groot, Darcy Lewis, Crocodile Loki<br><br>
+                Uncommon:<br>
+                Iron Man (Obadiah Stane), Tony Stark, Whiplash, Corssbones, Nick Fury (young)<br><br>
+                Rare<br>
+                Aldrich Killian, Iron Patriot, Peggy Carter, Skurge, Red Skull (Stone Keeper), Baron Zemo<br><br>
+                Super Rare:<br>
+                War machine, Red Skull, Korg, Kraglin, Korath, Nick Fury, Hawkeye, Talos, Karli Mogenthau, Taskmaster, Abomination<br><br>
+                Epic:<br>
+                Cull Obsidian, Miles Morales (Into the spider-verse), Mysterio, Captain America (Infinity War), Fandral, Volstagg, Valkyrie, Heimdall, Groot, The Collector, Corvus Glaive, Drax, Nebula, Mantis, Gamora, Rocket Raccoon, Proxima Midnight, Yondu, Okoye, Killmonger, Shuri, Klaue, Quicksilver, Wolfsbane, Red Gaurdian, Miles Morales (PS5), Wasp, Yellowjacket, Ant-man, Shatterstar, Vulture<br><br>
+                Mythic:<br>
+                Vision (90s), Spiderman (Classic), Venom, The Grandmaster, Malekith, Loki, Ayesha, Ebony Maw, Star Lord, Goose, Colossus, Magneto, Cable, The Beast, Angel, Cyclops, Nightcrawler, Storm, Mystique, Sunspot, Psylocke, Magik, Mordo, Kaecilius, Ultron, Rescue, Captain America (Sam Wilson), US Agent, Ghost, Hulk (Classic), Hulk (Ragnarok), Sylvie, Carnage, Shang Chi<br><br>
+                Legendar:y<br>
+                Odin, Destroyer, Hela, Kurse, Thor (Ragnarok), Apocolypse, Dr. Strange, Vision<br><br>
+                Chromatic:<br>
+                Sorcerer Supreme, Ego, The Supreme Intelligence, Ronan, Thanos (Limited Gaunlet), Deadpool, Dark Pheonix, Professor X, Captain Marvel, Scarlet Witch, M.O.D.O.K<br><br>
+                Godly:<br>
+                Stan Lee
+                </p>
+                <h2>Media</h2>
+                -meme<br>
+                <img src="Code/meme.png"><br><br>
+                -kat<br>
+                <img src="Code/kat.png"><br><br>
+                -lolkat<br>
+                <img src="Code/lolkat.png"><br><br>
+                -rickroll<br>
+                <img src="Code/rickroll.png"><br><br>
+                -invite<br>
+                <img src="Code/invite.png"><br><br>
+                -start<br>
+                <img src="Code/start.png"><br><br>
+                -help<br>
+                <img src="Code/help1.png"><br>
+                <img src="Code/help2.png"><br>
+                <img src="Code/help3.png"><br>
+                <img src="Code/help4.png"><br><br>
+                -shop<br>
+                <img src="Code/shop.png"><br><br>
+                -buy<br>
+                <img src="Code/buy.png"><br><br>
+                -balance<br>
+                <img src="Code/balance.png"><br><br>
+                -smallbox<br>
+                <img src="Code/smallbox.png"><br><br>
+                -bigbox<br>
+                <img src="Code/bigbox.png"><br><br>
+                -megabox<br>
+                <img src="Code/megabox.png"><br><br>
+                -levelup<br>
+                <img src="Code/levelup.png"><br><br>
+                -shards<br>
+                <img src="Code/shards.png"><br><br>
+                -boxes<br>
+                <img src="Code/boxes.png"><br><br>
+                -shard<br>
+                <img src="Code/shard.png"><br><br>
+                -rename<br>
+                <img src="Code/rename.png"><br><br>
+                -herodb<br>
+                <img src="Code/herodb1.png"><br>
+                <img src="Code/herodb2.png"><br><br>
+                -hero<br>
+                <img src="Code/hero.png"><br><br>
+                -select<br>
+                <img src="Code/select.png"><br><br>
+                -tokens<br>
+                <img src="Code/tokens.png"><br><br>
+                -blackjack<br>
+                <img src="Code/blackjack.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/NeuralNetwork.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Neural Network
+                        </p>
+                        A program with custom input, output and epochs to give an output
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Neural Network</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/MLBoii/neuralnetworkkz/5">LINK</a></div>
+                <h2>Details</h2>
+                <p>This specefic design is called a perceptron. This consists of multiple layers: 
+                    an input layer, an output layer and n number of hidden layers. each layer contains 
+                    some number of nodes. Each node performs a simple calculation: multiplying the every 
+                    input with a different weight and adding them all up. This particular program forces 
+                    you to only work with a sigmoid activation function:
+                    <span>$${1\over1+e^{-x} }$$</span>
+                    The default program in the link gives a dataset of 4 numbers (1 or 0) with the outputs 
+                    being the first digit of the four. Example: [0, 1, 0, 1] has an output of 0.
+                </p>
+                <p>
+                    To create multilayered perceptrons, the challenging part was the back propogation or the
+                    derivative calculation. It took me quite a bit of time... but I am proud to say I 
+                    figured it out.
+                </p>
+                <h2>Media</h2>
+                <p>Network with the current setup (4, 3, 1)</p>
+                <img src="Code/NeuralNetwork2.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/cube_alt.png);" class="vid-container">
+                    <span>
+                        <p>
+                            3D renderer
+                        </p>
+                        A program that uses an opengl wrapper (pygame) for rendering a cube.
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>3D renderer</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/geminjin/3D%20(failed)">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    Currently it cannot work with a light source properly, but other than that it can 
+                    'render' an ever-rotating cube. I might start working on this project again in the coming 
+                    future...
+                </p>
+                <p>
+                    The vertices of an object are stored in a list. Each vertex is stored as a column vector:
+                    <span>$$\begin{bmatrix} X\ position \\ Y\ position \\ Z\ position \\ 1 \end{bmatrix}$$</span>
+                </p>
+                <p>
+                    Each edge of an object is a column vector consisting of the indices of the 2 vertices 
+                    it connects:
+                    <span>$$\begin{bmatrix} Index\ 1 \\ Index\ 2 \end{bmatrix}$$</span>
+                </p>
+                <p>
+                    Similiar to the edges, each face is a column vector of n indexes:
+                    <span>$$\begin{bmatrix} Index\ 1 \\ Index\ 2 \\ ... \\ Index\ n \end{bmatrix}$$</span>
+                </p>
+                <p>
+                    But before rendering anything, each verticex is multiplied with each of the following 
+                    matrices (in the same specific order):
+                    <br><br>
+                    Rotate Z (angle z in radians)
+                    <span>$$\begin{bmatrix} 
+                        cos(z) & -sin(z) & 0 & 0 \\
+                        sin(z) & cos(z) & 0 & 0 \\
+                        0 & 0 & 1 & 0 \\
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Rotate Y (angle y in radians)
+                    <span>$$\begin{bmatrix} 
+                        cos(y) & 0 & sin(y) & 0\\
+                        0 & 1 & 0 & 0\\
+                        -sin(y) & 0 & cos(y) & 0\\
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Rotate X (angle x in radians)
+                    <span>$$\begin{bmatrix} 
+                        1 & 0 & 0 & 0\\
+                        0 & cos(x) & -sin(x) & 0\\
+                        0 & sin(x) & cos(x) & 0\\
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Position (relative to camera)
+                    <span>$$\begin{bmatrix} 
+                        1 & 0 & 0 & -X\ position \\ 
+                        0 & 1 & 0 & -Y\ position \\ 
+                        0 & 0 & 1 & -Z\ position \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Perspective Matrix (f = focal length, IR = (ImageResolution<sub>x</sub>, ImageResolution<sub>y</sub>), SS=(SensorSize<sub>x</sub>, SensorSize<sub>y</sub>), s=skew):
+                    <span>$$\begin{bmatrix} 
+                        {f \cdot IR_x \over 2 \cdot SS_x} & s & 0 & 0 \\ 
+                        0 & {f \cdot IR_y \over 2 \cdot SS_y} & 0 & 0 \\ 
+                        0 & 0 & -1 & 0 \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Projection matrix (z = z value of vertx):
+                    <span>$$\begin{bmatrix} 
+                        {1 \over z} & 0 & 0 & 0 \\ 
+                        0 & {1 \over z} & 0 & 0 \\ 
+                        0 & 0 & 1 & 0 \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    Offset matrix (unitary matrix for now):
+                    <span>$$\begin{bmatrix} 
+                        1 & 0 & 0 & 0 \\ 
+                        0 & 1 & 0 & 0 \\ 
+                        0 & 0 & 1 & 0 \\ 
+                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    As you may notice, the 3<sup>rd</sup> index or the 'w' value of a vertex does not change 
+                    at all, the reason for that is so that i can use the same program for 4D objects later 
+                    on. 
+                </p>
+                <h2>Media</h2>
+                <p>Plain Cube</p>
+                <img src="Code/cube1.png">
+                <p>Cube (points highlighted)</p>
+                <img src="Code/cube2.png">
+                <p>Cube (centers highlighted)</p>
+                <img src="Code/cube3.png">
+                <p>Cube (centers z-value)</p>
+                <img src="Code/cube4.png">
+                <p>Cube (numbered vertices)</p>
+                <img src="Code/cube5.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/Hopeless2DLogoSymbol.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Hopeless2D
+                        </p>
+                        A 2D game engine with some basic features.
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Hopeless2D</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/Hopeless2D">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    Little backstory about this project:
+                    <br>
+                    I love making games. I even wanted to do this in school, however, my school (which 
+                    shall remain unnamed) had computers with only 4GB ram and a snail for a processor. 
+                    So, I did what anyone would do... Build a game engine myself.
+                    <br><br>
+                    This game engine also has a built-in pixel art engine, code editor, runtime handler, 
+                    collision system, and its own java package (This is my first java project). 
+                    <br><br>
+                    This engine, obviously, has its own classes:
+                    <br><br>
+                    Vector2(int x, int y)
+                    <br><br>
+                    color(int r, int g, int b, int a)
+                    <br><br>
+                    PixelImage(color[][] PixelColorData)
+                    <br><br>
+                    Entity(BufferedImage/PixelImage[] images, Vector2 size, Vector2 pos, int rot, boolean enable_collision)
+                    <br><br>
+                    A horrible website with some information and documentation about the engine: <i><a href="https://vivaanmalik.github.io/Hopeless2D/" style="color:rgb(255, 0, 94)" target="_blank">Hopeless2D</a></i>
+                    <br><br>
+                    To run the program, you have to download all the files (keeping the same file structure) in 'src' folder. 
+                    Then open a terminal and navigate to where you downloaded the files. Run it using 'javac .\MainFile.java' 
+                    followed by 'java .\Mainfile.java'. If you dont already have java install it.
+                </p>
+                <h2>Media</h2>
+                <p>Code Editor</p>
+                <img src="Code/Hopeless2DCode.png">
+                <p>Game Window</p>
+                <img src="Code/Hopeless2DGame.png">
+                <p>File Managing</p>
+                <img src="Code/Hopeless2DSave.png">
+                <p>Pixelart Engine</p>
+                <img src="Code/Hopeless2DPixelArtEngine.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/malprog1.jpg);" class="vid-container">
+                    <span>
+                        <p>
+                            Malicious program
+                        </p>
+                        A very random python program that if run on your device, can be deadly.
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>A Malicious Program</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk/Evil_progs/TYPE1-Windows">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This program is very evil.
+                    <br>
+                    It first 'steals' your saved passwords (if you use chrome, brave or edge). It is 
+                    not a good idea to save passwords on your browser, anyone without root access can 
+                    easily decrypt and steal the data.
+                    <br><br>
+                    After that, it starts a keylogger, which uploads the data after every 50 characters.
+                    <br><br>
+                    Next, it tries to add the program in registry to runn on startup. But, for this, it 
+                    needs root access, which is why it asks the user to make changes on the device.
+                    <br><br>
+                    It then gains general device info: OS, Node, Release, Version and Machine.
+                    <br><br>
+                    Then it 'steals' the Wifi names and passwords the device has ever connected to.
+                    It also replicates the program on other .py and .pyw programs.
+                </p>
+                <h2>Media</h2>
+                <p>General Data</p>
+                <img src="Code/malprog1.jpg">
+                <p>WiFi names and passwords (sorry I cant reveal anything)</p>
+                <img src="Code/malprog2.jpg">
+                <p>Every password kept differently (I had 100+ before this project)</p>
+                <img src="Code/malprog3.png">
+                <p>Inside each numbered folder of browser data</p>
+                <img src="Code/malprog4.jpg">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/CA30_2.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Cellular Automata
+                        </p>
+                        4 programs that if you put a good rule can produce mathematically fascinatig patterns.
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Cellular Automata</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/PatternBoi/CellularAutomata">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    Here I wrote 4 programs, 2 are 1 dimensional and 2 are 2 dimensional. What cellular 
+                    automata basically does is pass the last generation of line(s) through a rule set. 
+                    For example, a 3-term, 1-dimensional cellular automata, for a new cell will check the 
+                    3 cells (left, center right) on the previous generation return the number (1 or 0) from 
+                    a 2<sup>3</sup> bit string using the index of the parents in their possible cases.
+                    <br><br>
+                    Visual example:
+                    <br><br>
+                    Rule = 30
+                    <br><br>
+                    Rule = "00011110" (30 in binary)
+                    <br><br>
+                    Possible_parent_cases = ['111', '110', '101', '100', '011', '010', '001', '000'] (2<sup>term</sup> numbers)
+                    <br><br>
+                    Let's say, for a new cell the parent case is '100' (left cell = 1, center cell = 0, right cell = 0)
+                    <br><br>
+                    index = Possible_parent_cases.indexOf('110') (3, starts from 0)
+                    cell = Rule[3] (1, starts from 0)
+                    <br><br>
+                    Now the new cell has a value for 1
+                    <br><br>
+                    The 1-dimensional 5-term cellular automata is Similiar to this but has a bit string of 
+                    2<sup>5</sup> = 32. 2<sup>32</sup> possible rules. And instead 3 parents, it takes 5. 
+                    2D cellular automata is not unlinke Conway's game of life. The 5-term 2-dimensional 
+                    cellular automata is like 1-dimensional 5-terms cellular automata but it checks the 
+                    surrounding 5 cells (2D grid). The 9-term 2-dimensional takes the sum instead of the 
+                    actual values. This is exactly how Conway's game of life works. For the images I just 
+                    feature the 3-term 1-dimensional outputs as it is the one I know best, and I don't have 
+                    the patience to hunt for good 5-term rules or 2-dimensional rules.
+                </p>
+                <h2>Media</h2>
+                <p>Rule 18 (00010010)</p>
+                <img src="Code/CA18.png">
+                <p>Rule 30 (00011110)</p>
+                <img src="Code/CA30.png">
+                <p>Rule 45 (00101101)</p>
+                <img src="Code/CA45.png">
+                <p>Rule 60 (00111100)</p>
+                <img src="Code/CA60.png">
+                <p>Rule 73 (01001001)</p>
+                <img src="Code/CA73.png">
+                <p>Rule 110 (01101110)</p>
+                <img src="Code/CA110.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/RustHuntFull.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Rust game
+                        </p>
+                        A quick, rough, introduction program for me to rust.
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>A text-based rust game</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/rust/MaFurstRustApp/src">LINK</a></div>
+                <h2>My first attempt at a rust program</h2>
+                <p>
+                    I have never used a programming language like rust before this, not even c/c++. This my 
+                    first and most likely only time I use rust. This game was made purely as an introduction 
+                    to rust: It is not a good game, it is not optimised and prints a lot of unnessecary 
+                    debugging material. At least it is multiplayer!
+                    <br><br>
+                    This game consists of 2 parts:
+                    <br>
+                    The main game loop and the hunting functionality.
+                    <br><br>
+                    The hunting functionality goes off the main loop, so with, say, 5 players, when 1 goes 
+                    to 'hunt', the other 4 players take turns to carry out a command in the main loop, while 
+                    the player that is 'hunting' has a seperate loop.
+                    <br><br>
+                    Main loop commands:
+                    <br><br>
+                    +        - Increase your money by 50; Buy powerups/items with money<br>
+                    eco      - Increase your eco by 100; Eco gives you money every time its your turn<br>
+                    info     - Get this list<br>
+                    hunt     - Go on a hunt to collect loot<br>
+                    weapons  - Get list of weapons along with its info
+                    <br><br>
+                    Weapons list:
+                    <br><br>
+                    Basic Sword       1    Damage    10   Endurance    50  Cost    The Start to your journey to become the devil...<br>
+                    Blazefury         1K   Damage    15K  Endurance    1K  Cost    FFFIIIRREE!!!<br>
+                    Nirvana           20K  Damage    1M   Endurance    50K Cost    Champion Of Chaos<br>
+                    Unholy Might      350K Damage    1B   Endurance    2M  Cost    Buthcer of the serpent
+                    <br><br>
+                    Hunt commands:
+                    <br><br>
+                    end hunt   - Go back to main game<br>
+                    items      - Get info on all your items and their name<br>
+                    use [Item] - Use an item to your advantage or the enemies disadvantage<br>
+                    info       - Get this list
+                </p>
+                <h2>Media</h2>
+                <p>Room Entry</p>
+                <img src="Code/RustEntry.png">
+                <p>Info (Main)</p>
+                <img src="Code/RustInfo.png">
+                <p>Weapons (Main)</p>
+                <img src="Code/RustWeapons.png">
+                <p>Turn-based</p>
+                <img src="Code/RustTurnChange.png">
+                <p>Hunt</p>
+                <img src="Code/RustHunt.png">
+                <img src="Code/RustHuntFull.png">
+                <p>Info (Hunt)</p>
+                <img src="Code/RustHuntInfo.png">
+                <p>Items (Hunt)</p>
+                <img src="Code/RustItems.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/Stego3New.jpg);" class="vid-container">
+                    <span>
+                        <p>
+                            Steganography
+                        </p>
+                        A method to encode/decode text in an image, Like this cover
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Steganography</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/StagnographBoiii">LINK</a></div>
+                <h2>Detais</h2>
+                <p>
+                    Steganography is technique of concealing data. What my program does, is basically converting 
+                    the hidden text in binary and replacing the last binary digit of each pixel with the 0 or 1 
+                    in text at that index.<br><br>
+                    Here I will show 6 examples. Each of the examples has the old image and then the new image.<br><br>
+                    Use stegnographer.py, others are work in progress.<br><br>
+                    run with 'python .\stegnographer.py -e/-d file-path', where you put -e to encode and -d to decode.
+                </p>
+                <h2>Media</h2>
+                <p>Message: 'Hi'</p>
+                <img src="Code/Stego1Old.png">
+                <img src="Code/Stego1New.png">
+                <p>Message: 'LOL'</p>
+                <img src="Code/Stego2Old.jpg">
+                <img src="Code/Stego2New.jpg">
+                <p>Message: 'I am too op for life'</p>
+                <img src="Code/Stego3Old.jpg">
+                <img src="Code/Stego3New.jpg">
+                <p>Message: 'Hahahahahahaha'</p>
+                <img src="Code/Stego4Old.jpg">
+                <img src="Code/Stego4New.jpg">
+                <p>Message: (Lyrics to The Lazy Song - Bruno Mars) Today I don't feel like doing anything 
+                    I just wanna lay in my bed Don't feel like picking up my phone, so leave a message at 
+                    the tone 'Cause today I swear I'm not doing anything I'm gonna kick my feet up, then 
+                    stare at the fan Turn the TV on, throw my hand in my pants Nobody's gon' tell me I 
+                    can't, no  I'll be lounging on the couch, just chilling in my Snuggie Click to MTV, 
+                    so they can teach me how to dougie 'Cause in my castle I'm the freaking man Oh Yes! 
+                    I said it, I said it, I said it 'cause I can Today I don't feel like doing anything 
+                    I just wanna lay in my bed Don't feel like picking up my phone, so leave a message 
+                    at the tone 'Cause today I swear I'm not doing anything Nothing at all Woo, ooh, woo, 
+                    ooh, ooh Nothing at all Woo, ooh, woo, ooh, ooh Tomorrow I'll wake up, do some P90X 
+                    Meet a really nice girl, have some really nice sex And she's gonna scream out "This 
+                    is great" (Oh my god, this is great) Yeah! I might mess around and get my college 
+                    degree I bet my old man will be so proud of me But sorry pops, you'll just have to 
+                    wait Oh Yes! I said it, I said it, I said it 'cause I can Today I don't feel like 
+                    doing anything I just wanna lay in my bed Don't feel like picking up my phone, so 
+                    leave a message at the tone 'Cause today I swear I'm not doing anything No, I ain't 
+                    gonna comb my hair 'Cause I ain't going anywhere No, no, no, no, no, no, no, no, no, 
+                    oh I'll just strut in my birthday suit And let everything hang loose Yeah, yeah, yeah, 
+                    yeah, yeah, yeah, yeah, yeah, yeah, yeah Oh, today I don't feel like doing anything I 
+                    just wanna lay in my bed Don't feel like picking up my phone, so leave a message at the 
+                    tone 'Cause today I swear I'm not doing anything Nothing at all Woo, ooh, woo, ooh, ooh 
+                    Nothing at all Woo, ooh, woo, ooh, ooh Nothing at all</p>
+                <img src="Code/Stego5Old.jpg">
+                <img src="Code/Stego5New.jpg">
+                <p>Message: I am Iron Man! I hate u 3000...</p>
+                <img src="Code/Stego6Old.jpg">
+                <img src="Code/Stego6New.jpg">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/Distorter2.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Character Distorter
+                        </p>
+                        Ϻ𝕒𝕜ꬲ𝗌  𝒴𝞸υ𝗋  𝓉ҽᕽ𝓽  𝗐𝟈ꙇ𝒓ꓒ
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Character Distorter</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/TIMEPASS/keyboard/distorter">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    For this, I will <b>show</b> rather than <b>tell</b>.
+                </p>
+                <h2>Media</h2>
+                <p>Use 'distorter da 2.py'</p>
+                <img src="Code/Distorter.png" style="width:100%">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/wfc4.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Wave function collapse
+                        </p>
+                        An algorithms to buils procedural maps
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Wave function collapse algorithm</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/timepasspygemprojects/WFC">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    What this algorithm does is basically build a jigsaw puzzle but there no limits for 
+                    the number of pieces. Some pieces go together, some don't; It is the programs job to 
+                    figure out how to place them.<br><br>
+                    All tiles:<br><br>
+                    Bush<br>
+                    Grass<br>
+                    Water<br>
+                    Tent<br>
+                    GrassCorner (4 types - left, right, up down)<br>
+                    WaterCorner (4 types - left, right, up down)<br>
+                    WaterSide (4 types - left, right, up down)<br>
+                    HouseBottom (2 types - left, right)<br>
+                    HouseTop (2 types - left, right)<br>
+                </p>
+                <h2>Media</h2>
+                <p>1st run</p>
+                <img src="Code/wfc1.png">
+                <p>2nd run</p>
+                <img src="Code/wfc2.png">
+                <p>3rd run</p>
+                <img src="Code/wfc3.png">
+                <p>4th run</p>
+                <img src="Code/wfc4.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/wattpadtext.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Wattpad book downloader
+                        </p>
+                        This program can 'download' books from wattpad
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Wattpad book downloader</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/Hackkkkkkkkkk/Evil_progs/Wattpad%20book%20downloader">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This was my first time web scraping.<br><br>
+                    This is purely for educational purposes and can only download free books.<br><br>
+                    When given a book link, it goes through every page in every chapter and writes it in 
+                    a seperate file. You get to name that file. You can also toggle settings for printing 
+                    it in the console (slow) and copying all the text after the program finishes. Here are 
+                    3 books using this.
+                </p>
+                <h2>Media</h2>
+                <p>Just a Human</p>
+                <i><a href="Code/Just a human.txt" style="color:rgb(255, 0, 94)" target="_blank">Just a human</a></i>
+                <p>Mine</p>
+                <i><a href="Code/Mine.txt" style="color:rgb(255, 0, 94)" target="_blank">Mine</a></i>
+                <p>Under the Roses</p>
+                <i><a href="Code/uner the roses.txt" style="color:rgb(255, 0, 94)" target="_blank">Under the Roses</a></i>
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/InsanityMenu5.png); background-position: left center; background-size: auto 90%;" class="vid-container">
+                    <span>
+                        <p>
+                            Insanity
+                        </p>
+                        A game I made in a week.
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Insanity</h1>
+                <div class="title2"><a href="https://vivaanlolz.itch.io/insanity">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This is a game I made in a week for brackeys' game jam no. 7... sadly, I was a few 
+                    hours too late and forgot to submit it. It is a puzzle game with 6 levels. The link 
+                    to download it will be on top.
+                </p>
+                <h2>Media</h2>
+                <p>Menu</p>
+                <img src="Code/InsanityMenu5.png">
+                <img src="Code/InsanityMenu4.png">
+                <img src="Code/InsanityMenu3.png">
+                <img src="Code/InsanityMenu2.png">
+                <img src="Code/InsanityMenu1.png">
+                <p>Attack</p>
+                <img src="Code/InsanityAttack.png">
+                <p>Stump</p>
+                <img src="Code/InsanityStump.png">
+                <p>Sneak Peak of Levels</p>
+                <img src="Code/InsanityLevel1.png">
+                <img src="Code/InsanityLevel5.png">
+                <img src="Code/InsanityLevel6.png">
+                <div>
+                    <video playsinline autoplay muted loop width="683" height="384">
+                        <source src="Code/InsanityLevel2.mp4" type="video/mp4">
+                        Extension error
+                    </video>
+                </div>
+                (Sorry for lag)
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/MazeMenu3.png); background-position: 72%;" class="vid-container">
+                    <span>
+                        <p>
+                            DaMazeOfDoom
+                        </p>
+                        A fast-paced maze game, where the maze moves
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>DaMazeOfDoom</h1>
+                <div class="title2"><a href="https://vivaanlolz.itch.io/damazeofdoom">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This game was made in a week for brackeys' gamejam no. 2. Imagine you are in a maze, and you 
+                    have to reach the portal to the finish (somewhere hidden in the maze), but something feels 
+                    off... the maze moves!
+                </p>
+                <h2>Media</h2>
+                <p>Menu</p>
+                <img src="Code/MazeMenu3.png">
+                <img src="Code/MazeMenu2.png">
+                <img src="Code/MazeMenu1.png"><br>
+                (My discord has been updated From @VivaanDaGr8#3745 to @Rory#6513)
+                <p>Arrow Point to finish</p>
+                <img src="Code/MazeArrow.png">
+                <p>Coin</p>
+                <img src="Code/MazeCoin.png">
+                <p>Cube</p>
+                <img src="Code/MazeCube.png">
+                <img src="Code/MazeCubeWheel.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/DragonsBattle1.png);" class="vid-container">
+                    <span>
+                        <p>
+                            Dragons the game
+                        </p>
+                        My first pygame game
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Dragons - The game</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/PythonGames/tree/master/Dragons%20-%20Game">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This game is a pokémon-like RPG but for dragons from How to train you dragon. It 
+                    was after the first section of the game, I realised how lengthy the entire game wud be, 
+                    and that using game engine would make life 100 times easier.<br><br>
+                    I built a few maps for this game along with a battle function.
+                </p>
+                <h2>Media</h2>
+                <p>Map</p>
+                <img src="Code/DragonsHome.png">
+                <p>Building 1 (top left)</p>
+                <img src="Code/DragonsBuilding1.png">
+                <p>Building 2 (center left)</p>
+                <img src="Code/DragonsBuilding2.png">
+                <p>Building 3 (center)</p>
+                <img src="Code/DragonsBuilding3.1.png">
+                <img src="Code/DragonsBuilding3.2.png">
+                <p>Boss Arena Lobby</p>
+                <img src="Code/DragonsBossArena.png">
+                <p>Boss Arena 1</p>
+                <img src="Code/DragonsBossArena1Map.png">
+                <p>Battle</p>
+                <img src="Code/DragonsBattle1.png">
+                <img src="Code/DragonsBattle2.png">
+            </div>
+
+            <div class="vid-container-container">
+                <a target="_blank" style="background-image: url(Code/MonopolyLogo.png); background-size: 100% auto; background-position: center center;" class="vid-container">
+                    <span>
+                        <p>
+                            Text-based Monopoly
+                        </p>
+                        A text-based re-creation of the game: Monopoly
+                    </span>
+                </a>
+            </div>
+            <div class="popupdisplay">
+                <span class="popup_close_button">&times;</span>
+                <h1>Text-based Monopoly</h1>
+                <div class="title2"><a href="https://github.com/VivaanMalik/PythonGames/tree/master/Monopoly">LINK</a></div>
+                <h2>Details</h2>
+                <p>
+                    This is the first time I started using proper data structures for a game. This time, I 
+                    focused more on the logic than the display.<br><br>
+                    More than 4 players can play. Each player can be named. Every price in the game is 
+                    accurate to the price in Monopoly: Electronic banking (old). You can buy, sell, 
+                    mortgage, unmortgage. Chance and Community Chest are also present in the game.
+                </p>
+                <h2>Media</h2>
+                <p>Logo</p>
+                <img src="Code/MonopolyLogo.png">
+                <p>Player Entry</p>
+                <img src="Code/MonopolyNameEntry.png">
+                <p>Each Turn</p>
+                <img src="Code/MonopolyTurn.png">
+                <p>Rent</p>
+                <img src="Code/MonopolyRent.png">
+                <p>Buying</p>
+                <img src="Code/MonopolyBuying.png">
+                <p>Input Checking</p>
+                <img src="Code/MonopolyInputCheck.png">
+                <p>House/Hotel</p>
+                <img src="Code/MonopolyHouseHotel.png">
+                <p>Chance/Community Chest</p>
+                <img src="Code/MonopolyChanceCommunityChest.png">
+                <p>Jail</p>
+                <img src="Code/MonopolyGoToJail.png">
+                <img src="Code/MonopolyGetOutOfJail.png">
+                <p>Bankruptcy</p>
+                <img src="Code/MonopolyBankrupt.png">
+                <p>Mortgage</p>
+                <img src="Code/MonopolyMortgage.png">
+                <p>Selling</p>
+                <img src="Code/MonopolySell.png" style="width:75%">
+                <p>End of Game</p>
+                <img src="Code/MonopolyEndOfGame.png" style="width:100%">
+            </div>
+        </div>
+        <div class="buttoncontainer">
+            <a class="button" data-link="./index.html#MyWorks" href="javascript:void(0)" type="button"><span>< Go back</span></a>
+        </div>
+        <div class="inittransition" id="ripple"></div>
+    </body>
+</html>

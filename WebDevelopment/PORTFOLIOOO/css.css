@@ -523,7 +523,11 @@ body
 .ContactMeContainer
 {
     display: flex;
-    min-height: 80vh;
+    height: 45vh;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    gap:5%;
 }
 
 form
@@ -534,6 +538,8 @@ form
     flex-direction: column;
     min-width: 40%;
     padding: 2vh;
+    height: 100%;
+    margin-right: 0;
 }
 
 form input, textarea
@@ -561,11 +567,55 @@ form button
 {
     background-color: #171717;
     border-radius: 10px;
-    min-height: 10%;
+    min-height: 15%;
     border: 0;
     color:#00ff87;
     outline:none;
     padding: 1vh;
     font-size: 20px;
-    width: 20%;
+    width: fit-content;
+    transition: .3s;
+}
+
+.left
+{
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.right
+{
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.middle
+{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.ContactDetails
+{
+    background-color: #0c0c0c;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+    padding: 2vh;
+    height: 100%;
+    color:#01ecff;
+    font-size: 24px;
+    justify-content: center;
+    word-wrap: break-word;
+}
+
+.ContactDetails i
+{
+    font-size: 50px;
+}
+
+textarea
+{
+    resize: vertical;
 }

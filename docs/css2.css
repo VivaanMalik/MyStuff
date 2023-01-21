@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Roboto:wght@100&display=swap');
+html
+{
+    scroll-behavior: smooth;
+    width: 100vw;
+}
+body
+{
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-width: -webkit-fill-available;
+}
+.MainContent
+{
+    opacity: 1;
+}
+.title
+{
+    margin-left: 5vw;
+    margin-top: 0;
+    background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+    font-size: 5vw;
+}
+.title2
+{
+    margin-left: 5vw;
+    background-image: linear-gradient(to right, #00ff87, #00ff87, #60efff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+    font-weight: bold;
+    font-size: 6vw;
+}
+.subhead
+{
+    margin: 1vw;
+    font-size: 10vh;
+    font-family: "Dosis", sans-serif;
+    color:#00bfb3;
+    font-weight: bold;
+    text-align: center;
+    line-height: 5vh;
+}
+.subhead_subtitle
+{
+    text-align: center;
+}
+.subhead_subtitle span
+{
+    position: relative;
+    margin: 0;
+    font-size: 5vh;
+    font-family: "Dosis", sans-serif;
+    color:#00ff87;
+    font-weight: bold;
+    display: inline-block;
+}
+.subhead_subtitle span::after,
+.subhead_subtitle span::before
+{
+    position: absolute;
+    content: "";
+    height: 0.5vh;
+    top:0;
+    width:10vw;
+    background-color: #b15dff;
+    border-radius: 10px;
+}
+.subhead_subtitle span::after
+{
+    right:100%;
+    margin-right: 15%;
+}
+.subhead_subtitle span::before
+{
+    left:100%;
+    margin-left: 15%;
+}
+.text
+{
+    margin-left: 5vw;
+    margin-right: 5vw;
+    color: #f0b5ff;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 2px;
+    font-size: 3vh;
+    text-align:justify;
+}
+.slidetitletext
+{
+    margin-left: 5vw;
+    position: absolute;
+    left:0;
+    opacity: 0;
+    transition: 1.5s;
+    padding: 5%;
+    padding-left: 0;
+}
+.slidetitletext.active
+{
+    opacity: 1;
+}
+.slidetitle
+{
+    top:16vh;
+    position: absolute;
+    margin: 0;
+    width:110vw;
+    height: 20vw;
+    left:-110vw;
+    transition: 1s;
+    background-color: #121212;
+}
+.slidetitle.active
+{
+    left:0;
+}
+.StopScroll
+{
+    height: 100%;
+    overflow: hidden;
+}
+.mainmaincontent
+{
+    opacity: 0;
+    transition: 1s;
+}
+
+.mainmaincontent.active
+{
+    opacity: 1;
+}
+.navbar
+{
+    z-index: 10;
+    position: fixed;
+    top:0;
+    width:50vh;
+    height: 10vh;
+    background-image: linear-gradient(to right, #00FFDD, #2FA4FF);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 0;
+}
+.navbarbg
+{   
+    z-index: 10;
+    position: fixed;
+    top:0;
+    width:52vh;
+    height: 16vh;
+    background-color: #171717;
+    border-radius: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+.navbar ul
+{
+    margin-top: 0;
+    margin-bottom: auto;
+    display: flex;
+    clear:left;
+    margin-left: 0;
+    margin-right: 0;
+    position: relative;
+    padding: 0;
+}
+.navbar ul li
+{
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    list-style: none;
+    width: auto;
+    display: block;
+    height: 100%;
+    z-index: 1;
+}
+.navbar ul li a
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width:100%;
+    text-align: center;
+    border:0;
+}
+.navbar ul li a.active.focus,
+.navbar ul li a.active:focus,
+.navbar ul li a.focus, 
+.navbar ul li a:active.focus, 
+.navbar ul li a:active:focus, 
+.navbar ul li a:focus 
+{
+  outline: none;
+  box-shadow: none;    
+}
+.navbar ul li a .navicon
+{
+    margin-bottom: 0;
+    margin-top: auto;
+    position: relative;
+    display: block;
+    line-height: 5vh;
+    font-size: 5vh;
+    padding: 2.5vh;
+    transition: 0.5s;
+    color: #171717;
+}
+.navbar ul li.active a .navicon
+{
+    transform: translateY(5vh);
+}
+.navbar ul li a .navtext
+{
+    position: absolute;
+    color: #171717;
+    font-weight: 400;
+    font-size: 2.5vh;
+    transition: 0.5s;
+    opacity: 0;
+    transform: translateY(-5vh);
+}
+.navbar ul li.active a .navtext
+{
+    opacity: 1;
+    transform: translateY(-3.75vh);
+}
+.navindicator
+{
+    position: absolute;
+    width: 10vh;
+    height: 10vh;
+    background-color: #b15dff;
+    top:4vh;
+    border-radius: 50%;
+    border: 1vh solid #171717;
+    transition: 0.5s;
+}
+.navbar ul li:nth-child(1).active ~ .navindicator
+{
+    transform: translateX(calc((10vh * 0) - 1vh));
+}
+.navbar ul li:nth-child(2).active ~ .navindicator
+{
+    transform: translateX(calc((10vh * 1) - 1vh));
+}
+.navbar ul li:nth-child(3).active ~ .navindicator
+{
+    transform: translateX(calc((10vh * 2) - 1vh));
+}
+.navbar ul li:nth-child(4).active ~ .navindicator
+{
+    transform: translateX(calc((10vh * 3) - 1vh));
+}
+.navbar ul li:nth-child(5).active ~ .navindicator
+{
+    transform: translateX(calc((10vh * 4) - 1vh));
+}
+.SkillContainer
+{
+    position: relative;
+    display: inline-block;
+    margin-left: 5vw;
+    padding: 0;
+}
+.Skill
+{
+    position: relative;
+    min-width: 90vw;
+    margin-left:0;
+    margin-top:2vh;
+    margin-bottom:2vh;
+    padding: 1vh;
+    padding-left: 0;
+    padding-right: 0;
+    content: "";
+    height: 5vh;
+    background-color:transparent;
+    border-top: 1px solid #292929;
+    border-bottom: 1px solid #292929;
+}
+.Skillbox1, .Skillbox2, .Skillbox3
+{
+    position: absolute;
+    height: 5vh;
+    width: 0;
+    transition: 1s;
+}
+.Skillbox1
+{
+    background-color:#60efff;
+}
+.Skillbox2
+{
+    background-color:#b15dff;
+}
+.Skillbox3
+{
+    background-color:#00ff87;
+}
+.SkillName
+{
+    position: relative;
+    min-width: 90vw;
+    margin-top:auto;
+    margin-bottom:auto;
+    font-size: 3vh;
+    font-family: "Dosis", sans-serif;
+    color:#b15dff;
+}
+.Work
+{
+    z-index: -1;
+    display: block;
+    font-size: 5vh;
+    padding: 0vh;
+    min-width: 40vh;
+    min-height: 40vh;
+    aspect-ratio: 1;
+    transition: all .3s;
+    color:transparent;
+    text-align: center;
+    background-position: 0, 0;
+    background-size: 100%, 100%;
+    border: 0;
+    background-color: #0c0c0c;
+    transform-origin: center bottom;
+}
+.Work:before
+{
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    border-top: azure 1px solid;
+    border-bottom: azure 1px solid;
+    border-left: 0;
+    border-right: 0;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    transition: all .3s;
+}
+.Work:after
+{
+    position: absolute;
+    border: 0;
+    content: "";
+    width: 0;
+    height: 100%;
+    background-color: #0c0c0c8a;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    transition: all .5s;
+}
+.Work:hover
+{
+    color:rgb(255, 255, 255);
+}
+.Work:hover:after
+{
+    width: 100%;
+}
+.Work:hover:before
+{
+    width: 100%;
+}
+.Work.click.c1
+{
+    color:transparent;
+}
+.Work.click.c2
+{
+    color:transparent;
+}
+.Work.click.c3
+{
+    color:transparent;
+}
+.Work.click:after
+{
+    width: 0;
+}
+.Work.click:before
+{
+    width: 0;
+}
+.Work span
+{
+    display: flex;
+    font-style: normal;
+    position: absolute;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    height: 100%;
+    padding: 0;
+    z-index: 10;
+}
+.ripple
+{
+    position: absolute;
+    border-radius: 50%;
+    width: 100vw;
+    height: 100vw;
+    margin-top: -50px;
+    margin-left: -50px;
+    z-index:20;
+    background-color: #b15dff;
+    animation: ripple 1s forwards;
+    /* transform-origin: center center; */
+}
+@keyframes ripple 
+{
+    0%
+    {
+        transform: translate(-50%, -50%) scale(0) rotateY(0deg);
+    }
+    100%
+    {
+        transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+    }
+}
+
+.WorkContainer
+{
+    position: relative;
+    width: fit-content;
+    margin: auto;
+    margin-top: 0;
+    perspective: 600px;
+}
