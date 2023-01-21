@@ -22,10 +22,9 @@ body
 .cmd_container
 {
     position: absolute;
-    top:5vh;
-    bottom:5vh;
-    left: 5vw;
-    right: 5vw;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
     margin: auto;
     background-color: #0c0c0c;
     font-family: Consolas, 'Fira Mono';
