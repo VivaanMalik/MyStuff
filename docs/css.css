@@ -21,10 +21,10 @@ body
 }
 .cmd_container
 {
-    top:auto;
-    bottom:auto;
-    left: auto;
-    right: auto;
+    top:0;
+    bottom:0;
+    left: 0;
+    right: 0;
     position: absolute;
     background-color: #0c0c0c;
     font-family: Consolas, 'Fira Mono';
