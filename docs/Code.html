@@ -9,6 +9,10 @@
         <script>
             window.onload = function()
             {
+                let vh = window.innerHeight * 0.01;
+                let vw = window.innerWidth * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+                document.documentElement.style.setProperty('--vw', `${vw}px`);
                 
                 var popups = document.getElementsByClassName("popupdisplay");
                 var vids=document.getElementsByClassName("vid-container");
@@ -106,12 +110,19 @@
             };
         </script>
         <style>
+            :root
+            {
+                --vh: 1vh;
+                --vw: 1vw;
+            }
             .ripple
             {
                 position: absolute;
                 border-radius: 50%;
                 width: 100vw;
+                width: calc(var(--vw)*100);
                 height: 100vw;
+                height: calc(var(--vw)*100);
                 margin-top: -50px;
                 margin-left: -50px;
                 z-index:20;
@@ -135,7 +146,9 @@
                 position: absolute;
                 border-radius: 50%;
                 width: 100vw;
+                width: calc(var(--vw)*100);
                 height: 100vw;
+                height: calc(var(--vw)*100);
                 margin-top: -50px;
                 margin-left: -50px;
                 z-index:20;
@@ -143,7 +156,9 @@
                 animation: ripple2 1s forwards;
                 content: "";
                 left:50vw;
+                left:calc(var(--vw)*50);
                 top:50vh;
+                top: calc(var(--vh)*50);
             }
             @keyframes ripple2
             {
@@ -160,14 +175,17 @@
             {
                 white-space: nowrap;
                 margin-left: 5vw;
+                margin-left: calc(var(--vw)*5);
                 margin-top: 0;
                 background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
                 background-clip: text;
                 color: transparent;
                 user-select: none;
                 font-size: 5vw;
+                font-size: calc(var(--vw)*5);
                 width: min-content;
                 margin-bottom: 1vh;
+                margin-bottom: var(--vh);
             }
             a 
             {
@@ -183,16 +201,22 @@
                 color: #171717;
                 user-select: none;
                 font-size: 2vw;
+                font-size: calc(var(--vw)*2);
                 width: min-content;
             }
             .hr
             {
                 margin-top: 2.5vh;
+                margin-top: calc(var(--vh)*2.5);
                 margin-bottom: 2.5vh;
+                margin-bottom: calc(var(--vh)*2.5);
                 margin-left: 5vw;
+                margin-left: calc(var(--vw)*5);
                 margin-right: 5vw;
+                margin-right: calc(var(--vw)*5);
                 user-select: none;
                 height: .5vw;
+                height: calc(var(--vw)/2);
                 background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
                 content:"";
             }
@@ -216,7 +240,8 @@
                 background: linear-gradient(#000, #000) padding-box, radial-gradient(farthest-corner at var(--x) var(--y), #00C9A7, #845EC2) border-box;
                 display: block;
                 font-size: 3vh;
-                padding: 0vh;
+                font-size: calc(var(--vh)*3);
+                padding: 0;
                 transition: all .3s;
                 color:transparent;
                 text-align: center;
@@ -227,7 +252,9 @@
                 background-color: #0c0c0c;
                 transform-origin: center bottom;
                 min-width: 50vh;
+                min-width: calc(var(--vh)*50);
                 min-height: 50vh;
+                min-height: calc(var(--vh)*50);
             }
             .vid-container.focus,
             .vid-container.active:focus,
@@ -306,6 +333,7 @@
             .vid-container span p
             {
                 font-size: 5vh;
+                font-size: calc(var(--vh)*5);
             }
             .vid-container-container
             {
@@ -332,7 +360,9 @@
                 border-radius: 10px;
                 border: 0;
                 height: 10vh;
+                height: calc(var(--vh)*10);
                 font-size: 5vh;
+                font-size: calc(var(--vh)*5);
                 color: #000;
                 transition:all 0.5s;
                 background-color: #450073;
@@ -342,6 +372,7 @@
                 letter-spacing: 2px;
                 transition: all .3s;
                 padding: 1vh;
+                padding: var(--vh);
             }
             .button:after
             {
@@ -368,11 +399,14 @@
             .text
             {
                 margin-left: 5vw;
+                margin-left: calc(var(--vw)*5);
                 margin-right: 5vw;
+                margin-right: calc(var(--vw)*5);
                 color: #f0b5ff;
                 font-family: 'Times New Roman', Times, serif;
                 letter-spacing: 2px;
                 font-size: 3vh;
+                font-size: calc(var(--vh)*3);
                 text-align:justify;
             }
             .popupdisplay 
@@ -381,16 +415,24 @@
                 position: fixed;
                 z-index: 15;
                 margin-top: 10vh;
+                margin-top: calc(var(--vh)*10);
                 margin-left: 7vw;
+                margin-left: calc(var(--vw)*7);
                 margin-right: 10vw;
+                margin-right: calc(var(--vw)*10);
                 margin-bottom: 10vh;
+                margin-bottom: calc(var(--vh)*10);
                 padding-top: 0;
                 padding-left:5vh;
+                padding-left: calc(var(--vh)*5);
                 padding-right: 5vh;
+                padding-right: calc(var(--vh)*5);
                 left: 0;
                 top: 0;
                 width: 80vw;
+                width: calc(var(--vw)*80);
                 height: 80vh;
+                height: calc(var(--vh)*80);
                 overflow: auto;
                 background-color: #101010;
                 border-radius: 10px;
@@ -424,9 +466,11 @@
             {
                 color: #aaaaaa;
                 font-size: 8vh;
+                font-size: calc(var(--vh)*8);
                 float: right;
                 font-weight: bold;
                 transform: translateX(3vh);
+                transform: translateX(calc(var(--vh)*3));
             }
             .popup_close_button:hover,
             .popup_close_button:focus 
