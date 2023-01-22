@@ -171,9 +171,8 @@ html
     margin: 0;
     width:110vw;
     width: calc(var(--vw)*110);
-    /* height: 20vw;
-    height: calc(var(--vw)*20); */
-    height: fit-content;
+    height: 30vh;
+    height: calc(var(--vh)*30);
     left:-110vw;
     left:calc(var(--vw)*-110);
     transition: 1s;
