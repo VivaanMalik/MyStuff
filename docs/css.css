@@ -2,17 +2,12 @@
 :root
 {
     --vh: 1vh;
+    --vw: 1vw;
 }
 html
 {
     scroll-behavior: smooth;
-    width: 100vw;
-}
-body
-{
-    /* min-height: 100vh;
-    min-height: -webkit-fill-available;
-    min-width: -webkit-fill-available; */
+    width: calc(var(--vw)*100);
 }
 .MainContent
 {
