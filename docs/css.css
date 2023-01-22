@@ -69,8 +69,8 @@ html
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     user-select: none;
-    font-size: 8vh;
-    font-size: calc(var(--vh)*8);
+    font-size: 6vh;
+    font-size: calc(var(--vh)*6);
 }
 .title2
 {
@@ -81,8 +81,8 @@ html
     -webkit-text-fill-color: transparent;
     user-select: none;
     font-weight: bold;
-    font-size: 10vh;
-    font-size: calc(var(--vh)*10);
+    font-size: 8vh;
+    font-size: calc(var(--vh)*8);
 }
 .subhead
 {
