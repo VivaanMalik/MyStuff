@@ -590,8 +590,7 @@ form
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    min-width: 40vh;
-    min-width: calc(var(--vh)*40);
+    min-width: 40%;
     padding: 2vh;
     padding: calc(var(--vh)*2);
     height: 100%;
@@ -659,8 +658,7 @@ form button
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-    min-width: 40vh;
-    min-width: calc(var(--vh)*40);
+    min-width: 40%;
     padding: 2vh;
     padding: calc(var(--vh)*2);
     height: 100%;
