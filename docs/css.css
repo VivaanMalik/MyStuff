@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Roboto:wght@100&display=swap');
+:root
+{
+    --vh: 1vh;
+}
 html
 {
     scroll-behavior: smooth;
@@ -6,9 +10,9 @@ html
 }
 body
 {
-    min-height: 100vh;
+    /* min-height: 100vh;
     min-height: -webkit-fill-available;
-    min-width: -webkit-fill-available;
+    min-width: -webkit-fill-available; */
 }
 .MainContent
 {

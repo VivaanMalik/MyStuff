@@ -1,5 +1,8 @@
 window.onload = function()
 {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
     let r = document.getElementById("ripple");
     r.style.top=window.scrollY + "50vh";
     var x, y
