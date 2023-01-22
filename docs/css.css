@@ -65,6 +65,7 @@ html
     margin-left: 5vw;
     margin-left: calc(var(--vw)*5);
     margin-top: 0;
+    margin-bottom: 0;
     background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
