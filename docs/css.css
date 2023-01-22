@@ -69,8 +69,8 @@ html
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     user-select: none;
-    font-size: 5vw;
-    font-size: calc(var(--vw)*5);
+    font-size: 10vh;
+    font-size: calc(var(--vh)*10);
 }
 .title2
 {
@@ -81,15 +81,15 @@ html
     -webkit-text-fill-color: transparent;
     user-select: none;
     font-weight: bold;
-    font-size: 6vw;
-    font-size: calc(var(--vw)*6);
+    font-size: 12vh;
+    font-size: calc(var(--vh)*12);
 }
 .subhead
 {
     margin: 1vw;
     margin: var(--vw);
-    font-size: 10vh;
-    font-size: calc(var(--vh)*10);
+    font-size: 7vh;
+    font-size: calc(var(--vh)*7);
     font-family: "Dosis", sans-serif;
     color:#00bfb3;
     font-weight: bold;
