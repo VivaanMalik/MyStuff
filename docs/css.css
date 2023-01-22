@@ -7,6 +7,7 @@
 html
 {
     scroll-behavior: smooth;
+    width: 100vw;
     width: calc(var(--vw)*100);
 }
 .MainContent
@@ -28,8 +29,11 @@ html
     background-color: #0c0c0c;
     font-family: Consolas, 'Fira Mono';
     font-size: 2vh;
+    font-size: calc(var(--vh)*2);
     width: 90vw;
+    width: calc(var(--vw)*90);
     height: 90vh;
+    height: calc(var(--vh)*90);
     box-sizing: border-box;
     border-radius: 10px;
     padding: 20px;
@@ -44,7 +48,9 @@ html
     background-color: #0c0c0c;
     font-family: Consolas, 'Fira Mono';
     width: 90vw;
+    width: calc(var(--vw)*90);
     height: 90vh;
+    height: calc(var(--vh)*90);
     box-sizing: border-box;
     margin: auto;
     border-radius: 10px;
@@ -56,32 +62,39 @@ html
 .title
 {
     margin-left: 5vw;
+    margin-left: calc(var(--vw)*5);
     margin-top: 0;
     background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     user-select: none;
     font-size: 5vw;
+    font-size: calc(var(--vw)*5);
 }
 .title2
 {
     margin-left: 5vw;
+    margin-left: calc(var(--vw)*5);
     background-image: linear-gradient(to right, #00ff87, #00ff87, #60efff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     user-select: none;
     font-weight: bold;
     font-size: 6vw;
+    font-size: calc(var(--vw)*6);
 }
 .subhead
 {
     margin: 1vw;
+    margin: var(--vw);
     font-size: 10vh;
+    font-size: calc(var(--vh)*10);
     font-family: "Dosis", sans-serif;
     color:#00bfb3;
     font-weight: bold;
     text-align: center;
     line-height: 5vh;
+    line-height: calc(var(--vh)*5);
 }
 .subhead_subtitle
 {
@@ -92,6 +105,7 @@ html
     position: relative;
     margin: 0;
     font-size: 5vh;
+    font-size: calc(var(--vh)*5);
     font-family: "Dosis", sans-serif;
     color:#00ff87;
     font-weight: bold;
@@ -103,8 +117,10 @@ html
     position: absolute;
     content: "";
     height: 0.5vh;
+    height: calc(var(--vh)/2);
     top:0;
     width:10vw;
+    width: calc(var(--vw)*10);
     background-color: #b15dff;
     border-radius: 10px;
 }
@@ -121,16 +137,20 @@ html
 .text
 {
     margin-left: 5vw;
+    margin-left: calc(var(--vw)*5);
     margin-right: 5vw;
+    margin-right: calc(var(--vw)*5);
     color: #f0b5ff;
     font-family: 'Times New Roman', Times, serif;
     letter-spacing: 2px;
     font-size: 3vh;
+    font-size: calc(var(--vh)*3);
     text-align:justify;
 }
 .slidetitletext
 {
     margin-left: 5vw;
+    margin-left: calc(var(--vw)*5);
     position: absolute;
     left:0;
     opacity: 0;
@@ -145,11 +165,15 @@ html
 .slidetitle
 {
     top:16vh;
+    top:calc(var(--vh)*16);
     position: absolute;
     margin: 0;
     width:110vw;
+    width: calc(var(--vw)*110);
     height: 20vw;
+    height: calc(var(--vw)*20);
     left:-110vw;
+    left:calc(var(--vw)*-110);
     transition: 1s;
     background-color: #121212;
 }
@@ -178,7 +202,9 @@ html
     position: fixed;
     top:0;
     width:50vh;
+    width: calc(var(--vh)*50);
     height: 10vh;
+    height: calc(var(--vh)*10);
     background-image: linear-gradient(to right, #00FFDD, #2FA4FF);
     display: flex;
     justify-content: center;
@@ -194,7 +220,9 @@ html
     position: fixed;
     top:0;
     width:52vh;
+    width: calc(var(--vh)*52);
     height: 16vh;
+    height: calc(var(--vh)*16);
     background-color: #171717;
     border-radius: 20px;
     left: 50%;
@@ -252,14 +280,18 @@ html
     position: relative;
     display: block;
     line-height: 5vh;
+    line-height: calc(var(--vh)*5);
     font-size: 5vh;
+    font-size: calc(var(--vh)*5);
     padding: 2.5vh;
+    padding: calc(var(--vh)*2.5);
     transition: 0.5s;
     color: #171717;
 }
 .navbar ul li.active a .navicon
 {
     transform: translateY(5vh);
+    transform: translateY(calc(var(--vh)*5));
 }
 .navbar ul li a .navtext
 {
@@ -267,65 +299,84 @@ html
     color: #171717;
     font-weight: 400;
     font-size: 2.5vh;
+    font-size: calc(var(--vh)*2.5);
     transition: 0.5s;
     opacity: 0;
     transform: translateY(-5vh);
+    transform: translateY(calc(var(--vh)*-5));
 }
 .navbar ul li.active a .navtext
 {
     opacity: 1;
     transform: translateY(-3.75vh);
+    transform: translateY(calc(var(--vh)*-3.75));
 }
 .navindicator
 {
     position: absolute;
     width: 10vh;
+    width: calc(var(--vh)*10);
     height: 10vh;
+    height: calc(var(--vh)*10);
     background-color: #b15dff;
     top:4vh;
+    top: calc(var(--vh)*4);
     border-radius: 50%;
     border: 1vh solid #171717;
+    border: var(--vh) solid #171717;
     transition: 0.5s;
 }
 .navbar ul li:nth-child(1).active ~ .navindicator
 {
-    transform: translateX(calc((10vh * 0) - 1vh));
+    /* 10vh * n - 1vh */
+    transform: translateX(-1vh);
+    transform: translateX(calc(var(--vh)*-1));
 }
 .navbar ul li:nth-child(2).active ~ .navindicator
 {
-    transform: translateX(calc((10vh * 1) - 1vh));
+    transform: translateX(9vh);
+    transform: translateX(calc(var(--vh)*9));
 }
 .navbar ul li:nth-child(3).active ~ .navindicator
 {
-    transform: translateX(calc((10vh * 2) - 1vh));
+    transform: translateX(19vh);
+    transform: translateX(calc(var(--vh)*19));
 }
 .navbar ul li:nth-child(4).active ~ .navindicator
 {
-    transform: translateX(calc((10vh * 3) - 1vh));
+    transform: translateX(29vh);
+    transform: translateX(calc(var(--vh)*29));
 }
 .navbar ul li:nth-child(5).active ~ .navindicator
 {
-    transform: translateX(calc((10vh * 4) - 1vh));
+    transform: translateX(39vh);
+    transform: translateX(calc(var(--vh)*39));
 }
 .SkillContainer
 {
     position: relative;
     display: inline-block;
     margin-left: 5vw;
+    margin-left: calc(var(--vw)*5);
     padding: 0;
 }
 .Skill
 {
     position: relative;
     min-width: 90vw;
+    min-width: calc(var(--vw)*90);
     margin-left:0;
     margin-top:2vh;
+    margin-top: calc(var(--vh)*2);
     margin-bottom:2vh;
+    margin-bottom: calc(var(--vh)*2);
     padding: 1vh;
+    padding: var(--vh);
     padding-left: 0;
     padding-right: 0;
     content: "";
     height: 5vh;
+    height: calc(var(--vh)*5);
     background-color:transparent;
     border-top: 1px solid #292929;
     border-bottom: 1px solid #292929;
@@ -334,6 +385,7 @@ html
 {
     position: absolute;
     height: 5vh;
+    height: calc(var(--vh)*5);
     width: 0;
     transition: 1s;
 }
@@ -353,9 +405,11 @@ html
 {
     position: relative;
     min-width: 90vw;
+    min-width: calc(var(--vw)*90);
     margin-top:auto;
     margin-bottom:auto;
     font-size: 3vh;
+    font-size: calc(var(--vh)*3);
     font-family: "Dosis", sans-serif;
     color:#b15dff;
 }
@@ -364,9 +418,12 @@ html
     z-index: -1;
     display: block;
     font-size: 5vh;
-    padding: 0vh;
+    font-size: calc(var(--vh)*5);
+    padding: 0;
     min-width: 40vh;
+    min-width: calc(var(--vh)*40);
     min-height: 40vh;
+    min-height: calc(var(--vh)*40);
     aspect-ratio: 1;
     transition: all .3s;
     color:transparent;
@@ -428,18 +485,6 @@ html
 {
     width: 100%;
 }
-.Work.click.c1
-{
-    color:transparent;
-}
-.Work.click.c2
-{
-    color:transparent;
-}
-.Work.click.c3
-{
-    color:transparent;
-}
 .Work.click:after
 {
     width: 0;
@@ -465,9 +510,13 @@ html
     position: absolute;
     border-radius: 50%;
     width: 100vw;
+    width: calc(var(--vw)*100);
     height: 100vw;
+    height: calc(var(--vw)*100);
     left:50vw;
+    left: calc(var(--vw)*50);
     top:50vh;
+    top: calc(var(--vh)*50);
     /* margin-top: -50px;
     margin-left: -50px; */
     z-index:20;
@@ -491,7 +540,9 @@ html
     position: absolute;
     border-radius: 50%;
     width: 100vw;
+    width: calc(var(--vw)*100);
     height: 100vw;
+    height: calc(var(--vw)*100);
     margin-top: -50px;
     margin-left: -50px;
     z-index:20;
@@ -524,6 +575,7 @@ html
 {
     display: flex;
     height: 45vh;
+    height: calc(var(--vh)*45);
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
@@ -538,6 +590,7 @@ form
     flex-direction: column;
     min-width: 40%;
     padding: 2vh;
+    padding: calc(var(--vh)*2);
     height: 100%;
     margin-right: 0;
 }
@@ -551,6 +604,7 @@ form input, textarea
     color:#01ecff;
     outline:none;
     padding: 1vh;
+    padding: var(--vh);
     font-size: 16px;
 }
 
@@ -572,6 +626,7 @@ form button
     color:#00ff87;
     outline:none;
     padding: 1vh;
+    padding: var(--vh);
     font-size: 20px;
     width: fit-content;
     transition: .3s;
@@ -603,6 +658,7 @@ form button
     flex-direction: column;
     min-width: 40%;
     padding: 2vh;
+    padding: calc(var(--vh)*2);
     height: 100%;
     color:#01ecff;
     font-size: 24px;
