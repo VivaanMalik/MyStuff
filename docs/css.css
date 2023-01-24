@@ -576,6 +576,7 @@ html
 .ContactMeContainer
 {
     display: flex;
+    flex-wrap: wrap;
     height: 45vh;
     height: calc(var(--vh)*45);
     margin-left: auto;
