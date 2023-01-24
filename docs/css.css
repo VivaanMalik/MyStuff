@@ -608,7 +608,8 @@ form input, textarea
     outline:none;
     padding: 1vh;
     padding: var(--vh);
-    font-size: 16px;
+    font-size: 2vh;
+    font-size: calc(var(--vh)*2);
 }
 
 form label
@@ -617,7 +618,8 @@ form label
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     width: fit-content;
-    font-size: 20px;
+    font-size: 2.5vh;
+    font-size: calc(var(--vh)*2.5);
 }
 
 form button
@@ -630,7 +632,8 @@ form button
     outline:none;
     padding: 1vh;
     padding: var(--vh);
-    font-size: 20px;
+    font-size: 2.5vh;
+    font-size: calc(var(--vh)*2.5);
     width: fit-content;
     transition: .3s;
 }
@@ -664,14 +667,16 @@ form button
     padding: calc(var(--vh)*2);
     height: 100%;
     color:#01ecff;
-    font-size: 24px;
+    font-size: 3vh;
+    font-size: calc(var(--vh)*3);
     justify-content: center;
     word-wrap: break-word;
 }
 
 .ContactDetails i
 {
-    font-size: 50px;
+    font-size: 5vh;
+    font-size: calc(var(--vh)*5);;
 }
 
 textarea
