@@ -444,8 +444,8 @@ html
 .Work:active:focus, 
 .Work:focus 
 {
-  outline: none;
-  box-shadow: none;    
+    outline: none;
+    box-shadow: none;    
 }
 .Work:before
 {
@@ -469,7 +469,7 @@ html
     content: "";
     width: 0;
     height: 100%;
-    background-color: #0c0c0c8a;
+    background-color: #0c0c0caa;
     top:50%;
     left:50%;
     transform: translate(-50%, -50%);
@@ -506,6 +506,89 @@ html
     height: 100%;
     padding: 0;
     z-index: 10;
+}
+@media (hover: none) 
+{
+    .Work
+    {
+        z-index: -1;
+        display: block;
+        font-size: 5vh;
+        font-size: calc(var(--vh)*5);
+        padding: 0;
+        min-width: 40vh;
+        min-width: calc(var(--vh)*40);
+        min-height: 40vh;
+        min-height: calc(var(--vh)*40);
+        aspect-ratio: 1;
+        transition: all .3s;
+        color: rgb(255, 255, 255);
+        text-align: center;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border: 0;
+        background-color: #0c0c0c;
+        transform-origin: center bottom;
+    }
+    .Work.focus,
+    .Work.active:focus,
+    .Work.focus, 
+    .Work:active.focus, 
+    .Work:active:focus, 
+    .Work:focus 
+    {
+        outline: none;
+        box-shadow: none;    
+    }
+    .Work:before
+    {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-top: azure 1px solid;
+        border-bottom: azure 1px solid;
+        border-left: 0;
+        border-right: 0;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        transition: all .3s;
+    }
+    .Work:after
+    {
+        position: absolute;
+        border: 0;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: #0c0c0caa;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        transition: all .5s;
+    }
+    .Work:hover
+    {
+        color:rgb(255, 255, 255);
+    }
+    .Work:hover:after
+    {
+        width: 100%;
+    }
+    .Work:hover:before
+    {
+        width: 100%;
+    }
+    .Work.click:after
+    {
+        width: 100%;
+    }
+    .Work.click:before
+    {
+        width: 100%;
+    }
 }
 .initripple
 {

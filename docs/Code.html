@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vivaan Malik | Portfolio | Programming</title>
         <script type="text/javascript" src="js.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -343,6 +344,112 @@
                 margin-top: 0;
                 perspective: 600px;
             }
+            @media (hover: none) 
+            {
+                .vid-container
+                {
+                    z-index: -1;
+                    --x:50%;
+                    --y:50%;
+                    background: linear-gradient(#000, #000) padding-box, radial-gradient(farthest-corner at var(--x) var(--y), #00C9A7, #845EC2) border-box;
+                    display: block;
+                    font-size: 3vh;
+                    font-size: calc(var(--vh)*3);
+                    padding: 0;
+                    transition: all .3s;
+                    color: rgb(255, 255, 255);
+                    text-align: center;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    border: 0;
+                    background-color: #0c0c0c;
+                    transform-origin: center bottom;
+                    min-width: 50vh;
+                    min-width: calc(var(--vh)*50);
+                    min-height: 50vh;
+                    min-height: calc(var(--vh)*50);
+                }
+                .vid-container.focus,
+                .vid-container.active:focus,
+                .vid-container.focus, 
+                .vid-container:active.focus, 
+                .vid-container:active:focus, 
+                .vid-container:focus 
+                {
+                    outline: none;
+                    box-shadow: none;    
+                }
+                .vid-container:before
+                {
+                    position: absolute;
+                    content: "";
+                    width: 100%;
+                    height: 100%;
+                    border-top: azure 1px solid;
+                    border-bottom: azure 1px solid;
+                    border-left: 0;
+                    border-right: 0;
+                    top:50%;
+                    left:50%;
+                    transform: translate(-50%, -50%);
+                    transition: all .3s;
+                }
+                .vid-container:after
+                {
+                    position: absolute;
+                    border: 0;
+                    content: "";
+                    width: 100%;
+                    height: 100%;
+                    background-color: #0c0c0cba;
+                    top:50%;
+                    left:50%;
+                    transform: translate(-50%, -50%);
+                    transition: all .5s;
+                }
+                .vid-container:hover
+                {
+                    color:rgb(255, 255, 255);
+                }
+                .vid-container:hover:after
+                {
+                    width: 100%;
+                }
+                .vid-container:hover:before
+                {
+                    width: 100%;
+                }
+                .vid-container.click
+                {
+                    color:rgb(255, 255, 255);
+                }
+                .vid-container.click:after
+                {
+                    width: 100%;
+                }
+                .vid-container.click:before
+                {
+                    width: 100%;
+                }
+                .vid-container span
+                {
+                    font-style: normal;
+                    position: absolute;
+                    /* justify-content:center;
+                    align-items:center; */
+                    width:100%;
+                    height: 100%;
+                    padding: 0;
+                    z-index: 10;
+                    transform: translate(-50%, 0%);
+                }
+                .vid-container span p
+                {
+                    font-size: 5vh;
+                    font-size: calc(var(--vh)*5);
+                }
+            }
             .buttoncontainer
             {
                 margin-top:10px;
@@ -501,7 +608,7 @@
         <span class="title2" style="margin-left:5vw;"><a href="https://github.com/VivaanMalik" target="_blank">Github</a></span> 
         <span class="title2"><a href="https://vivaanlolz.itch.io" target="_blank">Itch.io</a></span>
         </div>
-        <div class="text">Since my github profile and repo are very messy (I have not updated them in a long time). Here are some of my favourite complete and incomplete projects. The images below are links to the project on github.</div>
+        <div class="text">Since my github profile and repo are very messy (I have not updated them in a long time). Here are some of my favourite complete and incomplete projects. The images can be clicked on to see more info.</div>
         <div class="hr"></div>
         <div class="fadebg" id="fadebg"></div>
         <div class="flex">
