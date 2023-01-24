@@ -138,7 +138,7 @@
                 }
                 100%
                 {
-                    transform: translate(-50%, -50%) scale(3) rotateY(0deg);
+                    transform: translate(-50%, -50%) scale(5) rotateY(0deg);
                 }
             }
             .inittransition
@@ -181,8 +181,8 @@
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 user-select: none;
-                font-size: 5vw;
-                font-size: calc(var(--vw)*5);
+                font-size: 6vh;
+                font-size: calc(var(--vh)*6);
                 width: min-content;
                 margin-bottom: 1vh;
                 margin-bottom: var(--vh);
@@ -200,8 +200,8 @@
                 background-image: linear-gradient(to right, #5d77ff, #01ecff, #e800e4);
                 color: #171717;
                 user-select: none;
-                font-size: 2vw;
-                font-size: calc(var(--vw)*2);
+                font-size: 4.5vh;
+                font-size: calc(var(--vh)*4.5);
                 width: min-content;
             }
             .hr
@@ -416,10 +416,8 @@
                 z-index: 15;
                 margin-top: 10vh;
                 margin-top: calc(var(--vh)*10);
-                margin-left: 7vw;
-                margin-left: calc(var(--vw)*7);
-                margin-right: 10vw;
-                margin-right: calc(var(--vw)*10);
+                margin-left: calc(10% - calc(var(--vh)*5));
+                margin-right: calc(10% - calc(var(--vh)*5));
                 margin-bottom: 10vh;
                 margin-bottom: calc(var(--vh)*10);
                 padding-top: 0;
@@ -429,10 +427,10 @@
                 padding-right: calc(var(--vh)*5);
                 left: 0;
                 top: 0;
-                width: 80vw;
-                width: calc(var(--vw)*80);
-                height: 80vh;
-                height: calc(var(--vh)*80);
+                width: 80%;
+                /* width: calc(var(--vw)*80); */
+                height: 80%;
+                /* height: calc(var(--vh)*80); */
                 overflow: auto;
                 background-color: #101010;
                 border-radius: 10px;
@@ -492,7 +490,8 @@
             }
             img
             {
-                width:50%;
+                width:40vh;
+                width: calc(var(--vh)*50);
             }
         </style>
     </head>
@@ -1336,7 +1335,7 @@
                 <p>Chance/Community Chest</p>
                 <img src="Code/MonopolyChanceCommunityChest.png">
                 <p>Jail</p>
-                <img src="Code/MonopolyGoToJail.png">
+                <img src="Code/MonopolyGoToJail.png"><br>
                 <img src="Code/MonopolyGetOutOfJail.png">
                 <p>Bankruptcy</p>
                 <img src="Code/MonopolyBankrupt.png">
