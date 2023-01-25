@@ -608,6 +608,65 @@
                 /* display: block; */
                 font-family: "Noto Sans Math", "Time New Roman", "Times", serif;
                 font-style: italic;
+                color: #00ff87;
+            }
+            .frac 
+            {
+                display: inline-block;
+                position: relative;
+                vertical-align: middle;
+                letter-spacing: 0.001em;
+                text-align: center;
+            }
+            .frac > span 
+            {
+                display: block;
+                padding: 0.1em;
+            }
+            .frac span.bottom 
+            {
+                border-top: thin solid #00ff87;
+            }
+            .frac span.symbol 
+            {
+                display: none;
+            } 
+            .matrix 
+            {
+                position: relative;
+            }
+            .matrix:before, .matrix:after 
+            {
+                content: "";
+                position: absolute;
+                top: 0;
+                border: 1px solid #00ff87;
+                width: 6px;
+                height: 100%;
+            }
+            .matrix:before 
+            {
+                left: -6px;
+                border-right: 0;
+            }
+            .matrix:after 
+            {
+                right: -6px;
+                border-left: 0;
+            }
+            .matrix td
+            {
+                text-align: center;
+            }
+            .onecolumn td
+            {
+                width: 100%;
+            }
+            .fourcolumnrows td
+            {
+                width: 25%;
+                min-width: 5vh;
+                min-width: calc(var(--vh)*5)
             }
         </style>
     </head>
@@ -637,8 +696,11 @@
                 <div class="title2"><a href="https://github.com/VivaanMalik/MyStuff/tree/master/3DBoii/Terrain">LINK</a></div>
                 <h2>Details</h2>
                 <p>This small program creates an n-by-n meter terrain by using perlin noise. It uses a few external files for the textures, but, this helps it create visually beautiful images.<br><br>
-                   No. of squares in model:<div display="block" class="math">n<sup>2</sup> + 1</div>
-                   No. of triangles in model:<div display="block" class="math">2n<sup>2</sup> + 2</div>
+                   No. of squares in model:<br>
+                   <span class="math">n<sup>2</sup> &#43; 1</span>
+                   <br>
+                   <br>
+                   No. of triangles in model:<br><span class="math">2n<sup>2</sup> &#43; 2</span>
                 </p>
                 <h2>Media</h2>
                 <p>50m by 50m terrain:</p>
@@ -789,7 +851,13 @@
                     some number of nodes. Each node performs a simple calculation: multiplying the every 
                     input with a different weight and adding them all up. This particular program forces 
                     you to only work with a sigmoid activation function:
-                    <span>$${1\over1+e^{-x} }$$</span>
+                    <br>
+                    <div class="frac math">
+                        <span>1</span>
+                        <span class="symbol">/</span>
+                        <span class="bottom">1 &#43; e<sup>-x</sup></span>
+                    </div>
+                    <br><br>
                     The default program in the link gives a dataset of 4 numbers (1 or 0) with the outputs 
                     being the first digit of the four. Example: [0, 1, 0, 1] has an output of 0.
                 </p>
@@ -825,69 +893,283 @@
                 </p>
                 <p>
                     The vertices of an object are stored in a list. Each vertex is stored as a column vector:
-                    <span>$$\begin{bmatrix} X\ position \\ Y\ position \\ Z\ position \\ 1 \end{bmatrix}$$</span>
+                    <br>
+                    <table class="matrix math onecolumn">
+                        <tr>
+                            <td>X position</td>
+                        </tr>
+                        <tr>
+                            <td>Y position</td>
+                        </tr>
+                        <tr>
+                            <td>Z position</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                        </tr>
+                    </table>
                 </p>
                 <p>
                     Each edge of an object is a column vector consisting of the indices of the 2 vertices 
                     it connects:
-                    <span>$$\begin{bmatrix} Index\ 1 \\ Index\ 2 \end{bmatrix}$$</span>
+                    <br>
+                    <table class="matrix math onecolumn">
+                        <tr>
+                            <td>Index 1</td>
+                        </tr>
+                        <tr>
+                            <td>Index 2</td>
+                        </tr>
+                    </table>
                 </p>
                 <p>
                     Similiar to the edges, each face is a column vector of n indexes:
-                    <span>$$\begin{bmatrix} Index\ 1 \\ Index\ 2 \\ ... \\ Index\ n \end{bmatrix}$$</span>
+                    <br>
+                    <table class="matrix math onecolumn">
+                        <tr>
+                            <td>Index 1</td>
+                        </tr>
+                        <tr>
+                            <td>Index 2</td>
+                        </tr>
+                        <tr>
+                            <td>. . .</td>
+                        </tr>
+                        <tr>
+                            <td>Index n</td>
+                        </tr>
+                    </table>
                 </p>
                 <p>
                     But before rendering anything, each verticex is multiplied with each of the following 
                     matrices (in the same specific order):
                     <br><br>
                     Rotate Z (angle z in radians)
-                    <span>$$\begin{bmatrix} 
-                        cos(z) & -sin(z) & 0 & 0 \\
-                        sin(z) & cos(z) & 0 & 0 \\
-                        0 & 0 & 1 & 0 \\
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>cos(z)</td>
+                            <td>-sin(z)</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>sin(z)</td>
+                            <td>cos(z)</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     Rotate Y (angle y in radians)
-                    <span>$$\begin{bmatrix} 
-                        cos(y) & 0 & sin(y) & 0\\
-                        0 & 1 & 0 & 0\\
-                        -sin(y) & 0 & cos(y) & 0\\
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>cos(y)</td>
+                            <td>0</td>
+                            <td>sin(y)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>-sin(y)</td>
+                            <td>0</td>
+                            <td>cos(y)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     Rotate X (angle x in radians)
-                    <span>$$\begin{bmatrix} 
-                        1 & 0 & 0 & 0\\
-                        0 & cos(x) & -sin(x) & 0\\
-                        0 & sin(x) & cos(x) & 0\\
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>cos(x)</td>
+                            <td>-sin(x)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>sin(x)</td>
+                            <td>cos(x)</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     Position (relative to camera)
-                    <span>$$\begin{bmatrix} 
-                        1 & 0 & 0 & -X\ position \\ 
-                        0 & 1 & 0 & -Y\ position \\ 
-                        0 & 0 & 1 & -Z\ position \\ 
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>-X position</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>-Y position</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>-Z position</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     Perspective Matrix (f = focal length, IR = (ImageResolution<sub>x</sub>, ImageResolution<sub>y</sub>), SS=(SensorSize<sub>x</sub>, SensorSize<sub>y</sub>), s=skew):
-                    <span>$$\begin{bmatrix} 
-                        {f \cdot IR_x \over 2 \cdot SS_x} & s & 0 & 0 \\ 
-                        0 & {f \cdot IR_y \over 2 \cdot SS_y} & 0 & 0 \\ 
-                        0 & 0 & -1 & 0 \\ 
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>
+                                <div class="frac math">
+                                    <span>f &#215; IR<sub>x</sub></span>
+                                    <span class="symbol">/</span>
+                                    <span class="bottom">2 &#215; SS<sub>x</sub></span>
+                                </div>
+                            </td>
+                            <td>s</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>
+                                <div class="frac math">
+                                    <span>f &#215; IR<sub>y</sub></span>
+                                    <span class="symbol">/</span>
+                                    <span class="bottom">2 &#215; SS<sub>y</sub></span>
+                                </div>
+                            </td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>-1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     Projection matrix (z = z value of vertx):
-                    <span>$$\begin{bmatrix} 
-                        {1 \over z} & 0 & 0 & 0 \\ 
-                        0 & {1 \over z} & 0 & 0 \\ 
-                        0 & 0 & 1 & 0 \\ 
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>
+                                <div class="frac math">
+                                    <span>1</span>
+                                    <span class="symbol">/</span>
+                                    <span class="bottom">z</span>
+                                </div>
+                            </td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>
+                                <div class="frac math">
+                                    <span>1</span>
+                                    <span class="symbol">/</span>
+                                    <span class="bottom">z</span>
+                                </div>
+                            </td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     Offset matrix (unitary matrix for now):
-                    <span>$$\begin{bmatrix} 
-                        1 & 0 & 0 & 0 \\ 
-                        0 & 1 & 0 & 0 \\ 
-                        0 & 0 & 1 & 0 \\ 
-                        0 & 0 & 0 & 1 \end{bmatrix}$$</span>
+                    <br><br>
+                    <table class="matrix math fourcolumnrows">
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                     <br><br>
                     As you may notice, the 3<sup>rd</sup> index or the 'w' value of a vertex does not change 
                     at all, the reason for that is so that i can use the same program for 4D objects later 
@@ -995,7 +1277,7 @@
                 <img loading="lazy" src="Code/malprog1.jpg">
                 <p>WiFi names and passwords (sorry I cant reveal anything)</p>
                 <img loading="lazy" src="Code/malprog2.jpg">
-                <p>Every password kept differently (I had 100+ before this project)</p>
+                <p>Every password kept differently (I had 100&#43; before this project)</p>
                 <img loading="lazy" src="Code/malprog3.png">
                 <p>Inside each numbered folder of browser data</p>
                 <img loading="lazy" src="Code/malprog4.jpg">
